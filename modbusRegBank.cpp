@@ -19,6 +19,9 @@ modbusRegBank::modbusRegBank(void)
 
 void modbusRegBank::add(word addr)
 {
+	if(this->has(addr))
+		return;
+
 	if(addr<20000)
 	{
 		modbusDigReg *temp;
@@ -243,7 +246,9 @@ word modbusRegBank::setString(word addr, const char *str, word maxRegs)
 			break;
 
 		byte c1 = (byte)str[index];
-		byte c2 = (byte)str[index + 1];
+		byte c2 = 0;
+		if(c1 != 0)
+			c2 = (byte)str[index + 1];
 		word packed = ((word)c1 << 8) | c2;
 		this->set(regAddr, packed);
 		written++;

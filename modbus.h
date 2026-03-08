@@ -95,10 +95,34 @@
 /** @brief Slave role constant. */
 #define SLAVE		0x02
 
-#define DO			0x00
-#define DI			0x01
-#define AI			0x03
-#define AO			0x04
+/** @name Register Type Identifiers (Preferred, Prefix-Safe) */
+/**@{*/
+#define MODBUS_DO		0x00
+#define MODBUS_DI		0x01
+#define MODBUS_AI		0x03
+#define MODBUS_AO		0x04
+/**@}*/
+
+/**
+ * @brief Legacy short aliases for backward compatibility.
+ *
+ * Define MODBUS_DISABLE_LEGACY_SHORT_NAMES before including this header
+ * to avoid introducing short global macros in mixed-library projects.
+ */
+#ifndef MODBUS_DISABLE_LEGACY_SHORT_NAMES
+#ifndef DO
+#define DO			MODBUS_DO
+#endif
+#ifndef DI
+#define DI			MODBUS_DI
+#endif
+#ifndef AI
+#define AI			MODBUS_AI
+#endif
+#ifndef AO
+#define AO			MODBUS_AO
+#endif
+#endif
 
 /** @name Modbus Exception Codes */
 /**@{*/

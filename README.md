@@ -120,6 +120,11 @@ Optional memory model compile-time flags (in `modbus.h`):
 - `MODBUS_MAX_DIG_REGS` (default `64`)
 - `MODBUS_MAX_ANA_REGS` (default `64`)
 
+Namespace-safety option (in `modbus.h`):
+- Preferred register-type macros: `MODBUS_DO`, `MODBUS_DI`, `MODBUS_AI`, `MODBUS_AO`
+- Legacy short aliases (`DO`, `DI`, `AI`, `AO`) remain enabled for compatibility
+- Define `MODBUS_DISABLE_LEGACY_SHORT_NAMES` before including `modbus.h` to suppress legacy short aliases in mixed-library projects
+
 ### `modbusDevice` (inherits `modbusRegBank`)
 
 - `setId(byte id)`
