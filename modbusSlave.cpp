@@ -916,6 +916,9 @@ void modbusSlave::run(void)
   if(_parserState == PARSER_RECEIVING)
   {
     unsigned long nowUs = micros();
+    // Note: Unsigned subtraction handles micros() rollover safely (~70 min).
+    // Example: If nowUs=100, _lastRxByteUs=4294967290 (near rollover),
+    // then (100 - 4294967290) wraps to 106 in unsigned math, which is correct.
     if((nowUs - _lastRxByteUs) >= _frameDelayUs)
     {
       if(_rxOverflow)

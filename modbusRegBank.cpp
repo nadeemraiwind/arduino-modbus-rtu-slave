@@ -24,6 +24,16 @@ void modbusRegBank::add(word addr)
 	if(this->has(addr))
 		return;
 
+	// Validate address falls within standard Modbus ranges:
+	// Coils: 1-9999, Discrete Inputs: 10001-19999,
+	// Input Registers: 30001-39999, Holding Registers: 40001-49999
+	bool validRange = ((addr >= 1 && addr <= 9999) ||
+	                   (addr >= 10001 && addr <= 19999) ||
+	                   (addr >= 30001 && addr <= 39999) ||
+	                   (addr >= 40001 && addr <= 49999));
+	if(!validRange)
+		return;  // Reject addresses outside valid Modbus address space
+
 	if(addr<20000)
 	{
 		modbusDigReg *temp;

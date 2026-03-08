@@ -16,7 +16,13 @@
  * @{
  */
 
-/** @brief Linked-node representation for digital register domains. */
+/**
+ * @brief Linked-node representation for digital register domains.
+ * 
+ * Memory layout: 6 bytes on AVR (2+1+2+padding), may differ on 32-bit platforms.
+ * Structure is naturally aligned for performance. For extreme RAM optimization on
+ * ARM/ESP32, consider __attribute__((packed)), but this typically degrades performance.
+ */
 struct modbusDigReg
 {
 	/** @brief Modicon-style address. */
@@ -28,7 +34,11 @@ struct modbusDigReg
 	modbusDigReg *next;
 };
 
-/** @brief Linked-node representation for analog register domains. */
+/**
+ * @brief Linked-node representation for analog register domains.
+ * 
+ * Memory layout: 6 bytes on AVR (2+2+2), 8 bytes on 32-bit platforms (due to pointer size).
+ */
 struct modbusAnaReg
 {
 	/** @brief Modicon-style address. */

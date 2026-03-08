@@ -2,6 +2,43 @@
 
 This document describes the current state of the library, recent fixes, and known limitations.
 
+## Recent Micro-Refinements (Latest)
+
+### ✅ **ADDED: Address Range Validation**
+
+- **Enhancement**: `modbusRegBank::add()` now validates addresses fall within standard Modbus ranges
+- **Validation**:
+  - Coils: 1-9999
+  - Discrete Inputs: 10001-19999
+  - Input Registers: 30001-39999
+  - Holding Registers: 40001-49999
+- **Impact**: Prevents accidental registration of invalid addresses (e.g., 25000, 65535)
+- **Behavior**: Invalid addresses are silently rejected (no register created)
+
+### ✅ **DOCUMENTED: micros() Rollover Safety**
+
+- **Enhancement**: Added explicit comment explaining unsigned math handles micros() rollover
+- **Detail**: Arduino's `micros()` rolls over every ~70 minutes (2^32 microseconds)
+- **Safety**: The expression `(nowUs - lastRxByteUs)` works correctly across rollover due to unsigned arithmetic
+- **Example**: If `nowUs=100` and `lastRxByteUs=4294967290`, then `(100 - 4294967290) = 106` in unsigned math
+- **Testing**: Rollover simulation included in `examples/06_Validation_Tests`
+
+### ✅ **DOCUMENTED: Memory Alignment Considerations**
+
+- **Enhancement**: Added documentation explaining struct memory layout across platforms
+- **Details**:
+  - `modbusDigReg`: 6 bytes on AVR (word + byte + pointer)
+  - `modbusAnaReg`: 6 bytes on AVR, 8 bytes on 32-bit platforms (pointer size)
+- **Note**: Natural alignment preferred over `__attribute__((packed))` for performance
+- **Impact**: Developers can calculate exact RAM requirements for static pool mode
+
+### ✅ **ENHANCED: String Bounds Checking**
+
+- **Enhancement**: `setString()` now uses `strlen()` caching to prevent repeated calculations
+- **Safety**: Added bounds checking before string index access
+- **Impact**: More robust string handling with edge cases (empty strings, odd lengths)
+- **Validation**: Comprehensive string tests in `examples/06_Validation_Tests`
+
 ## Recent Fixes (v1.1.0)
 
 ### ✅ **ADDED: Optional Static Register Pool Mode**
