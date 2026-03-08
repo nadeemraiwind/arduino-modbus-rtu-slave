@@ -169,10 +169,27 @@ This document describes the current state of the library, recent fixes, and know
 
 ## Future Enhancements (Suggestions)
 
-1. ⭐ Add sorted-array/binary-search register storage option
-2. Add `bool get(word addr, word* outValue)` API
-3. Add configurable exception response policy for unknown function codes
-4. Remove or implement ASCII mode constant
+### Elite Level (Major Features)
+
+1. 🏆 **Doxygen Documentation**
+   - Generate professional HTML documentation from code comments
+   - Automated API reference with class diagrams
+   - Searchable function/method documentation
+   - Prerequisites: Add Doxygen-style comments to headers
+   - Tools: Doxygen, GraphViz for class diagrams
+
+2. 🏆 **Modbus Master Library**
+   - Companion library for master/client functionality
+   - Enable Arduino-to-Arduino Modbus networks
+   - Support same function codes as slave library
+   - Use cases: Multi-board systems, distributed control, data aggregation
+
+### Performance & API Improvements
+
+3. ⭐ Add sorted-array/binary-search register storage option
+4. Add `bool get(word addr, word* outValue)` API to eliminate sentinel ambiguity
+5. Add configurable exception response policy for unknown function codes
+6. Remove or implement ASCII mode constant
 
 ## Version History
 
