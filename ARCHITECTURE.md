@@ -364,3 +364,31 @@ slave.getSlaveMessageCount();         // Frames addressed to this slave
 ---
 
 *This architecture ensures predictable, deterministic behavior suitable for industrial automation and mission-critical applications.*
+
+---
+
+## Author & Credits {#credits}
+
+### Lead Developer
+
+**Nadeem Abbas**  
+📧 zahid_printers@gmail.com  
+📱 +92 3924509295  
+📍 Raiwind, Lahore, Pakistan
+
+### Development Tools
+
+This library was enhanced and professionally documented with AI assistance:
+- **Google Gemini** - Architecture design, code refinement, and technical decisions
+- **GitHub Copilot** - Intelligent code completion and documentation generation
+
+*Original library foundation by Jason Vreeland with community contributions.*
+
+### Contributing
+
+**Repository:** [https://github.com/nadeemraiwind/arduino-modbus-rtu-slave](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave)
+
+**Report Issues:** [GitHub Issues](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues)  
+**Discuss Features:** [GitHub Discussions](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions)
+
+Contributions are welcome! See [README.md](README.md) for contribution guidelines.

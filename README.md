@@ -693,3 +693,81 @@ Create a companion library for master/client functionality:
 - Perfect for multi-board distributed systems
 
 See [KNOWN_ISSUES.md](KNOWN_ISSUES.md#future-enhancements-suggestions) for complete roadmap.
+
+---
+
+## Author & Maintainer
+
+**Nadeem Abbas**  
+📧 Email: [zahid_printers@gmail.com](mailto:zahid_printers@gmail.com)  
+📱 Mobile: +92 3924509295  
+📍 Location: Raiwind, Lahore, Pakistan
+
+### Development Credits
+
+This library was enhanced and documented with assistance from:
+- 🤖 **Google Gemini** - AI-assisted code refinement and architecture design
+- 🤖 **GitHub Copilot** - Intelligent code completion and documentation generation
+
+*Original library foundation by Jason Vreeland with community contributions.*
+
+---
+
+## Repository & Contributions
+
+### GitHub Repository
+
+🔗 **Main Repository:** [https://github.com/nadeemraiwind/arduino-modbus-rtu-slave](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave)
+
+### How to Contribute
+
+We welcome contributions! Here's how you can help:
+
+#### 🐛 Bug Reports
+
+1. **Check Existing Issues:** Search [GitHub Issues](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues) first
+2. **Create New Issue:** Use the bug report template
+3. **Include Details:**
+   - Arduino board model and version
+   - Library version (currently 1.1.0)
+   - Minimal code to reproduce the issue
+   - Expected vs actual behavior
+   - Serial output or error messages
+
+**Report bugs:** [https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new)
+
+#### 💡 Feature Suggestions
+
+1. **Open a Discussion:** Use [GitHub Discussions](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions) for ideas
+2. **Explain Use Case:** Describe the industrial scenario or application
+3. **Propose Implementation:** If you have technical details, share them
+
+#### 🔧 Pull Requests
+
+1. **Fork the Repository**
+2. **Create Feature Branch:** `git checkout -b feature/your-feature-name`
+3. **Follow Code Style:** Match existing formatting and documentation patterns
+4. **Test Thoroughly:** Verify on at least one Arduino board
+5. **Update Documentation:** Add to README.md and ARCHITECTURE.md if needed
+6. **Submit PR:** Reference any related issues
+
+**Contribution Guidelines:**
+- Keep changes focused and atomic
+- Maintain backward compatibility when possible
+- Add Doxygen comments for new public methods
+- Update examples if API changes
+- Industrial-grade code quality expected
+
+### Community Support
+
+- **Questions:** Open a [GitHub Discussion](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions)
+- **Email Support:** zahid_printers@gmail.com (for commercial/industrial inquiries)
+- **Documentation:** See [ARCHITECTURE.md](ARCHITECTURE.md) for deep technical details
+
+---
+
+## License
+
+MIT License - See [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2026 Nadeem Abbas and Contributors

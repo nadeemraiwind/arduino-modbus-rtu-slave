@@ -165,6 +165,30 @@ This document describes the current state of the library, recent fixes, and know
 2. **Test each function code individually** before combining
 3. **Use a Modbus master tool** (like Modbus Poll or pymodbus) for testing
 4. **Monitor Serial output** during debug phase
+
+---
+
+## Found a Bug or Issue?
+
+If you encounter a problem not listed here:
+
+**📋 Report it:** [GitHub Issues](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new)
+
+Please include:
+- Arduino board model and version
+- Library version (check `library.properties`)
+- Minimal reproducible code
+- Expected vs actual behavior
+- Serial output or error messages
+
+**💬 Ask questions:** [GitHub Discussions](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions)
+
+**📧 Commercial support:** zahid_printers@gmail.com
+
+---
+
+**Maintainer:** Nadeem Abbas (Raiwind, Lahore, Pakistan)  
+**Repository:** https://github.com/nadeemraiwind/arduino-modbus-rtu-slave
 5. **Test RS485 direction control** thoroughly if using RS485 hardware
 
 ## Future Enhancements (Suggestions)

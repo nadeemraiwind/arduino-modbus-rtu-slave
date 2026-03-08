@@ -1,8 +1,14 @@
 # Doxygen configuration for arduino-modbus-rtu-slave
 
 PROJECT_NAME           = "Arduino Modbus RTU Slave"
-PROJECT_BRIEF          = "Industrial-grade Modbus RTU slave library for Arduino"
+PROJECT_BRIEF          = "Industrial-grade Modbus RTU slave library for Arduino by Nadeem Abbas"
 PROJECT_NUMBER         = "1.1.0"
+PROJECT_LOGO           =
+
+# Author and repository information
+# Developer: Nadeem Abbas (zahid_printers@gmail.com)
+# Location: Raiwind, Lahore, Pakistan
+# Repository: https://github.com/nadeemraiwind/arduino-modbus-rtu-slave
 OUTPUT_DIRECTORY       = docs
 CREATE_SUBDIRS         = NO
 
