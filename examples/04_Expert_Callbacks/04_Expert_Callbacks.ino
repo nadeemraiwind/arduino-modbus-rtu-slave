@@ -59,6 +59,9 @@
  *    40010: Bus Message Count (updated continuously)
  *    40011: Communication Error Count
  *    40012: Slave Message Count
+ *
+ * COILS (Write normalization demo):
+ *    00001: Command Coil (callback receives 0x00FF ON / 0x0000 OFF)
  * 
  ******************************************************************************/
 
@@ -76,6 +79,7 @@ float simulatedTemperature = 25.0;
 word motorSpeed = 0;
 bool alarmActive = true;
 bool dataLoggerEnabled = false;
+bool commandCoilActive = false;
 
 // Event log (simple circular buffer)
 #define LOG_SIZE 10
@@ -183,6 +187,16 @@ void onWriteDataLogger(word address, word value, modbusDevice *dev) {
   logEvent(40003, value, 'W');
 }
 
+// Called AFTER master writes coil 00001 (address 1)
+void onWriteCommandCoil(word address, word value, modbusDevice *dev) {
+  (void)address;
+  (void)dev;
+
+  // Core normalization guarantees: ON=0x00FF, OFF=0x0000
+  commandCoilActive = (value == 0x00FF);
+  logEvent(1, value, 'W');
+}
+
 // Called when master sends unsupported function code
 void onUnknownFunctionReceived(byte functionCode, modbusDevice *dev, modbusSlave *slv) {
   (void)dev;
@@ -252,6 +266,10 @@ void setup() {
   regBank.set(30001, 0);
   regBank.set(30002, 0);
   regBank.set(30003, 0);
+
+  // ===== COILS (write normalization demo) =====
+  regBank.add(1);      // Command coil (00001)
+  regBank.set(1, 0);   // OFF
   
   // ===== HOLDING REGISTERS (with write callbacks) =====
   regBank.add(40001);  // Motor speed setpoint
@@ -283,6 +301,7 @@ void setup() {
   slave.onRead(30003, onReadFreeRAM);
   
   // Write callbacks (called AFTER value is written to register)
+  slave.onWrite(1, onWriteCommandCoil);
   slave.onWrite(40001, onWriteMotorSpeed);
   slave.onWrite(40002, onWriteAlarmReset);
   slave.onWrite(40003, onWriteDataLogger);
@@ -328,6 +347,12 @@ void loop() {
  *    - Write holding register 40001 (FC06) with value 1500
  *    - Check that motor speed updated immediately
  *    - Try writing value 5000 (should be clamped to 3000)
+ *
+ * 2b. TEST COIL NORMALIZATION (FC05/FC15):
+ *    - Write coil 00001 ON/OFF
+ *    - Callback receives normalized values only:
+ *      ON  = 0x00FF
+ *      OFF = 0x0000
  * 
  * 3. TEST ALARM RESET:
  *    - Write holding register 40002 (FC06) with value 1

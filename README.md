@@ -703,10 +703,6 @@ See [KNOWN_ISSUES.md](KNOWN_ISSUES.md#future-enhancements-suggestions) for compl
 📱 Mobile (E.164): +923924509295  
 📍 Location: Raiwind, Lahore, Pakistan
 
-Optional professional links:
-- LinkedIn: (add your profile URL)
-- Portfolio/Website: (add your website URL)
-
 ### Development Credits
 
 This library was enhanced and documented with assistance from:

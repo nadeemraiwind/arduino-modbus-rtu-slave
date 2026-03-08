@@ -376,10 +376,6 @@ slave.getSlaveMessageCount();         // Frames addressed to this slave
 📱 +923924509295  
 📍 Raiwind, Lahore, Pakistan
 
-Optional professional links:
-- LinkedIn: (add your profile URL)
-- Portfolio/Website: (add your website URL)
-
 ### Development Tools
 
 This library was enhanced and professionally documented with AI assistance:

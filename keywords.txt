@@ -11,6 +11,11 @@ setLong	KEYWORD2
 getLong	KEYWORD2
 setString	KEYWORD2
 getString	KEYWORD2
+atomicBegin	KEYWORD2
+atomicEnd	KEYWORD2
+atomicGet	KEYWORD2
+atomicSet	KEYWORD2
+isAtomicLocked	KEYWORD2
 has	KEYWORD2
 setId	KEYWORD2
 getId	KEYWORD2
