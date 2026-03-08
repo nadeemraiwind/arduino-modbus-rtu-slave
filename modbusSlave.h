@@ -12,6 +12,11 @@
  * @brief Modbus RTU slave protocol engine and callback API.
  */
 
+/** @defgroup rs485_control RS485 Control
+ * RS485 DE/RE direction control and timing behavior.
+ * @{
+ */
+
 /** @brief CRC lookup high-byte table, defined in modbusSlave.cpp. */
 extern const byte _auchCRCHi[256];
 /** @brief CRC lookup low-byte table, defined in modbusSlave.cpp. */
@@ -27,6 +32,7 @@ typedef bool (*modbusUnknownFunctionCallback)(byte funcType, const byte *request
 /**
  * @class modbusSlave
  * @brief Modbus RTU slave communications and frame processing engine.
+ * @ingroup protocol_engine
  */
 class modbusSlave
 {
@@ -42,10 +48,13 @@ class modbusSlave
 		/** @brief Bind hardware serial transport. */
 		void setPort(HardwareSerial &port);
 		/** @brief Configure RS485 DE/RE direction pin control. */
+		/** @ingroup rs485_control */
 		void setTxEnablePin(byte pin, bool activeHigh = true);
 		/** @brief Configure RS485 ms-level pre/post TX delays. */
+		/** @ingroup rs485_control */
 		void setTxEnableDelays(word preDelayMs, word postDelayMs);
 		/** @brief Configure RS485 us-level pre/post TX delays. */
+		/** @ingroup rs485_control */
 		void setTxEnableDelaysUs(word preDelayUs, word postDelayUs);
 		/** @brief Register read callback for specific address. */
 		bool onRead(word address, modbusReadCallback cb);
@@ -149,4 +158,5 @@ class modbusSlave
 		byte _rxIndex;
 		unsigned long _lastRxByteUs;
 };
+/** @} */
 #endif

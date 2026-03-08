@@ -11,6 +11,11 @@
  * @brief Register storage engine and typed data helpers for Modbus maps.
  */
 
+/** @defgroup data_access_helpers Data Access Helpers
+ * Register storage, typed conversion helpers, and addressing utilities.
+ * @{
+ */
+
 /** @brief Linked-node representation for digital register domains. */
 struct modbusDigReg
 {
@@ -38,6 +43,7 @@ struct modbusAnaReg
 /**
  * @class modbusRegBank
  * @brief Register collection with 16-bit and typed (32-bit/string) accessors.
+ * @ingroup data_access_helpers
  */
 class modbusRegBank
 {
@@ -94,4 +100,5 @@ class modbusRegBank
 		word			_anaRegCount;
 #endif
 };
+/** @} */
 #endif

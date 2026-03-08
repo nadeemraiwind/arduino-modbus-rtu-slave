@@ -7,6 +7,11 @@
  * @brief Core protocol constants, limits, and compile-time configuration for the Modbus RTU library.
  */
 
+/** @defgroup protocol_engine Protocol Engine
+ * Core protocol constants, function codes, diagnostics codes, and exception values.
+ * @{
+ */
+
 /** @brief Maximum device list size for network-level arrays. */
 #define DEVMAX		10
 /** @brief Maximum control register queue size. */
@@ -102,4 +107,5 @@
 #define EX_ILLEGAL_DATA_VALUE		0x03
 /**@}*/
 
+/** @} */
 #endif

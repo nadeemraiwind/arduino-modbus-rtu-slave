@@ -13,9 +13,15 @@
  * @brief Modbus device abstraction that extends the register bank with slave ID handling.
  */
 
+/** @defgroup device_model Device Model
+ * Device identity and register model composition.
+ * @{
+ */
+
 /**
  * @class modbusDevice
  * @brief Represents a Modbus slave device data model.
+ * @ingroup device_model
  *
  * Inherits register storage/access behavior from @ref modbusRegBank and adds
  * the device/slave address used by @ref modbusSlave when validating frames.
@@ -39,4 +45,5 @@ class modbusDevice:public modbusRegBank
 	private:
 		byte _id;
 };
+/** @} */
 #endif

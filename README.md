@@ -52,6 +52,21 @@ docs/html/index.html
 - `Doxyfile` is configured for this library's public headers and examples.
 - Graphviz (`dot`) is optional and currently disabled by default in `Doxyfile` for clean cross-machine generation.
 - `README.md` is used as the Doxygen main page.
+- Doxygen module groups are now defined to organize API pages:
+  - `Protocol Engine`
+  - `Data Access Helpers`
+  - `Device Model`
+  - `RS485 Control`
+- Generated `docs/html` is intentionally ignored by Git; regenerate locally as needed.
+- For hosted docs, use GitHub Pages from a dedicated docs branch/workflow output.
+
+### Optional PDF Manual
+
+If you need a printable manual for industrial clients:
+
+1. In `Doxyfile`, set `GENERATE_LATEX = YES`.
+2. Run Doxygen again.
+3. Build PDF from `docs/latex` (`make` on Linux/macOS or `make.bat` on Windows with a LaTeX toolchain).
 
 ## Project State
 

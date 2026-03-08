@@ -53,7 +53,9 @@ GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = NO
 
+# Keep NO for normal development; set YES when building a printable PDF manual.
 GENERATE_LATEX         = NO
+# For PDF workflow: set GENERATE_LATEX=YES, then run "make" inside docs/latex.
 GENERATE_RTF           = NO
 GENERATE_MAN           = NO
 GENERATE_XML           = NO
