@@ -4,12 +4,14 @@
 #include <string.h>
 
 modbusRegBank::modbusRegBank(void)
+	: _digRegs(0),
+	  _lastDigReg(0),
+	  _anaRegs(0),
+	  _lastAnaReg(0),
+	  _endianness(MODBUS_BIG_ENDIAN),
+	  _atomicLock(false),
+	  _atomicDepth(0)
 {
-	_digRegs		= 0;
-	_lastDigReg		= 0;
-	_anaRegs		= 0;
-	_lastAnaReg		= 0;
-	_endianness		= MODBUS_BIG_ENDIAN;
 #if MODBUS_USE_STATIC_REG_POOL
 	_digRegCount	= 0;
 	_anaRegCount	= 0;
@@ -128,6 +130,42 @@ void modbusRegBank::set(word addr, word value)
 		if(regPtr)
 			regPtr->value = value;
 	}
+}
+
+void modbusRegBank::atomicBegin(void)
+{
+	_atomicDepth++;
+	_atomicLock = true;
+}
+
+void modbusRegBank::atomicEnd(void)
+{
+	if(_atomicDepth == 0)
+		return;
+
+	_atomicDepth--;
+	if(_atomicDepth == 0)
+		_atomicLock = false;
+}
+
+bool modbusRegBank::isAtomicLocked(void) const
+{
+	return _atomicLock;
+}
+
+word modbusRegBank::atomicGet(word addr)
+{
+	noInterrupts();
+	word value = this->get(addr);
+	interrupts();
+	return value;
+}
+
+void modbusRegBank::atomicSet(word addr, word value)
+{
+	noInterrupts();
+	this->set(addr, value);
+	interrupts();
 }
 
 float modbusRegBank::getFloat(word addr)

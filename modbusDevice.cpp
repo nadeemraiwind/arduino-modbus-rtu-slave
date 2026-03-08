@@ -1,8 +1,8 @@
 #include <modbusDevice.h>
 
 modbusDevice::modbusDevice(void)
+	: _id(0)
 {
-	_id=0;
 }
 
 void modbusDevice::setId(byte id)

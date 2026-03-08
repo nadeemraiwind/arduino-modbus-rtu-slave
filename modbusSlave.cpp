@@ -47,32 +47,32 @@ const byte _auchCRCLo[] = {
 				0x40};
 
 modbusSlave::modbusSlave()
+  : _device(0),
+    _port(&Serial),
+    _hwPort(&Serial),
+    _len(0),
+    _txEnablePin(0xFF),
+    _txEnableActiveHigh(true),
+    _baud(SERIALBAUD),
+    _crc(0),
+    _txEnablePreDelayMs(0),
+    _txEnablePostDelayMs(0),
+    _txEnablePreDelayUs(0),
+    _txEnablePostDelayUs(0),
+    _busMessageCount(0),
+    _busCommunicationErrorCount(0),
+    _slaveMessageCount(0),
+    _unknownFunctionCallback(0),
+    _parserState(PARSER_IDLE),
+    _rxIndex(0),
+    _rxOverflow(false),
+    _lastRxByteUs(0)
 {
-  _device = 0;
-  _port = &Serial;
-  _hwPort = &Serial;
-  _len = 0;
-  _baud = SERIALBAUD;
-  _crc = 0;
   // Modbus RTU timing: >19200 baud uses fixed 1.75 ms, otherwise 3.5 char times.
   if(_baud > 19200)
     _frameDelayUs = 1750UL;
   else
     _frameDelayUs = 38500000UL / _baud;
-  _txEnablePin = 0xFF;
-  _txEnableActiveHigh = true;
-  _txEnablePreDelayMs = 0;
-  _txEnablePostDelayMs = 0;
-  _txEnablePreDelayUs = 0;
-  _txEnablePostDelayUs = 0;
-  _busMessageCount = 0;
-  _busCommunicationErrorCount = 0;
-  _slaveMessageCount = 0;
-  _unknownFunctionCallback = 0;
-  _parserState = PARSER_IDLE;
-  _rxIndex = 0;
-  _rxOverflow = false;
-  _lastRxByteUs = 0;
 
   for(byte i = 0; i < MODBUS_MAX_READ_CALLBACKS; i++)
   {
@@ -90,11 +90,6 @@ modbusSlave::modbusSlave()
 void modbusSlave::setDevice(modbusDevice *device)
 {
   _device = device;
-}
-
-modbusDevice * modbusSlave::getDevice(void)
-{
-  return _device;
 }
 
 void modbusSlave::setPort(HardwareSerial &port)
@@ -195,13 +190,6 @@ void modbusSlave::configureEndianness(byte mode)
     _device->setEndianness(mode);
 }
 
-byte modbusSlave::getEndianness(void)
-{
-  if(_device)
-    return _device->getEndianness();
-  return MODBUS_BIG_ENDIAN;
-}
-
 word modbusSlave::getBusMessageCount(void)
 {
   return _busMessageCount;
@@ -249,11 +237,6 @@ void modbusSlave::setBaud(word baud)
 /*
 Retrieve the serial baud rate
 */
-word modbusSlave::getBaud(void)
-{
-  return(_baud);
-}
-
 /*
 Generates the crc for the current message in the buffer.
 */
@@ -910,6 +893,9 @@ void modbusSlave::processFrame(void)
 void modbusSlave::run(void)
 {
   if((_device == 0) || (_port == 0))
+    return;
+
+  if(_device->isAtomicLocked())
     return;
 
   while(_port->available() > 0)

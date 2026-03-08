@@ -112,6 +112,10 @@ If you need a printable manual for industrial clients:
   - Writes ASCII string as 2 chars per 16-bit register (high byte then low byte).
 - `word getString(word address, char* out, word outSize, word regCount)`
   - Reads ASCII string from register blocks using the same packing format.
+- `atomicBegin()` / `atomicEnd()`
+  - Brackets a critical read-modify-write section to defer `slave.run()` frame processing while active.
+- `word atomicGet(word address)` / `void atomicSet(word address, word value)`
+  - Tiny interrupt-guarded wrappers for single register read/write operations.
 - `bool has(word address)`
   - Returns true if register exists.
 
@@ -167,6 +171,18 @@ Namespace-safety option (in `modbus.h`):
   - Resets diagnostics counters to zero.
 - `run()`
   - Non-blocking parser tick. Call continuously in `loop()`.
+
+Recommended critical-section pattern for read-modify-write logic:
+
+```cpp
+regBank.atomicBegin();
+word current = regBank.get(40001);
+word next = current + 1;
+regBank.set(40001, next);
+regBank.atomicEnd();
+```
+
+During `atomicBegin()`/`atomicEnd()`, `slave.run()` defers frame processing for that device, helping avoid application-level overwrite races.
 
 ## Register Addressing Model
 

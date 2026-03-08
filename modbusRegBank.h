@@ -58,6 +58,21 @@ class modbusRegBank
 		word get(word address);
 		/** @brief Set register value. */
 		void set(word address, word value);
+		/**
+		 * @brief Begin an application-level atomic transaction.
+		 *
+		 * While active, @ref modbusSlave::run can defer frame processing when
+		 * using this register bank through modbusDevice.
+		 */
+		void atomicBegin(void);
+		/** @brief End an application-level atomic transaction. */
+		void atomicEnd(void);
+		/** @brief Returns true when an atomic transaction is active. */
+		bool isAtomicLocked(void) const;
+		/** @brief Atomic wrapper around get(). */
+		word atomicGet(word address);
+		/** @brief Atomic wrapper around set(). */
+		void atomicSet(word address, word value);
 		/** @brief Read 32-bit float from two adjacent registers. */
 		float getFloat(word address);
 		/** @brief Write 32-bit float to two adjacent registers. */
@@ -92,6 +107,8 @@ class modbusRegBank
 		modbusAnaReg	*_anaRegs,
 						*_lastAnaReg;
 		byte			_endianness;
+		volatile bool	_atomicLock;
+		byte			_atomicDepth;
 
 #if MODBUS_USE_STATIC_REG_POOL
 		modbusDigReg	_digRegPool[MODBUS_MAX_DIG_REGS];

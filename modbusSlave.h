@@ -42,7 +42,7 @@ class modbusSlave
 		/** @brief Bind logical register device model. */
 		void setDevice(modbusDevice *device);
 		/** @brief Get currently bound device model pointer. */
-		modbusDevice * getDevice(void);
+		inline modbusDevice * getDevice(void) { return _device; }
 		/** @brief Bind generic Stream transport. */
 		void setPort(Stream &port);
 		/** @brief Bind hardware serial transport. */
@@ -65,7 +65,7 @@ class modbusSlave
 		/** @brief Set 32-bit helper endianness mode on bound register bank. */
 		void configureEndianness(byte mode);
 		/** @brief Get active 32-bit helper endianness mode. */
-		byte getEndianness(void);
+		inline byte getEndianness(void) { return _device ? _device->getEndianness() : MODBUS_BIG_ENDIAN; }
 		/** @brief Get FC08 bus message counter. */
 		word getBusMessageCount(void);
 		/** @brief Get FC08 bus communication error counter. */
@@ -77,7 +77,7 @@ class modbusSlave
 		/** @brief Configure RTU baud rate and frame timing. */
 		void setBaud(word);
 		/** @brief Get current configured baud rate. */
-		word getBaud(void);
+		inline word getBaud(void) { return _baud; }
 		/** @brief Calculate CRC for current frame buffer. */
 		void calcCrc(void);
 		/** @brief Legacy helper: check serial frame status. */
