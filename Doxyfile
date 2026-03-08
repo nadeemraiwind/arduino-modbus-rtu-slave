@@ -32,7 +32,7 @@ SHOW_NAMESPACES        = NO
 SHOW_USED_FILES        = YES
 VERBATIM_HEADERS       = YES
 
-INPUT                  = modbus.h modbusDevice.h modbusRegBank.h modbusSlave.h README.md
+INPUT                  = modbus.h modbusDevice.h modbusRegBank.h modbusSlave.h README.md KNOWN_ISSUES.md
 FILE_PATTERNS          = *.h *.md
 RECURSIVE              = NO
 EXCLUDE                =
@@ -79,13 +79,11 @@ REFERENCED_BY_RELATION = YES
 REFERENCES_RELATION    = YES
 REFERENCES_LINK_SOURCE = YES
 
-HAVE_DOT               = YES
+HAVE_DOT               = NO
 DOT_IMAGE_FORMAT       = svg
-CLASS_DIAGRAMS         = YES
 CALL_GRAPH             = NO
 CALLER_GRAPH           = NO
 DOT_MULTI_TARGETS      = YES
-DOT_TRANSPARENT        = YES
 INTERACTIVE_SVG        = YES
 
 AUTOLINK_SUPPORT       = YES

@@ -1,5 +1,6 @@
 # Arduino build artifacts
 *.zip
+docs/
 
 # OS files
 .DS_Store
