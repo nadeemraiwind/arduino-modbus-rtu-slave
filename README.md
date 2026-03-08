@@ -28,6 +28,31 @@ Standard Modbus RTU slave library for Arduino with support for core Modbus funct
 
 See [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for limitations and best practices.
 
+## Doxygen Documentation
+
+This repository now includes a ready-to-run `Doxyfile`.
+
+### Generate HTML Docs
+
+1. Install Doxygen (and Graphviz for diagrams).
+2. Run from the repository root:
+
+```powershell
+doxygen Doxyfile
+```
+
+3. Open generated documentation:
+
+```text
+docs/html/index.html
+```
+
+### Notes
+
+- `Doxyfile` is configured for this library's public headers and examples.
+- Graphviz (`dot`) is enabled, so class/relationship diagrams are generated when Graphviz is installed.
+- `README.md` is used as the Doxygen main page.
+
 ## Project State
 
 - Library code: clean and ready for production use

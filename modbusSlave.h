@@ -6,46 +6,89 @@
 
 #include <modbus.h>
 #include <modbusDevice.h>
-//#include <Wprogram.h>
 
-/* CRC lookup tables - defined in modbusSlave.cpp */
+/**
+ * @file modbusSlave.h
+ * @brief Modbus RTU slave protocol engine and callback API.
+ */
+
+/** @brief CRC lookup high-byte table, defined in modbusSlave.cpp. */
 extern const byte _auchCRCHi[256];
+/** @brief CRC lookup low-byte table, defined in modbusSlave.cpp. */
 extern const byte _auchCRCLo[256];
 
+/** @brief Callback signature for dynamic read values. */
 typedef word (*modbusReadCallback)(word address, modbusDevice *device);
+/** @brief Callback signature invoked after register writes. */
 typedef void (*modbusWriteCallback)(word address, word value, modbusDevice *device);
+/** @brief Callback signature for custom/unknown function code handling. */
 typedef bool (*modbusUnknownFunctionCallback)(byte funcType, const byte *request, byte requestLen, byte *response, byte *responseLen, modbusDevice *device);
 
+/**
+ * @class modbusSlave
+ * @brief Modbus RTU slave communications and frame processing engine.
+ */
 class modbusSlave
 {
 	public:
+		/** @brief Construct a slave instance with defaults. */
 		modbusSlave(void);
+		/** @brief Bind logical register device model. */
 		void setDevice(modbusDevice *device);
+		/** @brief Get currently bound device model pointer. */
 		modbusDevice * getDevice(void);
+		/** @brief Bind generic Stream transport. */
 		void setPort(Stream &port);
+		/** @brief Bind hardware serial transport. */
 		void setPort(HardwareSerial &port);
+		/** @brief Configure RS485 DE/RE direction pin control. */
 		void setTxEnablePin(byte pin, bool activeHigh = true);
+		/** @brief Configure RS485 ms-level pre/post TX delays. */
 		void setTxEnableDelays(word preDelayMs, word postDelayMs);
+		/** @brief Configure RS485 us-level pre/post TX delays. */
 		void setTxEnableDelaysUs(word preDelayUs, word postDelayUs);
+		/** @brief Register read callback for specific address. */
 		bool onRead(word address, modbusReadCallback cb);
+		/** @brief Register write callback for specific address. */
 		bool onWrite(word address, modbusWriteCallback cb);
+		/** @brief Register callback for unsupported/custom function codes. */
 		bool onUnknownFunction(modbusUnknownFunctionCallback cb);
+		/** @brief Set 32-bit helper endianness mode on bound register bank. */
 		void configureEndianness(byte mode);
+		/** @brief Get active 32-bit helper endianness mode. */
 		byte getEndianness(void);
+		/** @brief Get FC08 bus message counter. */
 		word getBusMessageCount(void);
+		/** @brief Get FC08 bus communication error counter. */
 		word getBusCommunicationErrorCount(void);
+		/** @brief Get FC08 slave message counter. */
 		word getSlaveMessageCount(void);
+		/** @brief Reset all FC08 diagnostic counters to zero. */
 		void clearDiagnosticsCounters(void);
+		/** @brief Configure RTU baud rate and frame timing. */
 		void setBaud(word);
+		/** @brief Get current configured baud rate. */
 		word getBaud(void);
+		/** @brief Calculate CRC for current frame buffer. */
 		void calcCrc(void);
+		/** @brief Legacy helper: check serial frame status. */
 		void checkSerial(void);
+		/** @brief Legacy helper: receive serial payload. */
 		void serialRx(void);
+		/** @brief Build digital status response payload. */
 		void getDigitalStatus(byte, word, word);
+		/** @brief Build analog status response payload. */
 		void getAnalogStatus(byte, word, word);
+		/** @brief Handle single-write function payloads. */
 		void setStatus(byte, word, word);
+		/** @brief Handle multi-write function payloads. */
 		void setStatusMultiple(byte, word, word);
+		/** @brief Handle FC08 diagnostics subfunctions. */
 		void diagnostics(word, word);
+		/**
+		 * @brief Non-blocking slave engine tick.
+		 * Call this continuously from Arduino loop().
+		 */
 		void run(void);
 
 	private:

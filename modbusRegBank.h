@@ -1,4 +1,3 @@
-
 #include <stdint.h>
 #include <Arduino.h>
 
@@ -6,46 +5,80 @@
 #define _MODBUSREGBANK
 
 #include <modbus.h>
-//#include <Wprogram.h>
 
+/**
+ * @file modbusRegBank.h
+ * @brief Register storage engine and typed data helpers for Modbus maps.
+ */
 
+/** @brief Linked-node representation for digital register domains. */
 struct modbusDigReg
 {
+	/** @brief Modicon-style address. */
 	word address;
+	/** @brief Digital payload. */
 	byte value;
 
+	/** @brief Next list node. */
 	modbusDigReg *next;
 };
 
+/** @brief Linked-node representation for analog register domains. */
 struct modbusAnaReg
 {
+	/** @brief Modicon-style address. */
 	word address;
+	/** @brief 16-bit payload. */
 	word value;
 
+	/** @brief Next list node. */
 	modbusAnaReg *next;
 };
 
+/**
+ * @class modbusRegBank
+ * @brief Register collection with 16-bit and typed (32-bit/string) accessors.
+ */
 class modbusRegBank
 {
 	public:
 
+		/** @brief Create an empty register bank. */
 		modbusRegBank(void);
 		
-		void add(word);
-		word get(word);
-		void set(word, word);
-		float getFloat(word);
-		void setFloat(word, float);
-		uint32_t getLong(word);
-		void setLong(word, uint32_t);
-		word setString(word, const char *, word maxRegs = 0);
-		word getString(word, char *, word outSize, word regCount);
+		/** @brief Add a register address to the map. */
+		void add(word address);
+		/** @brief Get register value or @ref MODBUS_REG_NOT_FOUND when missing. */
+		word get(word address);
+		/** @brief Set register value. */
+		void set(word address, word value);
+		/** @brief Read 32-bit float from two adjacent registers. */
+		float getFloat(word address);
+		/** @brief Write 32-bit float to two adjacent registers. */
+		void setFloat(word address, float value);
+		/** @brief Read 32-bit integer from two adjacent registers. */
+		uint32_t getLong(word address);
+		/** @brief Write 32-bit integer to two adjacent registers. */
+		void setLong(word address, uint32_t value);
+		/**
+		 * @brief Write ASCII string (2 chars/register) starting at @p address.
+		 * @return Number of registers written.
+		 */
+		word setString(word address, const char *str, word maxRegs = 0);
+		/**
+		 * @brief Read ASCII string from packed register area.
+		 * @return Number of characters written to output buffer.
+		 */
+		word getString(word address, char *out, word outSize, word regCount);
+		/** @brief Set helper endianness mode for 32-bit encode/decode helpers. */
 		void setEndianness(byte mode);
+		/** @brief Get current helper endianness mode. */
 		byte getEndianness(void);
-		bool has(word);
+		/** @brief Check whether register exists. */
+		bool has(word address);
 				
 	private:
-		void * search(word);
+		void * search(word address);
 		
 		modbusDigReg	*_digRegs,
 						*_lastDigReg;
