@@ -1,0 +1,20 @@
+var NAVTREEINDEX1 =
+{
+"modbus_8h_source.html":[5,0,0],
+"modbus_device_8h.html":[5,0,1],
+"modbus_device_8h_source.html":[5,0,1],
+"modbus_reg_bank_8h.html":[5,0,2],
+"modbus_reg_bank_8h_source.html":[5,0,2],
+"modbus_slave_8h.html":[5,0,3],
+"modbus_slave_8h_source.html":[5,0,3],
+"pages.html":[],
+"structmodbus_ana_reg.html":[3,2,0],
+"structmodbus_ana_reg.html#a2416c71f996ef5274859ab0ec0fea31e":[3,2,0,2],
+"structmodbus_ana_reg.html#a260aa5790373f253eb94109e5a006ef0":[3,2,0,1],
+"structmodbus_ana_reg.html#a3b154d07a7cf3e8e2c25e6603be998e1":[3,2,0,0],
+"structmodbus_dig_reg.html":[3,2,1],
+"structmodbus_dig_reg.html#a24b95d7ddbe2e8e9fc77870a836d1ef7":[3,2,1,2],
+"structmodbus_dig_reg.html#a95815ba480d6d7e3779608514611cd85":[3,2,1,0],
+"structmodbus_dig_reg.html#af3648b798d64212e66726681abb68f31":[3,2,1,1],
+"topics.html":[3]
+};

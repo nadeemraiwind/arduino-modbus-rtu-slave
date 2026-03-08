@@ -1,0 +1,10 @@
+<map id="modbusRegBank.h" name="modbusRegBank.h">
+<area shape="rect" id="Node000001" title="Register storage engine and typed data helpers for Modbus maps." alt="" coords="5,5,138,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="51,155,116,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="54,35,42,49,29,67,21,86,23,106,36,126,54,144,49,146,32,129,18,108,16,85,24,64,38,45,57,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="33,80,110,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="72,30,74,65,69,64,71,35"/>
+<area shape="rect" id="Node000004" href="$modbus_8h.html" title="Core protocol constants, limits, and compile&#45;time configuration for the Modbus RTU library." alt="" coords="134,80,212,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="89,30,145,70,140,72,89,35"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="160,106,112,147,109,143,155,108"/>
+</map>

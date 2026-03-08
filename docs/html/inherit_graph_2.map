@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classmodbus_reg_bank.html" title="Register collection with 16&#45;bit and typed (32&#45;bit/string) accessors." alt="" coords="5,5,127,32"/>
+<area shape="rect" id="Node000001" href="$classmodbus_device.html" title="Represents a Modbus slave device data model." alt="" coords="175,5,283,32"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="142,16,177,18,171,19,142,21"/>
+</map>

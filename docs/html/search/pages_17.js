@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['read_20assumption_20in_20run_0',['✅ &lt;b&gt;FIXED: 8-Byte Read Assumption in run()&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md61',1,'']]],
+  ['recent_20fixes_20v1_201_200_1',['Recent Fixes (v1.1.0)',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md56',1,'']]],
+  ['recommendations_2',['Testing Recommendations',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md78',1,'']]],
+  ['reconfiguration_20depends_20on_20hardwareserial_3',['⚠️ &lt;b&gt;Baud Reconfiguration Depends on HardwareSerial&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md71',1,'']]],
+  ['register_20access_4',['Safe Register Access',['../index.html#autotoc_md28',1,'']]],
+  ['register_20addressing_20model_5',['Register Addressing Model',['../index.html#autotoc_md19',1,'']]],
+  ['register_20management_6',['Register Management',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md74',1,'']]],
+  ['register_20pool_20mode_7',['✅ &lt;b&gt;ADDED: Optional Static Register Pool Mode&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md57',1,'']]],
+  ['register_20process_8',['Level 2: Intermediate - Multi-Register Process',['../index.html#autotoc_md23',1,'']]],
+  ['repository_9',['GitHub Repository',['../index.html#autotoc_md50',1,'']]],
+  ['repository_20contributions_10',['Repository &amp;amp; Contributions',['../index.html#autotoc_md49',1,'']]],
+  ['request_20response_20sequence_20diagram_11',['Request-Response Sequence Diagram',['../architecture.html#sequence_diagram',1,'']]],
+  ['request_20validation_20for_20fc01_20fc06_12',['⚠️ &lt;b&gt;Fixed-Length Request Validation for FC01-FC06&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md67',1,'']]],
+  ['response_20sequence_20diagram_13',['Request-Response Sequence Diagram',['../architecture.html#sequence_diagram',1,'']]],
+  ['risk_20in_20get_14',['⚠️ &lt;b&gt;Sentinel Collision Risk in get()&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md68',1,'']]],
+  ['robustness_15',['Timing Robustness',['../architecture.html#autotoc_md101',1,'']]],
+  ['robustness_20features_16',['Security and Robustness Features',['../architecture.html#security',1,'']]],
+  ['rs485_20hardware_20industrial_20deployment_17',['Level 5: RS485 Hardware - Industrial Deployment',['../index.html#autotoc_md26',1,'']]],
+  ['rtu_20arduino_20library_18',['Modbus RTU Arduino Library',['../index.html',1,'']]],
+  ['rtu_20frame_20timing_19',['✅ &lt;b&gt;IMPROVED: Microsecond RTU Frame Timing&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md62',1,'']]],
+  ['rtu_20silence_20window_20',['⚠️ &lt;b&gt;Frame Completion Depends on RTU Silence Window&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md70',1,'']]],
+  ['run_21',['✅ &lt;b&gt;FIXED: 8-Byte Read Assumption in run()&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md61',1,'']]],
+  ['run_20state_20machine_20flowchart_22',['run() State Machine Flowchart',['../architecture.html#state_machine',1,'']]]
+];

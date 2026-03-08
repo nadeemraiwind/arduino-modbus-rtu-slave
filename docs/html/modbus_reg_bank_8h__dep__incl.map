@@ -1,0 +1,7 @@
+<map id="modbusRegBank.h" name="modbusRegBank.h">
+<area shape="rect" id="Node000001" title="Register storage engine and typed data helpers for Modbus maps." alt="" coords="5,5,138,32"/>
+<area shape="rect" id="Node000002" href="$modbus_device_8h.html" title="Modbus device abstraction that extends the register bank with slave ID handling." alt="" coords="12,80,131,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,45,74,80,69,79,71,50"/>
+<area shape="rect" id="Node000003" href="$modbus_slave_8h.html" title="Modbus RTU slave protocol engine and callback API." alt="" coords="16,155,127,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="73,121,74,155,69,153,70,124"/>
+</map>
