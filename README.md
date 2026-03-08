@@ -81,9 +81,69 @@ If you need a printable manual for industrial clients:
 
 This library follows a clean layered architecture designed for flexibility from basic polling to expert event-driven systems.
 
-### Data Flow Diagram
+### Main Lifecycle - Layered Architecture
 
-The following diagram shows how data flows through the library at different user levels:
+The following diagram shows the complete system architecture with four distinct layers:
+
+@dot
+digraph G {
+  compound=true;
+  node [shape=record, fontname=Helvetica, fontsize=10];
+  rankdir=TB;
+
+  subgraph cluster_0 {
+    label = "Physical Layer";
+    color = grey;
+    style = filled;
+    fillcolor = "#f0f0f0";
+    Serial [label="Stream / HardwareSerial\n(RS485/USB)"];
+  }
+
+  subgraph cluster_1 {
+    label = "Library Core (modbusSlave)";
+    color = blue;
+    style = filled;
+    fillcolor = "#e6f2ff";
+    Parser [label="{ State Machine | IDLE \l RECEIVING \l COMPLETE \l }"];
+    CRC [label="CRC-16 Validation"];
+    FunctionCode [label="Function Code Router\n(FC01-FC06, FC15, FC16)"];
+  }
+
+  subgraph cluster_2 {
+    label = "Data Layer (modbusRegBank)";
+    color = green;
+    style = filled;
+    fillcolor = "#e6ffe6";
+    Bank [label="{ Register Store | Coils (1-2000) \l Discrete Inputs (10001-12000) \l Input Registers (30001-30125) \l Holding Registers (40001-40125) \l }"];
+    Atomic [label="Atomic Lock Guard\n(Read-Modify-Write Protection)"];
+    TypedHelpers [label="Typed Helpers\n(Float/Long/String)"];
+  }
+
+  subgraph cluster_3 {
+    label = "User Application";
+    color = orange;
+    style = filled;
+    fillcolor = "#fff5e6";
+    Basic [label="Basic/Intermediate\nPolling Logic\n(get/set in loop)"];
+    Expert [label="Expert Level\nCallback Hooks\n(onRead/onWrite)"];
+  }
+
+  Serial -> Parser [label="Raw Bytes"];
+  Parser -> CRC [label="Frame Buffer"];
+  CRC -> FunctionCode [label="Valid Frame"];
+  FunctionCode -> Bank [label="Direct R/W"];
+  FunctionCode -> Expert [style=dashed, color=orange, label="Event Trigger"];
+  Expert -> Bank [label="Validated Update"];
+  Basic -> Bank [label="Polling Update"];
+  Bank -> Atomic [style=dashed, label="Critical Section"];
+  Bank -> TypedHelpers [style=dotted, label="Data Conversion"];
+  Bank -> FunctionCode [label="Response Data"];
+  FunctionCode -> Parser [label="Build Response"];
+  Parser -> Serial [label="TX Frame"];
+}
+@enddot
+
+### Data Flow Diagram (Simplified)
 
 @dot
 digraph G {

@@ -87,6 +87,12 @@ CALL_GRAPH             = YES
 CALLER_GRAPH           = YES
 DOT_MULTI_TARGETS      = YES
 INTERACTIVE_SVG        = YES
+MAX_DOT_GRAPH_DEPTH    = 3
+
+# Professional UML-style class diagrams
+UML_LOOK               = YES
+UML_LIMIT_NUM_FIELDS   = 10
+TEMPLATE_RELATIONS     = YES
 
 AUTOLINK_SUPPORT       = YES
 BUILTIN_STL_SUPPORT    = NO
