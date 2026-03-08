@@ -11,7 +11,7 @@ This document describes the current state of the library, recent fixes, and know
 - **Impact**: Better long-term stability for always-on industrial deployments.
 
 ### ✅ **FIXED: Broken Example Code**
-- **Issue**: The MODBUSslave_Simple.ino example used non-existent methods (`addCoil()`, `addIsts()`, `slave.begin()`)
+- **Issue**: The old simple example used non-existent methods (`addCoil()`, `addIsts()`, `slave.begin()`).
 - **Fix**: Updated example to use correct API (`add()`, `setDevice()`, `setPort()`)
 - **Impact**: Users can now compile the simple example without errors
 
@@ -22,7 +22,7 @@ This document describes the current state of the library, recent fixes, and know
 
 ### ✅ **IMPROVED: Example Documentation**
 - **Issue**: Limited inline documentation about how to use the library
-- **Fix**: Added comprehensive comments to MODBUSslave_Simple.ino explaining:
+- **Fix**: Added comprehensive comments to `examples/01_Basic_MinimalSlave/01_Basic_MinimalSlave.ino` explaining:
   - Modicon address ranges (1-9999 for coils, 10001-19999 for discrete inputs, etc.)
   - How to add more registers
   - RS485 DE/RE control pin configuration

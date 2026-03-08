@@ -50,7 +50,7 @@ docs/html/index.html
 ### Notes
 
 - `Doxyfile` is configured for this library's public headers and examples.
-- Graphviz (`dot`) is enabled, so class/relationship diagrams are generated when Graphviz is installed.
+- Graphviz (`dot`) is optional and currently disabled by default in `Doxyfile` for clean cross-machine generation.
 - `README.md` is used as the Doxygen main page.
 
 ## Project State
@@ -391,114 +391,16 @@ void loop() {
 - Write responses (`FC05`, `FC06`) echo request body on success
 - Exceptions are sent with function code ORed by `0x80`
 
-## Final Programming and Test Report
+## Production Validation Checklist
 
-Requested by user:
+Use this checklist before deploying to field hardware:
 
-1. Program Serial0 example to MEGA on `COM12`
-2. Test all function codes and confirm features
-
-Final result:
-
-- `Serial0` example was compiled and uploaded to MEGA on `COM12`
-- All Modbus core function codes responded correctly
-- FC06 write was verified by FC03 readback
-
-### Upload Commands Used
-
-```powershell
-"C:\Program Files\Arduino CLI\arduino-cli.exe" compile --fqbn arduino:avr:mega --library "c:\Users\PC\OneDrive\Desktop\arduino lib" "c:\Users\PC\OneDrive\Desktop\arduino lib\examples\MODBUSslave_UNO_Serial0"
-"C:\Program Files\Arduino CLI\arduino-cli.exe" upload -p COM12 --fqbn arduino:avr:mega "c:\Users\PC\OneDrive\Desktop\arduino lib\examples\MODBUSslave_UNO_Serial0"
-```
-
-### Function Test Responses (COM12, 9600, Slave ID 1)
-
-- FC01 Read Coils (`00001..00005`)
-  - Request: `01 01 00 00 00 05 FC 09`
-  - Response: `01 01 01 00 51 88`
-  - Result: PASS
-
-- FC02 Read Discrete Inputs (`10001..10005`)
-  - Request: `01 02 00 00 00 05 B8 09`
-  - Response: `01 02 01 00 A1 88`
-  - Result: PASS
-
-- FC03 Read Holding Registers (`40001..40005`)
-  - Request: `01 03 00 00 00 05 85 C9`
-  - Response: `01 03 0A 01 5E 01 2C 00 64 03 E8 00 64 19 4D`
-  - Result: PASS
-
-- FC04 Read Input Registers (`30001..30005`)
-  - Request: `01 04 00 00 00 05 30 09`
-  - Response: `01 04 0A 01 0F 00 4B 02 13 00 87 00 EB 4E 0B`
-  - Result: PASS
-
-- FC05 Write Single Coil ON (`coil 1`)
-  - Request: `01 05 00 00 FF 00 8C 3A`
-  - Response: `01 05 00 00 FF 00 8C 3A`
-  - Result: PASS
-
-- FC05 Write Single Coil OFF (`coil 1`)
-  - Request: `01 05 00 00 00 00 CD CA`
-  - Response: `01 05 00 00 00 00 CD CA`
-  - Result: PASS
-
-- FC06 Write Single Register (`40001 = 1234`)
-  - Request: `01 06 00 00 04 D2 0B 57`
-  - Response: `01 06 00 00 04 D2 0B 57`
-  - Result: PASS
-
-- FC03 Verify FC06 writeback (`read 40001`)
-  - Request: `01 03 00 00 00 01 84 0A`
-  - Response: `01 03 02 04 D2 3A D9`
-  - Decoded value: `1234`
-  - Result: PASS
-
-### Test Verdict
-
-- FC01: PASS
-- FC02: PASS
-- FC03: PASS
-- FC04: PASS
-- FC05: PASS
-- FC06: PASS
-- FC06 readback verification: PASS
-
-Overall: `ALL PASS`
-
-## Exact Commands To Run On Your PC
-
-### Upload (choose one method)
-
-- Arduino IDE GUI:
-  - Open `examples/01_Basic_MinimalSlave/01_Basic_MinimalSlave.ino`
-  - Board: Arduino UNO or MEGA 2560
-  - Port: (select your Arduino port)
-  - Upload
-
-- Arduino CLI (if installed):
-
-```powershell
-arduino-cli compile --fqbn arduino:avr:uno "examples/01_Basic_MinimalSlave"
-arduino-cli upload -p COM3 --fqbn arduino:avr:uno "examples/01_Basic_MinimalSlave"
-```
-
-### Quick Modbus Functional Checks
-
-Use any Modbus master (QModMaster/modpoll/PLC/SCADA) and test:
-
-- FC01: Read coils start `0`, qty `5`
-- FC02: Read discrete inputs start `0`, qty `5`
-- FC03: Read holding registers start `0`, qty `5`
-- FC04: Read input registers start `0`, qty `5`
-- FC05: Write coil `0` with `0xFF00`, then `0x0000`
-- FC06: Write register `0` with `1234`, read back via FC03
-
-Expected:
-
-- Valid responses for all 6 function codes
-- No exception for configured addresses
-- Echo response for FC05/FC06
+1. Compile and upload `examples/01_Basic_MinimalSlave/01_Basic_MinimalSlave.ino`.
+2. Verify FC01/FC02/FC03/FC04 reads return valid data.
+3. Verify FC05/FC06 writes and readback behavior.
+4. Verify FC15/FC16 multi-write behavior.
+5. If using RS485, validate DE/RE timing and bus stability with `examples/05_RS485_Hardware/05_RS485_Hardware.ino`.
+6. Confirm slave address, baud, and wiring in your final hardware setup.
 
 ## Clean Project Structure
 
