@@ -66,8 +66,19 @@ docs/html/index.html
   - `Data Access Helpers`
   - `Device Model`
   - `RS485 Control`
-- Generated `docs/html` is intentionally ignored by Git; regenerate locally as needed.
-- For hosted docs, use GitHub Pages from a dedicated docs branch/workflow output.
+- Generated `docs/html` is committed in this repository for direct browsing and release packaging.
+- GitHub Pages deployment is automated via `.github/workflows/deploy-docs-pages.yml`.
+
+### Public Documentation Website (GitHub Pages)
+
+- Public URL: `https://nadeemraiwind.github.io/arduino-modbus-rtu-slave/`
+- Source: auto-deployed from `docs/html` on each push to `main`
+
+One-time setup (if Pages is not active yet):
+
+1. Open repository **Settings** -> **Pages**
+2. Set **Source** to **GitHub Actions**
+3. Trigger deployment by pushing to `main` (or run the workflow manually)
 
 ### Optional PDF Manual
 
