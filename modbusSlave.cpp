@@ -350,7 +350,7 @@ bool modbusSlave::isSupportedFunction(byte funcType)
   (funcType == DIAGNOSTICS);
 }
 
-modbusReadCallback modbusSlave::findReadCallback(word address)
+modbusReadCallback modbusSlave::findReadCallback(word address) const
 {
   for(byte i = 0; i < MODBUS_MAX_READ_CALLBACKS; i++)
   {
@@ -361,7 +361,7 @@ modbusReadCallback modbusSlave::findReadCallback(word address)
   return 0;
 }
 
-modbusWriteCallback modbusSlave::findWriteCallback(word address)
+modbusWriteCallback modbusSlave::findWriteCallback(word address) const
 {
   for(byte i = 0; i < MODBUS_MAX_WRITE_CALLBACKS; i++)
   {
@@ -388,7 +388,7 @@ void modbusSlave::invokeWriteCallback(word address, word value)
     cb(address, value, _device);
 }
 
-bool modbusSlave::validateRange(word startAddr, word count)
+bool modbusSlave::validateRange(word startAddr, word count) const
 {
   word i;
   for(i = 0; i < count; i++)
@@ -715,7 +715,7 @@ void modbusSlave::setStatusMultiple(byte funcType, word reg, word count)
     for(i = 0; i < count; i++)
     {
       byte packed = _msg[7 + (i / 8)];
-      word value = (packed & (1 << (i % 8))) ? 0xFF : 0x0000;
+      word value = (packed & (1 << (i % 8))) ? 0x00FF : 0x0000;
       _device->set(reg + 1 + i, value);
       invokeWriteCallback(reg + 1 + i, value);
     }

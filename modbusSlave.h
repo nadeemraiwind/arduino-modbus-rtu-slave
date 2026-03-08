@@ -103,9 +103,9 @@ class modbusSlave
 	private:
 		bool isSupportedFunction(byte funcType);
 		byte validateRequest(byte funcType, word field1, word field2, byte requestLen);
-		bool validateRange(word startAddr, word count);
-		modbusReadCallback findReadCallback(word address);
-		modbusWriteCallback findWriteCallback(word address);
+		bool validateRange(word startAddr, word count) const;
+		modbusReadCallback findReadCallback(word address) const;
+		modbusWriteCallback findWriteCallback(word address) const;
 		word invokeReadCallback(word address, word fallbackValue);
 		void invokeWriteCallback(word address, word value);
 		void resetParser(void);
