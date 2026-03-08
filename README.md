@@ -21,26 +21,25 @@ Standard Modbus RTU slave library for Arduino with support for core Modbus funct
 ## Quick Start
 
 1. **Install:** Add the `.zip` file via Arduino IDE → Sketch → Include Library → Add .ZIP Library
-2. **Start with Simple Example:** Open MODBUSslave_Simple.ino from Examples menu
-3. **Wire your hardware:** Connect RX/TX to your Modbus master
-4. **Configure:** Set slave ID and baud rate (default 9600)
-5. **Upload and test** with a Modbus master tool
+2. **Start with Basic Example:** Open `01_Basic_MinimalSlave` from Examples menu
+3. **Wire your hardware:** Connect RX/TX to your Modbus master (or test via USB)
+4. **Configure:** Set slave ID and baud rate (defaults: ID=1, baud=9600)
+5. **Upload and test** with a Modbus master tool (Modbus Poll, QModMaster, pymodbus, etc.)
 
 See [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for limitations and best practices.
 
 ## Project State
 
 - Library code: clean and ready for production use
-- Examples: 6 comprehensive examples
-  - `examples/MODBUSslave_Simple/MODBUSslave_Simple.ino` ← **Start here!**
-  - `examples/MODBUSslave_Callbacks_Diagnostics/MODBUSslave_Callbacks_Diagnostics.ino`
-  - `examples/MODBUSslave_FloatValues/MODBUSslave_FloatValues.ino`
-  - `examples/MODBUSslave_StringValues/MODBUSslave_StringValues.ino`
-  - `examples/MODBUSslave_UNO_Serial0/MODBUSslave_UNO_Serial0.ino`
-  - `examples/MODBUSslave_MEGA_Serial1/MODBUSslave_MEGA_Serial1.ino`
+- Examples: 5 progressive examples (Basic → Expert)
+  - `examples/01_Basic_MinimalSlave/01_Basic_MinimalSlave.ino` ← **Start here!**
+  - `examples/02_Intermediate_MultiRegister/02_Intermediate_MultiRegister.ino`
+  - `examples/03_Advanced_TypedData/03_Advanced_TypedData.ino`
+  - `examples/04_Expert_Callbacks/04_Expert_Callbacks.ino`
+  - `examples/05_RS485_Hardware/05_RS485_Hardware.ino`
 - Documentation: README.md, KNOWN_ISSUES.md
 - IDE integration: keywords.txt included
-- Serial debug prints in examples: removed for production use
+- Examples follow progressive learning path from basic to industrial-grade
 
 ## Supported Modbus Function Codes
 
@@ -148,55 +147,94 @@ Example `"HELLO"`:
 
 ## Examples Overview
 
-The library includes 6 examples demonstrating different use cases:
+The library includes 5 examples in a progressive learning path from basic to expert:
 
-### Example 1: Simple (Recommended Starting Point)
+### Level 1: Basic - Minimal Slave ⭐ START HERE
 
-- File: `examples/MODBUSslave_Simple/MODBUSslave_Simple.ino`
-- Port: `Serial` (RX0/TX0)
-- Features: Minimal setup with 1 register of each type, comprehensive inline documentation
-- **Best for:** Learning the API and getting started quickly
+- **File:** `examples/01_Basic_MinimalSlave/01_Basic_MinimalSlave.ino`
+- **Hardware:** Arduino UNO, MEGA, or compatible
+- **Connection:** USB (Serial)
+- **Slave ID:** 1 | **Baud:** 9600
+- **Features:**
+  - Absolute minimum working code
+  - One register of each type (coil, discrete input, input register, holding register)
+  - Clear 5-step setup process
+  - Comprehensive quick reference guide
+- **Best for:** First-time users learning Modbus basics
 
-### Example 2: Callbacks + Diagnostics
+### Level 2: Intermediate - Multi-Register Process
 
-- File: `examples/MODBUSslave_Callbacks_Diagnostics/MODBUSslave_Callbacks_Diagnostics.ino`
-- Port: `Serial` (RX0/TX0)
-- Features: Demonstrates `onRead/onWrite` active callbacks and FC08 diagnostics counters
-- **Best for:** Event-driven process control and field troubleshooting
+- **File:** `examples/02_Intermediate_MultiRegister/02_Intermediate_MultiRegister.ino`
+- **Hardware:** Arduino UNO, MEGA, or compatible
+- **Connection:** USB or RS485
+- **Slave ID:** 1 | **Baud:** 19200
+- **Features:**
+  - 5 registers per type (20 registers total)
+  - Simulated industrial process (temperature, pressure, flow, humidity, voltage)
+  - Coil-to-discrete-input mirroring pattern
+  - Dynamic value updates and PLC-like command handling
+  - Safe register access patterns
+- **Best for:** Building real automation systems
 
-### Example 3: Float Values
+### Level 3: Advanced - Typed Data (Float/Long/String)
 
-- File: `examples/MODBUSslave_FloatValues/MODBUSslave_FloatValues.ino`
-- Port: `Serial` (RX0/TX0)
-- Features: Demonstrates `setFloat/getFloat` with adjacent holding registers
-- **Best for:** Projects using IEEE-754 process values (temperature, pressure, etc.)
+- **File:** `examples/03_Advanced_TypedData/03_Advanced_TypedData.ino`
+- **Hardware:** Arduino UNO, MEGA, or compatible
+- **Connection:** USB or RS485
+- **Slave ID:** 1 | **Baud:** 19200
+- **Features:**
+  - 32-bit float values (IEEE-754) across register pairs
+  - 32-bit long values across register pairs
+  - ASCII string storage (2 chars per register)
+  - Endianness configuration for multi-vendor compatibility
+  - Real-world decimal precision handling
+- **Best for:** SCADA integration with mixed data types
 
-### Example 4: String Values
+### Level 4: Expert - Callbacks, Diagnostics, Custom Functions
 
-- File: `examples/MODBUSslave_StringValues/MODBUSslave_StringValues.ino`
-- Port: `Serial` (RX0/TX0)
-- Features: Demonstrates `setString/getString` with 2 ASCII chars per holding register
-- **Best for:** Device names, status messages, barcode/RFID text over Modbus
+- **File:** `examples/04_Expert_Callbacks/04_Expert_Callbacks.ino`
+- **Hardware:** Arduino MEGA recommended (more RAM for logging)
+- **Connection:** USB or RS485
+- **Slave ID:** 1 | **Baud:** 19200
+- **Features:**
+  - `onRead()` callbacks for on-demand value generation
+  - `onWrite()` callbacks for immediate command reaction
+  - `onUnknownFunction()` for custom/vendor function codes
+  - FC08 Diagnostics with counter APIs
+  - Event logging system
+  - Dynamic RAM monitoring
+- **Best for:** Mission-critical systems requiring event hooks and diagnostics
 
-### Example 5: UNO Serial0
+### Level 5: RS485 Hardware - Industrial Deployment
 
-- File: `examples/MODBUSslave_UNO_Serial0/MODBUSslave_UNO_Serial0.ino`
-- Port: `Serial` (RX0/TX0)
-- Features: Full API demonstration with simulated process model, 5 registers per type
-- **Best for:** Single-UART Arduino UNO applications
+- **File:** `examples/05_RS485_Hardware/05_RS485_Hardware.ino`
+- **Hardware:** Arduino + RS485 transceiver (MAX485, MAX3485, etc.)
+- **Connection:** RS485 twisted pair
+- **Slave ID:** 10 (configurable) | **Baud:** 38400
+- **Features:**
+  - Complete RS485 wiring guide (pinouts, termination, grounding)
+  - DE/RE (Driver Enable) pin control
+  - Microsecond-precision TX delays
+  - Multi-drop bus topology guidelines
+  - Comprehensive troubleshooting guide
+  - Hardware comparison (MAX485, MAX3485, SN75176, isolated modules)
+- **Best for:** Production RS485 installations and multi-slave networks
 
-### Example 6: MEGA Serial1
+---
 
-- File: `examples/MODBUSslave_MEGA_Serial1/MODBUSslave_MEGA_Serial1.ino`
-- Port: `Serial1` (RX1/TX1 - pins 18/19)
-- Features: Full API demonstration using Serial1, allows simultaneous USB debugging
-- **Best for:** Arduino MEGA with separate programming and Modbus UARTs
+**Learning Path Recommendation:**
+1. Start with **01_Basic_MinimalSlave** to understand core concepts
+2. Move to **02_Intermediate_MultiRegister** for real process simulation
+3. Add **03_Advanced_TypedData** when you need floats/longs/strings
+4. Use **04_Expert_Callbacks** for event-driven and diagnostic features
+5. Deploy with **05_RS485_Hardware** for industrial installations
 
-All examples demonstrate:
-- All 4 register groups (coils, discrete inputs, input registers, holding registers)
-- Full API usage (`add`, `set`, `get`, `setFloat`, `getFloat`, `setLong`, `getLong`, `setString`, `getString`, `has`, `setId`, `getId`, `setDevice`, `getDevice`, `setPort`, `setBaud`, `getBaud`, `onRead`, `onWrite`, `getBusMessageCount`, `getBusCommunicationErrorCount`, `getSlaveMessageCount`, `clearDiagnosticsCounters`, `run`)
-- Optional RS485 APIs as commented lines (`setTxEnablePin`, `setTxEnableDelays`, `setTxEnableDelaysUs`)
-- Production-ready code (no serial debug output)
+All examples include:
+- Detailed inline comments explaining every line
+- Register map documentation
+- Testing procedures
+- Troubleshooting guides
+- Best practices and common pitfalls
 
 ## Safe Register Access
 
@@ -408,16 +446,16 @@ Overall: `ALL PASS`
 ### Upload (choose one method)
 
 - Arduino IDE GUI:
-  - Open `examples/MODBUSslave_UNO_Serial0/MODBUSslave_UNO_Serial0.ino`
-  - Board: Arduino Mega 2560
-  - Port: COM12
+  - Open `examples/01_Basic_MinimalSlave/01_Basic_MinimalSlave.ino`
+  - Board: Arduino UNO or MEGA 2560
+  - Port: (select your Arduino port)
   - Upload
 
 - Arduino CLI (if installed):
 
 ```powershell
-arduino-cli compile --fqbn arduino:avr:mega "examples/MODBUSslave_UNO_Serial0"
-arduino-cli upload -p COM12 --fqbn arduino:avr:mega "examples/MODBUSslave_UNO_Serial0"
+arduino-cli compile --fqbn arduino:avr:uno "examples/01_Basic_MinimalSlave"
+arduino-cli upload -p COM3 --fqbn arduino:avr:uno "examples/01_Basic_MinimalSlave"
 ```
 
 ### Quick Modbus Functional Checks
@@ -448,15 +486,27 @@ modbusRegBank.cpp
 modbusSlave.h
 modbusSlave.cpp
 library.properties
+keywords.txt
+LICENSE
 README.md
+KNOWN_ISSUES.md
 examples/
-  MODBUSslave_UNO_Serial0/
-    MODBUSslave_UNO_Serial0.ino
-  MODBUSslave_MEGA_Serial1/
-    MODBUSslave_MEGA_Serial1.ino
-tools/
+  01_Basic_MinimalSlave/
+    01_Basic_MinimalSlave.ino
+  02_Intermediate_MultiRegister/
+    02_Intermediate_MultiRegister.ino
+  03_Advanced_TypedData/
+    03_Advanced_TypedData.ino
+  04_Expert_Callbacks/
+    04_Expert_Callbacks.ino
+  05_RS485_Hardware/
+    05_RS485_Hardware.ino
 ```
 
-## Next Recommended Action
+## Next Steps
 
-Use `examples/MODBUSslave_MEGA_Serial1/MODBUSslave_MEGA_Serial1.ino` when you move to dedicated Modbus UART on MEGA (`Serial1`) for production wiring.
+- **Beginners:** Start with `01_Basic_MinimalSlave` to learn core concepts
+- **Process control:** Use `02_Intermediate_MultiRegister` for multi-register systems
+- **Data types:** Add `03_Advanced_TypedData` for float/long/string support
+- **Advanced features:** Implement `04_Expert_Callbacks` for event hooks and diagnostics
+- **Production deployment:** Deploy with `05_RS485_Hardware` for industrial RS485 networks
