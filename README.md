@@ -36,23 +36,30 @@ This repository now includes a ready-to-run `Doxyfile`.
 
 ### Generate HTML Docs
 
-1. Install Doxygen (and Graphviz for diagrams).
-2. Run from the repository root:
+1. **Install Doxygen** - Already installed at `C:\Program Files\doxygen\`
+2. **Install Graphviz** (for call graphs and architecture diagrams):
+   - Download from: https://graphviz.org/download/
+   - Or via Chocolatey: `choco install graphviz`
+   - Or via winget: `winget install graphviz`
+   - Add to PATH: `C:\Program Files\Graphviz\bin`
+3. Run from the repository root:
 
 ```powershell
 doxygen Doxyfile
 ```
 
-3. Open generated documentation:
+4. Open generated documentation:
 
 ```text
 docs/html/index.html
 ```
 
+**Note:** Documentation generates even without Graphviz, but you'll miss the interactive call graphs, class diagrams, and system architecture visualization.
+
 ### Notes
 
 - `Doxyfile` is configured for this library's public headers and examples.
-- Graphviz (`dot`) is optional and currently disabled by default in `Doxyfile` for clean cross-machine generation.
+- **Graphviz (`dot`) is now enabled** for automatic call graphs and system architecture diagrams. Install Graphviz to see function call relationships and data flow visualizations.
 - `README.md` is used as the Doxygen main page.
 - Doxygen module groups are now defined to organize API pages:
   - `Protocol Engine`
@@ -69,6 +76,123 @@ If you need a printable manual for industrial clients:
 1. In `Doxyfile`, set `GENERATE_LATEX = YES`.
 2. Run Doxygen again.
 3. Build PDF from `docs/latex` (`make` on Linux/macOS or `make.bat` on Windows with a LaTeX toolchain).
+
+## System Architecture
+
+This library follows a clean layered architecture designed for flexibility from basic polling to expert event-driven systems.
+
+### Data Flow Diagram
+
+The following diagram shows how data flows through the library at different user levels:
+
+@dot
+digraph G {
+  rankdir=LR;
+  node [shape=box, fontname="Helvetica", fontsize=10];
+
+  Master [label="Modbus Master\n(PLC/SCADA)", fillcolor=lightgrey, style=filled];
+  Serial [label="Serial/RS485\nBuffer", shape=ellipse];
+  Parser [label="State Machine\n(run)", color=blue, penwidth=2];
+  Callback [label="User Callbacks\n(Expert Level)", color=orange, style=dashed];
+  Bank [label="Register Bank\n(Data Store)", color=green];
+  User [label="Your Application\n(Basic/Intermediate)", fillcolor=lightgreen, style=filled];
+
+  Master -> Serial [label="Request"];
+  Serial -> Parser [label="Byte-by-Byte"];
+  Parser -> Callback [label="If registered"];
+  Parser -> Bank [label="Direct Read/Write"];
+  Callback -> User [label="Event Trigger"];
+  User -> Bank [label="get/set"];
+  Bank -> Parser [label="Data"];
+  Parser -> Serial [label="Response"];
+  Serial -> Master [label="Frame"];
+}
+@enddot
+
+### Architecture Patterns by User Level
+
+#### Basic/Intermediate: Polling Flow
+
+In basic usage, your application follows a simple pattern:
+
+1. **Your Application** writes values to the **Register Bank** using `set()`
+2. **Your Application** reads values from the **Register Bank** using `get()`
+3. The **State Machine** (`slave.run()`) handles all Modbus communication automatically
+4. The **Modbus Master** can read/write registers transparently
+
+This "fire and forget" pattern requires no event handling - just update your registers in `loop()` and call `slave.run()`.
+
+**Example:**
+```cpp
+void loop() {
+  // Your application updates data
+  int temperature = readSensor();
+  regBank.set(30001, temperature * 10);  // Store as 0.1°C units
+  
+  // Library handles all Modbus communication
+  slave.run();  // Non-blocking
+}
+```
+
+#### Expert: Event-Driven Flow
+
+In expert usage, the library notifies your code when specific Modbus events occur:
+
+1. **Modbus Master** sends a request
+2. **State Machine** parses the frame
+3. **Callbacks** fire before reads or after writes (if registered)
+4. **Your Application** responds to specific register events
+5. **Register Bank** provides the storage layer
+
+This pattern enables just-in-time data sampling, command validation, and audit logging.
+
+**Example:**
+```cpp
+void onTempRead(word address, modbusDevice* dev) {
+  // Sample sensor only when master requests it
+  int temp = readSensor();
+  dev->set(address, temp * 10);
+}
+
+void onSetpointWrite(word address, word value, modbusDevice* dev) {
+  // Validate and react immediately to writes
+  if (value >= 150 && value <= 300) {
+    activateHeater(value);
+  }
+}
+
+void setup() {
+  slave.onRead(30001, onTempRead);      // Read callback
+  slave.onWrite(40001, onSetpointWrite); // Write callback
+}
+```
+
+### Interactive Call Graphs
+
+With Graphviz enabled, Doxygen automatically generates:
+
+- **Call graphs** - Show which functions each method calls
+- **Caller graphs** - Show which functions call each method
+- **Class diagrams** - Show inheritance relationships
+
+These diagrams are interactive: click any box to jump to that function's documentation. This provides a professional datasheet-quality reference similar to Texas Instruments or STMicroelectronics documentation.
+
+### Why This Architecture Works
+
+**Separation of Concerns:**
+- Protocol parsing is isolated in `modbusSlave::run()`
+- Data storage is isolated in `modbusRegBank`
+- Application logic stays in your sketch
+
+**Progressive Complexity:**
+- Beginners use simple `get()`/`set()` polling
+- Experts add callbacks for specific registers only
+- Both patterns coexist without conflicts
+
+**Industrial Grade:**
+- Non-blocking state machine prevents loop stalls
+- Atomic transaction API prevents data races
+- Callback system enables audit trails and validation
 
 ## Project State
 
