@@ -1,0 +1,5 @@
+<map id="modbusDevice" name="modbusDevice">
+<area shape="rect" id="Node000001" title="Represents a Modbus slave device data model." alt="" coords="5,336,124,448"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html" title="Register collection with 16&#45;bit and typed (32&#45;bit/string) accessors." alt="" coords="6,5,124,288"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,300,67,336,62,336,64,305"/>
+</map>

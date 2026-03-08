@@ -1,0 +1,36 @@
+var indexSectionsWithContent =
+{
+  0: "0123458_abcdefghiklmnopqrstuvwxℹ⚠✅⭐🏆",
+  1: "m",
+  2: "akmr",
+  3: "acdghimors",
+  4: "_anv",
+  5: "m",
+  6: "acdehmpr",
+  7: "0123458abcdefghiklmnopqrstuvwxℹ⚠✅⭐🏆"
+};
+
+var indexSectionNames =
+{
+  0: "all",
+  1: "classes",
+  2: "files",
+  3: "functions",
+  4: "variables",
+  5: "typedefs",
+  6: "groups",
+  7: "pages"
+};
+
+var indexSectionLabels =
+{
+  0: "All",
+  1: "Data Structures",
+  2: "Files",
+  3: "Functions",
+  4: "Variables",
+  5: "Typedefs",
+  6: "Modules",
+  7: "Pages"
+};
+

@@ -1,0 +1,20 @@
+<map id="modbusSlave.h" name="modbusSlave.h">
+<area shape="rect" id="Node000001" title="Modbus RTU slave protocol engine and callback API." alt="" coords="170,5,282,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="204,304,269,331"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,30,257,52,272,79,287,119,293,152,298,229,300,243,298,257,285,278,267,296,265,292,281,275,293,255,295,243,293,230,288,153,281,121,267,81,252,55,237,35"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="186,229,263,256"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,30,245,53,252,80,255,116,252,153,237,216,232,213,247,153,250,116,247,80,240,55,232,35"/>
+<area shape="rect" id="Node000004" href="$modbus_8h.html" title="Core protocol constants, limits, and compile&#45;time configuration for the Modbus RTU library." alt="" coords="5,229,84,256"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="184,35,145,52,101,78,60,112,43,133,31,156,27,170,27,185,35,215,29,216,22,186,22,170,26,154,39,130,56,108,98,73,143,48,187,31"/>
+<area shape="rect" id="Node000005" href="$modbus_device_8h.html" title="Modbus device abstraction that extends the register bank with slave ID handling." alt="" coords="118,80,238,107"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="219,30,197,69,192,66,216,35"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="78,254,192,297,188,300,77,259"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="192,105,238,156,261,190,278,229,280,246,276,263,260,294,256,290,271,261,274,246,273,230,256,193,233,159,191,110"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="183,104,202,154,220,215,214,214,197,155,182,110"/>
+<area shape="poly" id="edge12_Node000005_Node000004" title=" " alt="" coords="116,108,77,126,59,139,44,156,38,170,36,184,39,215,34,215,31,184,33,168,40,153,55,135,74,121,119,103"/>
+<area shape="rect" id="Node000006" href="$modbus_reg_bank_8h.html" title="Register storage engine and typed data helpers for Modbus maps." alt="" coords="54,155,187,181"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="166,109,142,144,138,141,169,105"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="128,179,149,215,176,254,213,294,207,293,172,258,144,218,126,184"/>
+<area shape="poly" id="edge10_Node000006_Node000003" title=" " alt="" coords="139,179,197,219,191,221,138,185"/>
+<area shape="poly" id="edge11_Node000006_Node000004" title=" " alt="" coords="106,184,70,220,66,217,109,180"/>
+</map>
