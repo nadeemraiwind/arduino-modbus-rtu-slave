@@ -17,6 +17,8 @@ Standard Modbus RTU slave library for Arduino with support for core Modbus funct
 - ✅ Added non-blocking byte-wise parser state machine
 - ✅ Added 32-bit endianness configuration (`configureEndianness`)
 - ✅ Added unknown/custom function hook (`onUnknownFunction`)
+- ✅ **Added Atomic Transaction API** - `atomicBegin()`, `atomicEnd()`, `atomicGet()`, `atomicSet()` protect against data races during read-modify-write operations in complex loop logic (industrial-grade feature)
+- ✅ **Professional Doxygen Documentation** - Complete HTML API reference with module groups, searchable function docs, and class diagrams
 
 ## Quick Start
 
@@ -161,6 +163,7 @@ Namespace-safety option (in `modbus.h`):
   - Registers active read callback for an address. Callback executes before value is returned.
 - `onWrite(word address, modbusWriteCallback cb)`
   - Registers active write callback for an address. Callback executes after writes (FC05/06/15/16).
+  - **Note:** Coil write callbacks (FC05/FC15) receive normalized values: `0x00FF` (ON) or `0x0000` (OFF), regardless of master's raw data format.
 - `onUnknownFunction(modbusUnknownFunctionCallback cb)`
   - Registers custom handler for unsupported function codes.
 - `configureEndianness(byte mode)` / `getEndianness()`
@@ -474,16 +477,29 @@ examples/
 - **Advanced features:** Implement `04_Expert_Callbacks` for event hooks and diagnostics
 - **Production deployment:** Deploy with `05_RS485_Hardware` for industrial RS485 networks
 
-## Elite Level Enhancements
+## Elite Level Features
 
-Ready to take this library to the next level? Consider these advanced projects:
+This library now includes professional-grade enhancements for industrial deployment:
 
-### 🏆 Professional Documentation with Doxygen
-Generate a complete HTML documentation website from the code:
-- Install Doxygen and add structured comments to headers
-- Automatic API reference with class diagrams
-- Searchable function documentation
+### ✅ Atomic Transaction Protection
+Protects against data races during read-modify-write operations:
+- `atomicBegin()` / `atomicEnd()` bracket critical sections
+- `atomicGet()` / `atomicSet()` for interrupt-guarded single operations
+- `slave.run()` automatically defers frame processing during atomic locks
+- **Why it matters:** Prevents master writes from corrupting application logic during complex loop calculations
+- Rare feature in Arduino Modbus libraries - designed for mission-critical industrial systems
+
+### ✅ Professional Doxygen Documentation
+Complete HTML API reference generated from code:
+- Automatic API reference with searchable function documentation
+- Organized module groups (Protocol Engine, Data Access, Device Model, RS485 Control)
+- Class relationship diagrams
 - Professional presentation for open-source portfolio
+- Generate locally with `doxygen Doxyfile` → `docs/html/index.html`
+
+## Future Enhancements
+
+Ready to take this library even further? Consider these advanced projects:
 
 ### 🏆 Modbus Master Library
 Create a companion library for master/client functionality:
