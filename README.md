@@ -700,8 +700,12 @@ See [KNOWN_ISSUES.md](KNOWN_ISSUES.md#future-enhancements-suggestions) for compl
 
 **Nadeem Abbas**  
 📧 Email: [zahid_printers@gmail.com](mailto:zahid_printers@gmail.com)  
-📱 Mobile: +92 3924509295  
+📱 Mobile (E.164): +923924509295  
 📍 Location: Raiwind, Lahore, Pakistan
+
+Optional professional links:
+- LinkedIn: (add your profile URL)
+- Portfolio/Website: (add your website URL)
 
 ### Development Credits
 
@@ -741,7 +745,7 @@ We welcome contributions! Here's how you can help:
 #### 🐛 Bug Reports
 
 1. **Check Existing Issues:** Search [GitHub Issues](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues) first
-2. **Create New Issue:** Use the bug report template
+2. **Create New Issue:** Use the built-in GitHub bug report template
 3. **Include Details:**
    - Arduino board model and version
    - Library version (currently 1.1.0)
@@ -750,6 +754,10 @@ We welcome contributions! Here's how you can help:
    - Serial output or error messages
 
 **Report bugs:** [https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new)
+
+Templates available in repository:
+- `.github/ISSUE_TEMPLATE/bug_report.md`
+- `.github/ISSUE_TEMPLATE/feature_request.md`
 
 #### 💡 Feature Suggestions
 

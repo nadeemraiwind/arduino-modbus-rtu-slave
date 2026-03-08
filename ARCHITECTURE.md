@@ -373,8 +373,12 @@ slave.getSlaveMessageCount();         // Frames addressed to this slave
 
 **Nadeem Abbas**  
 📧 zahid_printers@gmail.com  
-📱 +92 3924509295  
+📱 +923924509295  
 📍 Raiwind, Lahore, Pakistan
+
+Optional professional links:
+- LinkedIn: (add your profile URL)
+- Portfolio/Website: (add your website URL)
 
 ### Development Tools
 

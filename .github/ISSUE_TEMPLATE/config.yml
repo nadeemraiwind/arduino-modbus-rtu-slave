@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Project Discussions
+    url: https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions
+    about: Ask questions and discuss ideas with the community.
+  - name: Commercial / Industrial Contact
+    url: mailto:zahid_printers@gmail.com
+    about: Contact maintainer for commercial or industrial inquiries.
