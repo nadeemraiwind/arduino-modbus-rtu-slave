@@ -71,6 +71,7 @@ modbusSlave::modbusSlave()
   _unknownFunctionCallback = 0;
   _parserState = PARSER_IDLE;
   _rxIndex = 0;
+  _rxOverflow = false;
   _lastRxByteUs = 0;
 
   for(byte i = 0; i < MODBUS_MAX_READ_CALLBACKS; i++)
@@ -680,9 +681,10 @@ void modbusSlave::setStatus(byte funcType, word reg, word val)
   
   if(funcType == WRITE_DO)  // FC05 - Write Single Coil (addresses 1-2000)
   {
+    word normalized = (val != 0) ? 0x00FF : 0x0000;
     // Store coil at: 1 + reg
     _device->set(reg + 1, val);
-    invokeWriteCallback(reg + 1, val);
+    invokeWriteCallback(reg + 1, normalized);
     _msg[4] = val >> 8;
     _msg[5] = val & 0xFF;
   }
@@ -783,6 +785,7 @@ void modbusSlave::resetParser(void)
 {
   _parserState = PARSER_IDLE;
   _rxIndex = 0;
+  _rxOverflow = false;
   _lastRxByteUs = 0;
 }
 
@@ -909,13 +912,17 @@ void modbusSlave::run(void)
   if((_device == 0) || (_port == 0))
     return;
 
-  while((_port->available() > 0) && (_rxIndex < MODBUS_MAX_FRAME))
+  while(_port->available() > 0)
   {
     int r = _port->read();
     if(r < 0)
       break;
 
-    _msg[_rxIndex++] = (byte)r;
+    if(_rxIndex < MODBUS_MAX_FRAME)
+      _msg[_rxIndex++] = (byte)r;
+    else
+      _rxOverflow = true;
+
     _lastRxByteUs = micros();
     _parserState = PARSER_RECEIVING;
   }
@@ -925,6 +932,13 @@ void modbusSlave::run(void)
     unsigned long nowUs = micros();
     if((nowUs - _lastRxByteUs) >= _frameDelayUs)
     {
+      if(_rxOverflow)
+      {
+        _busCommunicationErrorCount++;
+        this->resetParser();
+        return;
+      }
+
       _len = _rxIndex;
       _parserState = PARSER_COMPLETE;
     }

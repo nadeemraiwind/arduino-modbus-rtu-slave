@@ -156,6 +156,7 @@ class modbusSlave
 		modbusUnknownFunctionCallback _unknownFunctionCallback;
 		ParserState _parserState;
 		byte _rxIndex;
+		bool _rxOverflow;
 		unsigned long _lastRxByteUs;
 };
 /** @} */
