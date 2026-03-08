@@ -88,10 +88,17 @@ class modbusRegBank
 		word setString(word address, const char *str, word maxRegs = 0);
 		/**
 		 * @brief Read ASCII string from packed register area.
-		 * @return Number of characters written to output buffer.
+		 * @param address Starting register address (Modicon style).
+		 * @param out Output buffer to receive null-terminated string.
+		 * @param outSize Maximum size of output buffer (including null terminator).
+		 * @param regCount Number of registers to read from (2 chars per register).
+		 * @return Number of characters written to output buffer (excluding null terminator).
 		 */
 		word getString(word address, char *out, word outSize, word regCount);
-		/** @brief Set helper endianness mode for 32-bit encode/decode helpers. */
+		/**
+		 * @brief Set helper endianness mode for 32-bit encode/decode helpers.
+		 * @param mode Endianness mode: MODBUS_BIG_ENDIAN (default), MODBUS_LITTLE_ENDIAN, or MODBUS_BIG_ENDIAN_SWAPPED.
+		 */
 		void setEndianness(byte mode);
 		/** @brief Get current helper endianness mode. */
 		byte getEndianness(void);

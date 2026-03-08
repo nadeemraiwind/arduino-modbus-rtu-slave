@@ -28,6 +28,7 @@
 /**
  * @brief Optional memory model: use static pools instead of malloc-backed linked nodes.
  * Set to 1 for long-running deployments where heap fragmentation is a concern.
+ * Memory usage when enabled: (MODBUS_MAX_DIG_REGS * 6) + (MODBUS_MAX_ANA_REGS * 6) bytes.
  */
 #ifndef MODBUS_USE_STATIC_REG_POOL
 #define MODBUS_USE_STATIC_REG_POOL 0
@@ -72,6 +73,7 @@
 /**
  * @brief Callback hook capacities (per slave instance).
  * Increase these values if your project needs more callback-mapped addresses.
+ * Note: Higher values use more RAM (8 bytes per read slot, 8 bytes per write slot).
  */
 #ifndef MODBUS_MAX_READ_CALLBACKS
 #define MODBUS_MAX_READ_CALLBACKS 8

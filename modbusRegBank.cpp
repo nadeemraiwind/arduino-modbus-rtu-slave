@@ -274,6 +274,9 @@ word modbusRegBank::setString(word addr, const char *str, word maxRegs)
 	if(str == 0)
 		return 0;
 
+	// Calculate string length once for efficiency
+	word strLen = strlen(str);
+	
 	while(true)
 	{
 		if((maxRegs != 0) && (written >= maxRegs))
@@ -283,10 +286,10 @@ word modbusRegBank::setString(word addr, const char *str, word maxRegs)
 		if(!this->has(regAddr))
 			break;
 
-		byte c1 = (byte)str[index];
-		byte c2 = 0;
-		if(c1 != 0)
-			c2 = (byte)str[index + 1];
+		// Check bounds before accessing string
+		byte c1 = (index < strLen) ? (byte)str[index] : 0;
+		byte c2 = ((index + 1) < strLen) ? (byte)str[index + 1] : 0;
+		
 		word packed = ((word)c1 << 8) | c2;
 		this->set(regAddr, packed);
 		written++;

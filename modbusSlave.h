@@ -72,7 +72,10 @@ class modbusSlave
 		word getBusCommunicationErrorCount(void);
 		/** @brief Get FC08 slave message counter. */
 		word getSlaveMessageCount(void);
-		/** @brief Reset all FC08 diagnostic counters to zero. */
+		/**
+		 * @brief Reset all FC08 diagnostic counters to zero.
+		 * Useful for periodic diagnostics reset or after maintenance.
+		 */
 		void clearDiagnosticsCounters(void);
 		/** @brief Configure RTU baud rate and frame timing. */
 		void setBaud(word);
@@ -101,16 +104,27 @@ class modbusSlave
 		void run(void);
 
 	private:
+		/** @brief Check if function code is natively supported. */
 		bool isSupportedFunction(byte funcType);
+		/** @brief Validate request frame structure and data ranges. */
 		byte validateRequest(byte funcType, word field1, word field2, byte requestLen);
+		/** @brief Verify all registers in range exist in device model. */
 		bool validateRange(word startAddr, word count) const;
+		/** @brief Search for read callback by address. */
 		modbusReadCallback findReadCallback(word address) const;
+		/** @brief Search for write callback by address. */
 		modbusWriteCallback findWriteCallback(word address) const;
+		/** @brief Execute read callback if registered, else return fallback. */
 		word invokeReadCallback(word address, word fallbackValue);
+		/** @brief Execute write callback if registered. */
 		void invokeWriteCallback(word address, word value);
+		/** @brief Reset parser state to idle. */
 		void resetParser(void);
+		/** @brief Process complete frame and generate response. */
 		void processFrame(void);
+		/** @brief Build and send Modbus exception response. */
 		void sendException(byte funcType, byte exceptionCode);
+		/** @brief Transmit frame buffer with RS485 direction control. */
 		void sendFrame(void);
 
 		struct modbusReadHook
