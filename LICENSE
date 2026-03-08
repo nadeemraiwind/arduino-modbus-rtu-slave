@@ -3,8 +3,26 @@ MIT License
 Copyright (c) 2026 Nadeem Abbas <zahid_printers@gmail.com>
 Copyright (c) 2026 MODBUSslave Contributors
 
-Original library foundation by Jason Vreeland
+===============================================================================
+SPECIAL ACKNOWLEDGMENT:
+
+This library is inspired by and significantly enhanced from the original Beta
+library written by Jason Vreeland [CodeRage], released March 7, 2010 under
+GNU License. While this current version represents a complete modernization
+with industrial-grade features, we acknowledge Jason's pioneering work that
+established the foundational concepts for Arduino Modbus RTU implementation.
+
+Enhancements in this version include:
+- Non-blocking state machine architecture
+- Industrial-grade validation and security
+- Atomic transaction protection
+- Professional documentation (UML diagrams, flowcharts)
+- Extended function code support
+- Microsecond-precision RTU timing
+- Comprehensive callback system
+
 Enhanced with AI assistance from Google Gemini and GitHub Copilot
+===============================================================================
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -382,7 +382,21 @@ This library was enhanced and professionally documented with AI assistance:
 - **Google Gemini** - Architecture design, code refinement, and technical decisions
 - **GitHub Copilot** - Intelligent code completion and documentation generation
 
-*Original library foundation by Jason Vreeland with community contributions.*
+### Special Acknowledgment
+
+**Jason Vreeland [CodeRage]**  
+Original Beta Library - Released March 7, 2010 under GNU License
+
+This library is inspired by and builds upon Jason's original Beta work. The foundational concepts have been extensively modernized and enhanced to meet industrial automation standards. Key improvements include:
+
+- **Security:** 5-layer validation chain with CRC-16 integrity checks
+- **Robustness:** Non-blocking state machine with overflow protection
+- **Performance:** Microsecond-precision RTU frame timing
+- **Safety:** Atomic transaction API for read-modify-write protection
+- **Documentation:** Bosch/Siemens-quality technical documentation with UML diagrams
+- **Functionality:** Extended function code support (FC15/FC16) and callback system
+
+*Jason's pioneering work provided the conceptual foundation that made this industrial-grade library possible. We extend our sincere gratitude for his contribution to the Arduino Modbus community.*
 
 ### Contributing
 

@@ -709,7 +709,22 @@ This library was enhanced and documented with assistance from:
 - 🤖 **Google Gemini** - AI-assisted code refinement and architecture design
 - 🤖 **GitHub Copilot** - Intelligent code completion and documentation generation
 
-*Original library foundation by Jason Vreeland with community contributions.*
+### Special Thanks
+
+**Jason Vreeland [CodeRage]**  
+Original Beta library foundation  
+Released: March 7, 2010 under GNU License
+
+This current library is inspired by and represents a significantly enhanced version of Jason's original work. The core concepts from the Beta library have been modernized and expanded with:
+- Industrial-grade validation and error handling
+- Atomic transaction protection
+- Non-blocking state machine architecture
+- Professional UML documentation
+- FC15/FC16 multi-write support
+- Microsecond-precision RTU timing
+- Comprehensive callback system
+
+*We are grateful for Jason's pioneering work that laid the foundation for this industrial-grade implementation.*
 
 ---
 

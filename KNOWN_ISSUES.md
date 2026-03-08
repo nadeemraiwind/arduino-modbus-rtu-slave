@@ -187,6 +187,14 @@ Please include:
 
 ---
 
+## Acknowledgments
+
+**Special Thanks to Jason Vreeland [CodeRage]**
+
+This library is inspired by Jason's original Beta Modbus library (released March 7, 2010 under GNU License). His pioneering work provided the conceptual foundation that has been modernized and enhanced into this industrial-grade implementation.
+
+---
+
 **Maintainer:** Nadeem Abbas (Raiwind, Lahore, Pakistan)  
 **Repository:** https://github.com/nadeemraiwind/arduino-modbus-rtu-slave
 5. **Test RS485 direction control** thoroughly if using RS485 hardware
