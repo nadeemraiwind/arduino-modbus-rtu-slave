@@ -32,7 +32,7 @@ SHOW_NAMESPACES        = NO
 SHOW_USED_FILES        = YES
 VERBATIM_HEADERS       = YES
 
-INPUT                  = modbus.h modbusDevice.h modbusRegBank.h modbusSlave.h README.md KNOWN_ISSUES.md
+INPUT                  = modbus.h modbusDevice.h modbusRegBank.h modbusSlave.h README.md KNOWN_ISSUES.md ARCHITECTURE.md
 FILE_PATTERNS          = *.h *.md
 RECURSIVE              = NO
 EXCLUDE                =
