@@ -5,10 +5,6 @@ PROJECT_BRIEF          = "Industrial-grade Modbus RTU slave library for Arduino 
 PROJECT_NUMBER         = "1.1.0"
 PROJECT_LOGO           =
 
-# Author and repository information
-# Developer: Nadeem Abbas (zahid_printers@gmail.com)
-# Location: Raiwind, Lahore, Pakistan
-# Repository: https://github.com/nadeemraiwind/arduino-modbus-rtu-slave
 OUTPUT_DIRECTORY       = docs
 CREATE_SUBDIRS         = NO
 
@@ -38,9 +34,8 @@ SHOW_NAMESPACES        = NO
 SHOW_USED_FILES        = YES
 VERBATIM_HEADERS       = YES
 
-INPUT                  = modbus.h modbusDevice.h modbusRegBank.h modbusSlave.h README.md KNOWN_ISSUES.md ARCHITECTURE.md
-FILE_PATTERNS          = *.h *.md
-RECURSIVE              = NO
+INPUT                  = src README.md KNOWN_ISSUES.md ARCHITECTURE.md
+RECURSIVE              = YES
 EXCLUDE                =
 EXCLUDE_PATTERNS       =
 EXAMPLE_PATH           = examples
@@ -59,9 +54,7 @@ GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = NO
 
-# Keep NO for normal development; set YES when building a printable PDF manual.
 GENERATE_LATEX         = NO
-# For PDF workflow: set GENERATE_LATEX=YES, then run "make" inside docs/latex.
 GENERATE_RTF           = NO
 GENERATE_MAN           = NO
 GENERATE_XML           = NO
@@ -95,7 +88,8 @@ DOT_MULTI_TARGETS      = YES
 INTERACTIVE_SVG        = YES
 MAX_DOT_GRAPH_DEPTH    = 3
 
-# Professional UML-style class diagrams
+## Professional UML-style class diagrams
+
 UML_LOOK               = YES
 UML_LIMIT_NUM_FIELDS   = 10
 TEMPLATE_RELATIONS     = YES

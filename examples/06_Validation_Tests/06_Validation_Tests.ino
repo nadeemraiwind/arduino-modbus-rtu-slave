@@ -6,6 +6,8 @@
  * 1. Address range validation (rejects invalid Modbus addresses)
  * 2. micros() rollover safety (timing calculations)
  * 3. Memory pool alignment verification
+ * 4. Sentinel-safe register reads using tryGet()
+ * 5. Runtime protocol mode selection (RTU/ASCII)
  * 
  * HARDWARE REQUIRED:
  * - Arduino UNO, MEGA, or compatible
@@ -52,6 +54,12 @@ void setup() {
   
   // Test 5: Timing Rollover Simulation
   testTimingRollover();
+
+  // Test 6: tryGet() Sentinel-Safe Access
+  testTryGetSafety();
+
+  // Test 7: Protocol Mode Selection API
+  testProtocolSelection();
   
   Serial.println();
   Serial.println(F("==========================================="));
@@ -318,5 +326,63 @@ void testTimingRollover() {
     Serial.println(F("  ✗ FAIL: Normal timing incorrect"));
   }
   
+  Serial.println();
+}
+
+/*******************************************************************************
+ * TEST 6: tryGet() Sentinel-Safe Access
+ * Verify 0xFFFF can be stored as valid data without lookup ambiguity
+ ******************************************************************************/
+void testTryGetSafety() {
+  Serial.println(F("TEST 6: tryGet() Sentinel-Safe Access"));
+  Serial.println(F("------------------------------------"));
+
+  modbusDevice testBank;
+  testBank.setId(1);
+  testBank.add(40050);
+
+  // Store the same value as MODBUS_REG_NOT_FOUND sentinel
+  testBank.set(40050, 0xFFFF);
+
+  word value = 0;
+  if (testBank.tryGet(40050, &value) && value == 0xFFFF) {
+    Serial.println(F("  ✓ tryGet() distinguishes valid 0xFFFF payload"));
+  } else {
+    Serial.println(F("  ✗ FAIL: tryGet() could not read valid 0xFFFF payload"));
+  }
+
+  if (!testBank.tryGet(40051, &value)) {
+    Serial.println(F("  ✓ tryGet() correctly reports missing register"));
+  } else {
+    Serial.println(F("  ✗ FAIL: Missing register incorrectly reported as present"));
+  }
+
+  Serial.println();
+}
+
+/*******************************************************************************
+ * TEST 7: Protocol Mode Selection API
+ * Verify setProtocol()/getProtocol() mode toggling
+ ******************************************************************************/
+void testProtocolSelection() {
+  Serial.println(F("TEST 7: Protocol Mode Selection API"));
+  Serial.println(F("----------------------------------"));
+
+  modbusSlave testSlave;
+  testSlave.setProtocol(ASCII);
+
+  if (testSlave.getProtocol() == ASCII) {
+    Serial.println(F("  ✓ ASCII mode selected"));
+  } else {
+    Serial.println(F("  ✗ FAIL: Could not select ASCII mode"));
+  }
+
+  testSlave.setProtocol(RTU);
+  if (testSlave.getProtocol() == RTU) {
+    Serial.println(F("  ✓ RTU mode restored"));
+  } else {
+    Serial.println(F("  ✗ FAIL: Could not restore RTU mode"));
+  }
+
   Serial.println();
 }

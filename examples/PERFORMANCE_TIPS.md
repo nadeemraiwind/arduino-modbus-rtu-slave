@@ -199,13 +199,13 @@ void loop() {
 
 Performance measured on Arduino UNO (16 MHz ATmega328P):
 
-| Configuration | Response Time | RAM Usage | Notes |
-|---------------|---------------|-----------|-------|
-| 10 registers, 9600 baud | ~15ms | 180 bytes | Baseline |
-| 10 registers, 115200 baud | ~2ms | 180 bytes | 7.5x faster |
-| 50 registers, dynamic | ~18ms | 500 bytes | O(n) lookup penalty |
-| 50 registers, static pool | ~18ms | 876 bytes | Predictable memory |
-| With 5 callbacks | ~15ms | 260 bytes | Minimal overhead |
+| Configuration               | Response Time | RAM Usage | Notes                 |
+| --------------------------- | ------------- | --------- | --------------------- |
+| 10 registers, 9600 baud     | ~15ms         | 180 bytes | Baseline              |
+| 10 registers, 115200 baud   | ~2ms          | 180 bytes | 7.5x faster           |
+| 50 registers, dynamic       | ~18ms         | 500 bytes | O(n) lookup penalty   |
+| 50 registers, static pool   | ~18ms         | 876 bytes | Predictable memory    |
+| With 5 callbacks            | ~15ms         | 260 bytes | Minimal overhead      |
 
 **Test Setup:** FC03 read 10 holding registers from address 40001.
 
@@ -222,6 +222,7 @@ Performance measured on Arduino UNO (16 MHz ATmega328P):
 ---
 
 **For More Information:**
+
 - See `ARCHITECTURE.md` for protocol timing details
 - See `KNOWN_ISSUES.md` for known performance limitations
 - See examples `01_Basic` through `05_RS485` for implementation patterns

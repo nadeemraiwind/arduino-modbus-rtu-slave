@@ -292,6 +292,7 @@ void setup() {
   // ===== MODBUS CONFIGURATION =====
   slave.setDevice(&regBank);
   slave.setPort(Serial);
+  slave.setProtocol(RTU);  // Default framing mode
   slave.setBaud(19200);
   
   // ===== REGISTER CALLBACKS =====

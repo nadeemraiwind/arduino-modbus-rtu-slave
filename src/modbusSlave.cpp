@@ -4,6 +4,43 @@
 #include <Arduino.h>
 #include <string.h>
 
+static byte modbusAsciiLrc(const byte *data, byte len)
+{
+  byte sum = 0;
+  for(byte i = 0; i < len; i++)
+    sum += data[i];
+  return (byte)(-((int8_t)sum));
+}
+
+static bool modbusAsciiHexNibble(char c, byte *nibble)
+{
+  if((c >= '0') && (c <= '9'))
+  {
+    *nibble = (byte)(c - '0');
+    return true;
+  }
+
+  if((c >= 'A') && (c <= 'F'))
+  {
+    *nibble = (byte)(10 + (c - 'A'));
+    return true;
+  }
+
+  if((c >= 'a') && (c <= 'f'))
+  {
+    *nibble = (byte)(10 + (c - 'a'));
+    return true;
+  }
+
+  return false;
+}
+
+static char modbusAsciiHexChar(byte nibble)
+{
+  nibble &= 0x0F;
+  return (nibble < 10) ? (char)('0' + nibble) : (char)('A' + (nibble - 10));
+}
+
 /* Table of CRC values for high-order byte */
 const byte _auchCRCHi[] = {
 				0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
@@ -53,6 +90,7 @@ modbusSlave::modbusSlave()
     _len(0),
     _txEnablePin(0xFF),
     _txEnableActiveHigh(true),
+    _protocol(RTU),
     _baud(SERIALBAUD),
     _crc(0),
     _txEnablePreDelayMs(0),
@@ -63,9 +101,12 @@ modbusSlave::modbusSlave()
     _busCommunicationErrorCount(0),
     _slaveMessageCount(0),
     _unknownFunctionCallback(0),
+    _streamBaudCallback(0),
     _parserState(PARSER_IDLE),
     _rxIndex(0),
+    _asciiIndex(0),
     _rxOverflow(false),
+    _asciiInFrame(false),
     _lastRxByteUs(0)
 {
   // Modbus RTU timing: >19200 baud uses fixed 1.75 ms, otherwise 3.5 char times.
@@ -102,6 +143,15 @@ void modbusSlave::setPort(Stream &port)
 {
   _port = &port;
   _hwPort = 0;
+}
+
+void modbusSlave::setProtocol(byte mode)
+{
+  if((mode != RTU) && (mode != ASCII))
+    return;
+
+  _protocol = mode;
+  resetParser();
 }
 
 void modbusSlave::setTxEnablePin(byte pin, bool activeHigh)
@@ -184,6 +234,12 @@ bool modbusSlave::onUnknownFunction(modbusUnknownFunctionCallback cb)
   return true;
 }
 
+bool modbusSlave::setStreamBaudHandler(modbusStreamBaudCallback cb)
+{
+  _streamBaudCallback = cb;
+  return true;
+}
+
 void modbusSlave::configureEndianness(byte mode)
 {
   if(_device)
@@ -231,6 +287,8 @@ void modbusSlave::setBaud(word baud)
 
   if(_hwPort)
     _hwPort->begin(baud);
+  else if(_streamBaudCallback)
+    _streamBaudCallback(baud, _port);
   _port->flush();
 }
 
@@ -242,6 +300,13 @@ Generates the crc for the current message in the buffer.
 */
 void modbusSlave::calcCrc(void)
 {
+  if(_protocol == ASCII)
+  {
+    // ASCII path uses LRC over payload bytes and stores it in _msg[_len-2].
+    _crc = modbusAsciiLrc(_msg, (byte)(_len - 2));
+    return;
+  }
+
   byte CRCHi = 0xFF,
      CRCLo = 0x0FF,
      Index,
@@ -527,7 +592,27 @@ void modbusSlave::sendFrame(void)
       delayMicroseconds(_txEnablePreDelayUs);
   }
 
-  _port->write(_msg, _len);
+  if(_protocol == ASCII)
+  {
+    char out[(MODBUS_MAX_FRAME * 2) + 8];
+    byte pos = 0;
+    byte bytesToEncode = (_len > 0) ? (byte)(_len - 1) : 0; // skip internal dummy byte
+
+    out[pos++] = ':';
+    for(byte i = 0; i < bytesToEncode; i++)
+    {
+      out[pos++] = modbusAsciiHexChar((byte)(_msg[i] >> 4));
+      out[pos++] = modbusAsciiHexChar(_msg[i]);
+    }
+    out[pos++] = '\r';
+    out[pos++] = '\n';
+
+    _port->write((const uint8_t *)out, pos);
+  }
+  else
+  {
+    _port->write(_msg, _len);
+  }
   _port->flush();
 
   if(_txEnablePin != 0xFF)
@@ -768,8 +853,68 @@ void modbusSlave::resetParser(void)
 {
   _parserState = PARSER_IDLE;
   _rxIndex = 0;
+  _asciiIndex = 0;
   _rxOverflow = false;
+  _asciiInFrame = false;
   _lastRxByteUs = 0;
+}
+
+bool modbusSlave::decodeAsciiFrame(void)
+{
+  byte nibbleHi;
+  byte nibbleLo;
+  byte decodedLen;
+
+  if(_asciiIndex == 0)
+    return false;
+
+  if((_asciiIndex & 0x01) != 0)
+    return false;
+
+  decodedLen = (byte)(_asciiIndex / 2);
+  if((decodedLen + 1) > MODBUS_MAX_FRAME)
+    return false;
+
+  for(byte i = 0; i < decodedLen; i++)
+  {
+    if(!modbusAsciiHexNibble(_asciiBuf[i * 2], &nibbleHi))
+      return false;
+    if(!modbusAsciiHexNibble(_asciiBuf[(i * 2) + 1], &nibbleLo))
+      return false;
+    _msg[i] = (byte)((nibbleHi << 4) | nibbleLo);
+  }
+
+  // Internal framing keeps a second checksum slot for shared processing paths.
+  _msg[decodedLen] = 0;
+  _len = decodedLen + 1;
+  return true;
+}
+
+byte modbusSlave::expectedFrameLength(void) const
+{
+  if(_rxIndex < 2)
+    return 0;
+
+  byte funcType = _msg[1];
+  switch(funcType)
+  {
+  case READ_DO:
+  case READ_DI:
+  case READ_AO:
+  case READ_AI:
+  case WRITE_DO:
+  case WRITE_AO:
+  case DIAGNOSTICS:
+    return 8;
+  case WRITE_DO_MULTI:
+  case WRITE_AO_MULTI:
+    if(_rxIndex >= 7)
+      return (byte)(9 + _msg[6]);
+    return 0;
+  default:
+    // Unknown/custom functions are finalized by RTU silence timeout.
+    return 0;
+  }
 }
 
 void modbusSlave::processFrame(void)
@@ -779,6 +924,8 @@ void modbusSlave::processFrame(void)
   word field1;
   word field2;
   word rxCrc;
+  byte rxLrc;
+  byte calcLrc;
   byte exceptionCode;
   bool isBroadcast;
   byte customLen;
@@ -794,13 +941,27 @@ void modbusSlave::processFrame(void)
   deviceId = _msg[0];
   isBroadcast = (deviceId == 0);
 
-  this->calcCrc();
-  rxCrc = ((word)_msg[_len - 1] << 8) | _msg[_len - 2];
-  if(_crc != rxCrc)
+  if(_protocol == ASCII)
   {
-    _busCommunicationErrorCount++;
-    _len = 0;
-    return;
+    rxLrc = _msg[_len - 2];
+    calcLrc = modbusAsciiLrc(_msg, (byte)(_len - 2));
+    if(calcLrc != rxLrc)
+    {
+      _busCommunicationErrorCount++;
+      _len = 0;
+      return;
+    }
+  }
+  else
+  {
+    this->calcCrc();
+    rxCrc = ((word)_msg[_len - 1] << 8) | _msg[_len - 2];
+    if(_crc != rxCrc)
+    {
+      _busCommunicationErrorCount++;
+      _len = 0;
+      return;
+    }
   }
 
   if((deviceId != _device->getId()) && !isBroadcast)
@@ -898,6 +1059,58 @@ void modbusSlave::run(void)
   if(_device->isAtomicLocked())
     return;
 
+  if(_protocol == ASCII)
+  {
+    while(_port->available() > 0)
+    {
+      int r = _port->read();
+      if(r < 0)
+        break;
+
+      char c = (char)r;
+
+      if(c == ':')
+      {
+        _asciiInFrame = true;
+        _asciiIndex = 0;
+        _rxOverflow = false;
+        _parserState = PARSER_RECEIVING;
+        continue;
+      }
+
+      if(!_asciiInFrame)
+        continue;
+
+      if(c == '\r')
+        continue;
+
+      if(c == '\n')
+      {
+        if(_rxOverflow || !decodeAsciiFrame())
+        {
+          _busCommunicationErrorCount++;
+          this->resetParser();
+          continue;
+        }
+
+        this->processFrame();
+        this->resetParser();
+        continue;
+      }
+
+      if(_asciiIndex < (sizeof(_asciiBuf) - 1))
+      {
+        _asciiBuf[_asciiIndex++] = c;
+      }
+      else
+      {
+        _rxOverflow = true;
+      }
+    }
+
+    return;
+  }
+
   while(_port->available() > 0)
   {
     int r = _port->read();
@@ -915,6 +1128,29 @@ void modbusSlave::run(void)
 
   if(_parserState == PARSER_RECEIVING)
   {
+    byte expectedLen = expectedFrameLength();
+    if(expectedLen != 0)
+    {
+      if(_rxIndex == expectedLen)
+      {
+        _len = _rxIndex;
+        _parserState = PARSER_COMPLETE;
+      }
+      else if(_rxIndex > expectedLen)
+      {
+        _busCommunicationErrorCount++;
+        this->resetParser();
+        return;
+      }
+    }
+
+    if(_parserState == PARSER_COMPLETE)
+    {
+      this->processFrame();
+      this->resetParser();
+      return;
+    }
+
     unsigned long nowUs = micros();
     // Note: Unsigned subtraction handles micros() rollover safely (~70 min).
     // Example: If nowUs=100, _lastRxByteUs=4294967290 (near rollover),

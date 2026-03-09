@@ -59,7 +59,7 @@ digraph Sequence {
 **Ownership Model:**
 
 | Phase | Owner | Blocking? |
-|-------|-------|-----------|
+| ----- | ----- | --------- |
 | Byte reception | Hardware Serial | No (buffered) |
 | State machine | Library (`run()`) | No (returns quickly) |
 | Validation chain | Library (`processFrame()`) | No (deterministic) |
@@ -88,14 +88,14 @@ digraph StateMachine {
   // IDLE State
   IdleState [label="State: IDLE\nWaiting for first byte", fillcolor="#e6f2ff", style=filled];
   CheckAvailable [label="Serial.available()?", shape=diamond];
-  ReadByte [label="Read first byte\nReset buffer\n_pos = 0", fillcolor="#ccffcc", style=filled];
+  ReadByte [label="Read first byte\nReset buffer\n\_pos = 0", fillcolor="#ccffcc", style=filled];
   TransitionReceiving [label="State = RECEIVING\nReset silence timer", fillcolor="#ffffcc", style=filled];
   
   // RECEIVING State
   ReceivingState [label="State: RECEIVING\nCollecting bytes", fillcolor="#e6f2ff", style=filled];
   CheckBytes [label="Bytes available?", shape=diamond];
-  CheckOverflow [label="Buffer full?\n(_pos >= 256)", shape=diamond];
-  SetOverflow [label="Set _rxOverflow flag\nIncrement error counter", fillcolor=lightcoral, style=filled];
+  CheckOverflow [label="Buffer full?\n(\_pos >= 256)", shape=diamond];
+  SetOverflow [label="Set \_rxOverflow flag\nIncrement error counter", fillcolor=lightcoral, style=filled];
   ReadMoreBytes [label="Read byte(s)\nReset silence timer\nfor each byte", fillcolor="#ccffcc", style=filled];
   CheckSilence [label="Silence > t3.5?", shape=diamond];
   TransitionComplete [label="State = COMPLETE", fillcolor="#ffffcc", style=filled];
@@ -260,25 +260,30 @@ digraph ValidationChain {
 **Validation Chain Details:**
 
 ### Check 1: Frame Length
+
 - **Minimum:** 8 bytes (Slave ID + FC + 2 data + 2 CRC)
 - **Action on Fail:** Silent discard (prevents buffer underrun)
 
 ### Check 2: CRC-16 Integrity
+
 - **Algorithm:** CRC-16-ANSI/Modbus (polynomial 0xA001)
 - **Action on Fail:** Increment bus error counter, silent discard
 - **Why:** Corrupted frames must not execute
 
 ### Check 3: Slave ID Matching
+
 - **Valid IDs:** Our configured ID (1-247) or broadcast (0)
 - **Action on Fail:** Silent discard (not addressed to us)
 - **Multi-drop:** Prevents crosstalk on shared RS485 bus
 
 ### Check 4: Function Code Support
+
 - **Supported:** FC01-06 (standard), FC15-16 (multi-write), FC08 (diagnostics)
 - **Custom Handler:** `onUnknownFunction()` callback for vendor extensions
 - **Action on Fail:** Send exception 0x01 (Illegal Function)
 
 ### Check 5: Data Validation
+
 - **Address Range:** Register must exist in bank (`has()` check)
 - **Quantity Limits:** Maximum 2000 coils, 125 registers
 - **Data Bounds:** Values must be valid for register type
@@ -286,8 +291,8 @@ digraph ValidationChain {
 
 **Callback Execution Order:**
 
-1. **onRead()** - Fires *before* reading register values (just-in-time sampling)
-2. **onWrite()** - Fires *after* writing register values (validation/reaction)
+1. **onRead()** Fires before reading register values (just-in-time sampling)
+2. **onWrite()** Fires after writing register values (validation/reaction)
 
 **Broadcast Behavior:**
 
@@ -300,21 +305,25 @@ digraph ValidationChain {
 ## Security and Robustness Features {#security}
 
 ### Frame Validation
+
 - **Silent Discard:** Invalid frames never trigger responses
 - **Exception Responses:** Valid frames with bad data send proper error codes
 - **Error Counting:** Diagnostic counters track communication quality
 
 ### Buffer Safety
+
 - **Overflow Detection:** `_rxOverflow` flag prevents buffer overrun
 - **Bounds Checking:** Array access validated before use
 - **Length Guards:** Dynamic length checks prevent out-of-bounds reads
 
 ### Timing Robustness
+
 - **Microsecond Precision:** Uses `micros()` for accurate t3.5 detection
 - **Baud-Aware Silence:** Calculates t3.5 based on configured baud rate
 - **Wraparound Handling:** Properly handles `micros()` 70-minute rollover
 
 ### Atomic Protection
+
 - **Critical Sections:** `atomicBegin()`/`atomicEnd()` defer frame processing
 - **Read-Modify-Write Safety:** Prevents master writes during application RMW cycles
 - **Lock Detection:** `run()` checks atomic lock before processing
@@ -326,7 +335,7 @@ digraph ValidationChain {
 If a Modbus master isn't receiving expected responses, trace through the validation chain:
 
 | Symptom | Failed Check | Solution |
-|---------|-------------|----------|
+| ------- | ------------ | -------- |
 | No response at all | Check 1 (Length) or Check 2 (CRC) | Verify baud rate, parity, stop bits match |
 | Response to wrong slave | Check 3 (Slave ID) | Verify slave ID configuration matches master |
 | Exception 0x01 | Check 4 (Function Code) | Verify master is using supported function codes |
@@ -346,17 +355,20 @@ slave.getSlaveMessageCount();         // Frames addressed to this slave
 ## Performance Characteristics {#performance}
 
 ### Execution Time (Arduino Mega 16MHz)
+
 - **run() - IDLE state:** ~5 µs (no bytes available)
 - **run() - RECEIVING state:** ~15 µs per byte
 - **processFrame() - FC03 single register:** ~200 µs
 - **processFrame() - FC16 multiple registers:** ~50 µs per register
 
 ### Memory Footprint
+
 - **Static RAM:** ~350 bytes (objects + buffers)
 - **Frame Buffer:** 256 bytes
 - **Register Storage:** Dynamic (malloc or static pool)
 
 ### Communication Limits
+
 - **Baud Rates:** 300 - 115200 (tested)
 - **t3.5 Accuracy:** ±50 µs at 115200 baud
 - **Frame Processing:** <1ms for typical operations
@@ -372,13 +384,14 @@ slave.getSlaveMessageCount();         // Frames addressed to this slave
 ### Lead Developer
 
 **Nadeem Abbas**  
-📧 zahid_printers@gmail.com  
+📧 <zahid_printers@gmail.com>  
 📱 +923924509295  
 📍 Raiwind, Lahore, Pakistan
 
 ### Development Tools
 
 This library was enhanced and professionally documented with AI assistance:
+
 - **Google Gemini** - Architecture design, code refinement, and technical decisions
 - **GitHub Copilot** - Intelligent code completion and documentation generation
 

@@ -5,6 +5,7 @@ Standard Modbus RTU slave library for Arduino with support for core Modbus funct
 ## Version 1.1.0
 
 **Recent Improvements:**
+
 - ✅ Fixed CRC table linker errors (moved from .h to .cpp)
 - ✅ Fixed broken example code to use correct API
 - ✅ Added comprehensive inline documentation
@@ -37,18 +38,18 @@ This repository now includes a ready-to-run `Doxyfile`.
 ### Generate HTML Docs
 
 1. **Install Doxygen** - Already installed at `C:\Program Files\doxygen\`
-2. **Install Graphviz** (for call graphs and architecture diagrams):
-   - Download from: https://graphviz.org/download/
+1. **Install Graphviz** (for call graphs and architecture diagrams):
+   - Download from: <https://graphviz.org/download/>
    - Or via Chocolatey: `choco install graphviz`
    - Or via winget: `winget install graphviz`
    - Add to PATH: `C:\Program Files\Graphviz\bin`
-3. Run from the repository root:
+1. Run from the repository root:
 
 ```powershell
 doxygen Doxyfile
 ```
 
-4. Open generated documentation:
+1. Open generated documentation:
 
 ```text
 docs/html/index.html
@@ -194,6 +195,7 @@ In basic usage, your application follows a simple pattern:
 This "fire and forget" pattern requires no event handling - just update your registers in `loop()` and call `slave.run()`.
 
 **Example:**
+
 ```cpp
 void loop() {
   // Your application updates data
@@ -218,6 +220,7 @@ In expert usage, the library notifies your code when specific Modbus events occu
 This pattern enables just-in-time data sampling, command validation, and audit logging.
 
 **Example:**
+
 ```cpp
 void onTempRead(word address, modbusDevice* dev) {
   // Sample sensor only when master requests it
@@ -251,16 +254,19 @@ These diagrams are interactive: click any box to jump to that function's documen
 ### Why This Architecture Works
 
 **Separation of Concerns:**
+
 - Protocol parsing is isolated in `modbusSlave::run()`
 - Data storage is isolated in `modbusRegBank`
 - Application logic stays in your sketch
 
 **Progressive Complexity:**
+
 - Beginners use simple `get()`/`set()` polling
 - Experts add callbacks for specific registers only
 - Both patterns coexist without conflicts
 
 **Industrial Grade:**
+
 - Non-blocking state machine prevents loop stalls
 - Atomic transaction API prevents data races
 - Callback system enables audit trails and validation
@@ -317,11 +323,13 @@ These diagrams are interactive: click any box to jump to that function's documen
   - Returns true if register exists.
 
 Optional memory model compile-time flags (in `modbus.h`):
+
 - `MODBUS_USE_STATIC_REG_POOL` (`0` default, `1` for no-heap mode)
 - `MODBUS_MAX_DIG_REGS` (default `64`)
 - `MODBUS_MAX_ANA_REGS` (default `64`)
 
 Namespace-safety option (in `modbus.h`):
+
 - Preferred register-type macros: `MODBUS_DO`, `MODBUS_DI`, `MODBUS_AI`, `MODBUS_AO`
 - Legacy short aliases (`DO`, `DI`, `AI`, `AO`) remain enabled for compatibility
 - Define `MODBUS_DISABLE_LEGACY_SHORT_NAMES` before including `modbus.h` to suppress legacy short aliases in mixed-library projects
@@ -482,6 +490,7 @@ The library includes 5 examples in a progressive learning path from basic to exp
 ---
 
 **Learning Path Recommendation:**
+
 1. Start with **01_Basic_MinimalSlave** to understand core concepts
 2. Move to **02_Intermediate_MultiRegister** for real process simulation
 3. Add **03_Advanced_TypedData** when you need floats/longs/strings
@@ -489,6 +498,7 @@ The library includes 5 examples in a progressive learning path from basic to exp
 5. Deploy with **05_RS485_Hardware** for industrial installations
 
 All examples include:
+
 - Detailed inline comments explaining every line
 - Register map documentation
 - Testing procedures
@@ -551,7 +561,7 @@ void setupCallbacks(modbusSlave& slave) {
 This library is production-ready for most applications, but has some known limitations:
 
 - **Function codes:** FC01-FC06 plus FC15/FC16 are supported
-- **Performance:** Default mode uses linked-list storage (O(n) lookup). For long uptime, enable static pools (`MODBUS_USE_STATIC_REG_POOL=1`) 
+- **Performance:** Default mode uses linked-list storage (O(n) lookup). For long uptime, enable static pools (`MODBUS_USE_STATIC_REG_POOL=1`)
 - **Return values:** `get()` returns `MODBUS_REG_NOT_FOUND` (`0xFFFF`) when missing, so use `has()` for robust checks
 - **Serial port:** `Stream` is supported. Use `setPort(Stream&)` for SoftwareSerial/bridges; use `setPort(HardwareSerial&)` when baud reconfiguration is needed
 - **Timing:** RTU frame detection uses microsecond timing for 3.5-char silence windows
@@ -639,18 +649,22 @@ Use this checklist before deploying to field hardware:
 ## Clean Project Structure
 
 ```text
-modbus.h
-modbusDevice.h
-modbusDevice.cpp
-modbusRegBank.h
-modbusRegBank.cpp
-modbusSlave.h
-modbusSlave.cpp
+src/
+  modbus.h
+  modbusDevice.h
+  modbusDevice.cpp
+  modbusRegBank.h
+  modbusRegBank.cpp
+  modbusSlave.h
+  modbusSlave.cpp
 library.properties
 keywords.txt
 LICENSE
 README.md
 KNOWN_ISSUES.md
+ARCHITECTURE.md
+Doxyfile
+docs/
 examples/
   01_Basic_MinimalSlave/
     01_Basic_MinimalSlave.ino
@@ -677,7 +691,9 @@ examples/
 This library now includes professional-grade enhancements for industrial deployment:
 
 ### ✅ Atomic Transaction Protection
+
 Protects against data races during read-modify-write operations:
+
 - `atomicBegin()` / `atomicEnd()` bracket critical sections
 - `atomicGet()` / `atomicSet()` for interrupt-guarded single operations
 - `slave.run()` automatically defers frame processing during atomic locks
@@ -685,7 +701,9 @@ Protects against data races during read-modify-write operations:
 - Rare feature in Arduino Modbus libraries - designed for mission-critical industrial systems
 
 ### ✅ Professional Doxygen Documentation
+
 Complete HTML API reference generated from code:
+
 - Automatic API reference with searchable function documentation
 - Organized module groups (Protocol Engine, Data Access, Device Model, RS485 Control)
 - Class relationship diagrams
@@ -697,7 +715,9 @@ Complete HTML API reference generated from code:
 Ready to take this library even further? Consider these advanced projects:
 
 ### 🏆 Modbus Master Library
+
 Create a companion library for master/client functionality:
+
 - Enable Arduino-to-Arduino Modbus networks
 - Poll multiple slaves from a single master
 - Bidirectional communication and data aggregation
@@ -717,6 +737,7 @@ See [KNOWN_ISSUES.md](KNOWN_ISSUES.md#future-enhancements-suggestions) for compl
 ### Development Credits
 
 This library was enhanced and documented with assistance from:
+
 - 🤖 **Google Gemini** - AI-assisted code refinement and architecture design
 - 🤖 **GitHub Copilot** - Intelligent code completion and documentation generation
 
@@ -727,6 +748,7 @@ Original Beta library foundation
 Released: March 7, 2010 under GNU License
 
 This current library is inspired by and represents a significantly enhanced version of Jason's original work. The core concepts from the Beta library have been modernized and expanded with:
+
 - Industrial-grade validation and error handling
 - Atomic transaction protection
 - Non-blocking state machine architecture
@@ -751,7 +773,7 @@ We welcome contributions! Here's how you can help:
 
 #### 🐛 Bug Reports
 
-1. **Check Existing Issues:** Search [GitHub Issues](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues) first
+1. **Check Existing Issues:** Search [GitHub Issues](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues)  first
 2. **Create New Issue:** Use the built-in GitHub bug report template
 3. **Include Details:**
    - Arduino board model and version
@@ -760,9 +782,10 @@ We welcome contributions! Here's how you can help:
    - Expected vs actual behavior
    - Serial output or error messages
 
-**Report bugs:** [https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new)
+**Report bugs:** <https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new>
 
 Templates available in repository:
+
 - `.github/ISSUE_TEMPLATE/bug_report.md`
 - `.github/ISSUE_TEMPLATE/feature_request.md`
 
@@ -782,6 +805,7 @@ Templates available in repository:
 6. **Submit PR:** Reference any related issues
 
 **Contribution Guidelines:**
+
 - Keep changes focused and atomic
 - Maintain backward compatibility when possible
 - Add Doxygen comments for new public methods
@@ -791,7 +815,7 @@ Templates available in repository:
 ### Community Support
 
 - **Questions:** Open a [GitHub Discussion](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions)
-- **Email Support:** zahid_printers@gmail.com (for commercial/industrial inquiries)
+- **Email Support:** <zahid_printers@gmail.com> (for commercial/industrial inquiries)
 - **Documentation:** See [ARCHITECTURE.md](ARCHITECTURE.md) for deep technical details
 
 ---

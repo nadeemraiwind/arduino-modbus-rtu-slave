@@ -137,6 +137,7 @@ void setup() {
     slave.setPort(Serial);   // Use Serial (pins 0/1)
   #endif
   
+  slave.setProtocol(RTU);      // Default framing mode (see Level 7 for ASCII)
   slave.setBaud(BAUD_RATE);
   
   // ===== RS485 DIRECTION CONTROL =====

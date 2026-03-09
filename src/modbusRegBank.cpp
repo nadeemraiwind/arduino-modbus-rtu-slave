@@ -8,6 +8,10 @@ modbusRegBank::modbusRegBank(void)
 	  _lastDigReg(0),
 	  _anaRegs(0),
 	  _lastAnaReg(0),
+	  _digLookup(0),
+	  _anaLookup(0),
+	  _digLookupAddr(0),
+	  _anaLookupAddr(0),
 	  _endianness(MODBUS_BIG_ENDIAN),
 	  _atomicLock(false),
 	  _atomicDepth(0)
@@ -96,24 +100,34 @@ void modbusRegBank::add(word addr)
 
 word modbusRegBank::get(word addr)
 {
+	word value = MODBUS_REG_NOT_FOUND;
+	if(this->tryGet(addr, &value))
+		return value;
+
+	return MODBUS_REG_NOT_FOUND;
+}
+
+bool modbusRegBank::tryGet(word addr, word *outValue)
+{
+	if(outValue == 0)
+		return false;
+
 	if(addr < 20000)
 	{
-		modbusDigReg * regPtr;
-		regPtr = (modbusDigReg *) this->search(addr);
-		if(regPtr)
-			return(regPtr->value);
-		else
-			return(MODBUS_REG_NOT_FOUND);
+		modbusDigReg *regPtr = (modbusDigReg *) this->search(addr);
+		if(regPtr == 0)
+			return false;
+
+		*outValue = regPtr->value;
+		return true;
 	}
-	else
-	{
-		modbusAnaReg * regPtr;
-		regPtr = (modbusAnaReg *) this->search(addr);
-		if(regPtr)
-			return(regPtr->value);
-		else
-			return(MODBUS_REG_NOT_FOUND);
-	}
+
+	modbusAnaReg *regPtr = (modbusAnaReg *) this->search(addr);
+	if(regPtr == 0)
+		return false;
+
+	*outValue = regPtr->value;
+	return true;
 }
 
 void modbusRegBank::set(word addr, word value)
@@ -375,6 +389,16 @@ void * modbusRegBank::search(word addr)
 
 	if(addr < 20000)
 	{
+		if((_digLookup != 0) && (_digLookupAddr == addr))
+			return _digLookup;
+
+		if((_digLookup != 0) && (_digLookup->next != 0) && (_digLookup->next->address == addr))
+		{
+			_digLookup = _digLookup->next;
+			_digLookupAddr = addr;
+			return _digLookup;
+		}
+
 		modbusDigReg *regPtr = _digRegs;
 
 		//if there is no register configured, bail
@@ -386,13 +410,27 @@ void * modbusRegBank::search(word addr)
 		do
 		{
 			if(regPtr->address == addr)
+			{
+				_digLookup = regPtr;
+				_digLookupAddr = addr;
 				return(regPtr);
+			}
 			regPtr = regPtr->next;
 		}
 		while(regPtr);
 	}
 	else
 	{
+		if((_anaLookup != 0) && (_anaLookupAddr == addr))
+			return _anaLookup;
+
+		if((_anaLookup != 0) && (_anaLookup->next != 0) && (_anaLookup->next->address == addr))
+		{
+			_anaLookup = _anaLookup->next;
+			_anaLookupAddr = addr;
+			return _anaLookup;
+		}
+
 		modbusAnaReg *regPtr = _anaRegs;
 
 		//if there is no register configured, bail
@@ -404,7 +442,11 @@ void * modbusRegBank::search(word addr)
 		do
 		{
 			if(regPtr->address == addr)
+			{
+				_anaLookup = regPtr;
+				_anaLookupAddr = addr;
 				return(regPtr);
+			}
 			regPtr = regPtr->next;
 		}
 		while(regPtr);

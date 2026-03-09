@@ -66,6 +66,8 @@ class modbusRegBank
 		void add(word address);
 		/** @brief Get register value or @ref MODBUS_REG_NOT_FOUND when missing. */
 		word get(word address);
+		/** @brief Try reading register value; returns false if register is missing. */
+		bool tryGet(word address, word *outValue);
 		/** @brief Set register value. */
 		void set(word address, word value);
 		/**
@@ -123,6 +125,10 @@ class modbusRegBank
 							
 		modbusAnaReg	*_anaRegs,
 						*_lastAnaReg;
+		modbusDigReg	*_digLookup;
+		modbusAnaReg	*_anaLookup;
+		word			_digLookupAddr;
+		word			_anaLookupAddr;
 		byte			_endianness;
 		volatile bool	_atomicLock;
 		byte			_atomicDepth;

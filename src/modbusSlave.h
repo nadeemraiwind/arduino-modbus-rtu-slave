@@ -28,6 +28,8 @@ typedef word (*modbusReadCallback)(word address, modbusDevice *device);
 typedef void (*modbusWriteCallback)(word address, word value, modbusDevice *device);
 /** @brief Callback signature for custom/unknown function code handling. */
 typedef bool (*modbusUnknownFunctionCallback)(byte funcType, const byte *request, byte requestLen, byte *response, byte *responseLen, modbusDevice *device);
+/** @brief Callback signature to reconfigure baud on non-HardwareSerial Stream transports. */
+typedef void (*modbusStreamBaudCallback)(word baud, Stream *port);
 
 /**
  * @class modbusSlave
@@ -62,6 +64,8 @@ class modbusSlave
 		bool onWrite(word address, modbusWriteCallback cb);
 		/** @brief Register callback for unsupported/custom function codes. */
 		bool onUnknownFunction(modbusUnknownFunctionCallback cb);
+		/** @brief Register baud reconfiguration callback for generic Stream transports. */
+		bool setStreamBaudHandler(modbusStreamBaudCallback cb);
 		/** @brief Set 32-bit helper endianness mode on bound register bank. */
 		void configureEndianness(byte mode);
 		/** @brief Get active 32-bit helper endianness mode. */
@@ -79,6 +83,10 @@ class modbusSlave
 		void clearDiagnosticsCounters(void);
 		/** @brief Configure RTU baud rate and frame timing. */
 		void setBaud(word);
+		/** @brief Select protocol transport framing mode (RTU default, optional ASCII). */
+		void setProtocol(byte mode);
+		/** @brief Get active protocol framing mode. */
+		inline byte getProtocol(void) { return _protocol; }
 		/** @brief Get current configured baud rate. */
 		inline word getBaud(void) { return _baud; }
 		/** @brief Calculate CRC for current frame buffer. */
@@ -120,6 +128,10 @@ class modbusSlave
 		void invokeWriteCallback(word address, word value);
 		/** @brief Reset parser state to idle. */
 		void resetParser(void);
+		/** @brief Return expected RTU frame length once determinable from buffered bytes. */
+		byte expectedFrameLength(void) const;
+		/** @brief Decode collected ASCII frame into internal binary ADU buffer. */
+		bool decodeAsciiFrame(void);
 		/** @brief Process complete frame and generate response. */
 		void processFrame(void);
 		/** @brief Build and send Modbus exception response. */
@@ -153,6 +165,7 @@ class modbusSlave
 			 _len;
 		byte _txEnablePin;
 		bool _txEnableActiveHigh;
+		byte _protocol;
 
 
 		word _baud,
@@ -168,9 +181,13 @@ class modbusSlave
 		modbusReadHook _readHooks[MODBUS_MAX_READ_CALLBACKS];
 		modbusWriteHook _writeHooks[MODBUS_MAX_WRITE_CALLBACKS];
 		modbusUnknownFunctionCallback _unknownFunctionCallback;
+		modbusStreamBaudCallback _streamBaudCallback;
 		ParserState _parserState;
 		byte _rxIndex;
+		byte _asciiIndex;
 		bool _rxOverflow;
+		bool _asciiInFrame;
+		char _asciiBuf[(MODBUS_MAX_FRAME * 2) + 8];
 		unsigned long _lastRxByteUs;
 };
 /** @} */

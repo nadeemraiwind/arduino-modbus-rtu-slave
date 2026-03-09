@@ -63,6 +63,8 @@ void setup() {
   // STEP 4: Configure Modbus slave
   slave.setDevice(&regBank);  // Link register bank to slave
   slave.setPort(Serial);      // Use Serial port (change to Serial1/2/3 for MEGA)
+  slave.setProtocol(RTU);     // Default framing mode
+  // slave.setProtocol(ASCII); // Optional: use Modbus ASCII framing (:...CRLF)
   slave.setBaud(9600);        // Set baud rate
 }
 

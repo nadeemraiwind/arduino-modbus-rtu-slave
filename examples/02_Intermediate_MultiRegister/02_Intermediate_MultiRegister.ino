@@ -117,6 +117,7 @@ void setup() {
   // ===== MODBUS CONFIGURATION =====
   slave.setDevice(&regBank);
   slave.setPort(Serial);       // Use Serial (or Serial1 for MEGA)
+  slave.setProtocol(RTU);      // Default framing mode
   slave.setBaud(19200);        // Higher baud rate for faster communication
   
   // Optional: RS485 configuration (uncomment if using RS485)
