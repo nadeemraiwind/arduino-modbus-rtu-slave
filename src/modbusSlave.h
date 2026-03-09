@@ -23,7 +23,7 @@ extern const byte _auchCRCHi[256];
 extern const byte _auchCRCLo[256];
 
 /** @brief Callback signature for dynamic read values. */
-typedef word (*modbusReadCallback)(word address, modbusDevice *device);
+typedef uint16_t (*modbusReadCallback)(word address, modbusDevice *device);
 /** @brief Callback signature invoked after register writes. */
 typedef void (*modbusWriteCallback)(word address, word value, modbusDevice *device);
 /** @brief Callback signature for custom/unknown function code handling. */
