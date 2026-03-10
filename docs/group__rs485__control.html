@@ -18,6 +18,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-modern.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Industrial-grade Modbus RTU slave library for Arduino by Nadeem Abbas</div>
   </td>
@@ -95,26 +96,7 @@ $(function(){initNavTree('group__rs485__control.html','',''); });
 
 <p>RS485 DE/RE direction control and timing behavior.  
 <a href="#details">More...</a></p>
-<div class="dynheader">
-Collaboration diagram for RS485 Control:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="group__rs485__control.svg" width="359" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Data Structures</h2></td></tr>
-<tr class="memitem:modbusSlave" id="r_modbusSlave"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classmodbus_slave.html">modbusSlave</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modbus RTU slave communications and frame processing engine.  <a href="classmodbus_slave.html#details">More...</a><br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:gacec0f980d7eda7f7c309c98bebe56217" id="r_gacec0f980d7eda7f7c309c98bebe56217"><td class="memItemLeft">typedef word(*&#160;</td><td class="memItemRight"><a class="el" href="#gacec0f980d7eda7f7c309c98bebe56217">modbusReadCallback</a>) (word address, <a class="el" href="classmodbus_device.html">modbusDevice</a> *device)</td></tr>
-<tr class="memdesc:gacec0f980d7eda7f7c309c98bebe56217"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback signature for dynamic read values.  <br /></td></tr>
-<tr class="memitem:gaf50cda51434e7c27f886f8280774312d" id="r_gaf50cda51434e7c27f886f8280774312d"><td class="memItemLeft">typedef bool(*&#160;</td><td class="memItemRight"><a class="el" href="#gaf50cda51434e7c27f886f8280774312d">modbusUnknownFunctionCallback</a>) (byte funcType, const byte *request, byte requestLen, byte *response, byte *responseLen, <a class="el" href="classmodbus_device.html">modbusDevice</a> *device)</td></tr>
-<tr class="memdesc:gaf50cda51434e7c27f886f8280774312d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback signature for custom/unknown function code handling.  <br /></td></tr>
-<tr class="memitem:ga560f2ec3ea2f4d6c572d06fcc3b4b3ca" id="r_ga560f2ec3ea2f4d6c572d06fcc3b4b3ca"><td class="memItemLeft">typedef void(*&#160;</td><td class="memItemRight"><a class="el" href="#ga560f2ec3ea2f4d6c572d06fcc3b4b3ca">modbusWriteCallback</a>) (word address, word value, <a class="el" href="classmodbus_device.html">modbusDevice</a> *device)</td></tr>
-<tr class="memdesc:ga560f2ec3ea2f4d6c572d06fcc3b4b3ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback signature invoked after register writes.  <br /></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga0806a4ae16ff21e1a7f9330260d5eec4" id="r_ga0806a4ae16ff21e1a7f9330260d5eec4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ga0806a4ae16ff21e1a7f9330260d5eec4">modbusSlave::setTxEnableDelays</a> (word preDelayMs, word postDelayMs)</td></tr>
@@ -123,72 +105,21 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga8903fa71a422d77d3f3dd03f071be5ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure RS485 us-level pre/post TX delays.  <br /></td></tr>
 <tr class="memitem:gad1a8b2099ad70d24a6f39aec85e7150b" id="r_gad1a8b2099ad70d24a6f39aec85e7150b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#gad1a8b2099ad70d24a6f39aec85e7150b">modbusSlave::setTxEnablePin</a> (byte pin, bool activeHigh=true)</td></tr>
 <tr class="memdesc:gad1a8b2099ad70d24a6f39aec85e7150b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure RS485 DE/RE direction pin control.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ga456c5749747d57e27c2f2069167db7a3" id="r_ga456c5749747d57e27c2f2069167db7a3"><td class="memItemLeft">const byte&#160;</td><td class="memItemRight"><a class="el" href="#ga456c5749747d57e27c2f2069167db7a3">_auchCRCHi</a> [256]</td></tr>
-<tr class="memdesc:ga456c5749747d57e27c2f2069167db7a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRC lookup high-byte table, defined in modbusSlave.cpp.  <br /></td></tr>
-<tr class="memitem:gabf61c29f5a1985036a82b58208a59db5" id="r_gabf61c29f5a1985036a82b58208a59db5"><td class="memItemLeft">const byte&#160;</td><td class="memItemRight"><a class="el" href="#gabf61c29f5a1985036a82b58208a59db5">_auchCRCLo</a> [256]</td></tr>
-<tr class="memdesc:gabf61c29f5a1985036a82b58208a59db5"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRC lookup low-byte table, defined in modbusSlave.cpp.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>RS485 DE/RE direction control and timing behavior. </p>
-</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
-<a id="gacec0f980d7eda7f7c309c98bebe56217" name="gacec0f980d7eda7f7c309c98bebe56217"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gacec0f980d7eda7f7c309c98bebe56217">&#9670;&#160;</a></span>modbusReadCallback</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef word(* modbusReadCallback) (word address, <a class="el" href="classmodbus_device.html">modbusDevice</a> *device)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Callback signature for dynamic read values. </p>
-
-<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00026">26</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
-
-</div>
-</div>
-<a id="gaf50cda51434e7c27f886f8280774312d" name="gaf50cda51434e7c27f886f8280774312d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf50cda51434e7c27f886f8280774312d">&#9670;&#160;</a></span>modbusUnknownFunctionCallback</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef bool(* modbusUnknownFunctionCallback) (byte funcType, const byte *request, byte requestLen, byte *response, byte *responseLen, <a class="el" href="classmodbus_device.html">modbusDevice</a> *device)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Callback signature for custom/unknown function code handling. </p>
-
-<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00030">30</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
-
-</div>
-</div>
-<a id="ga560f2ec3ea2f4d6c572d06fcc3b4b3ca" name="ga560f2ec3ea2f4d6c572d06fcc3b4b3ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga560f2ec3ea2f4d6c572d06fcc3b4b3ca">&#9670;&#160;</a></span>modbusWriteCallback</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef void(* modbusWriteCallback) (word address, word value, <a class="el" href="classmodbus_device.html">modbusDevice</a> *device)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Callback signature invoked after register writes. </p>
-
-<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00028">28</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
-
-</div>
-</div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<p>RTU timing reference used by <a class="el" href="classmodbus_slave.html#a8880cf4c5425b83c1f5a372bd98b4651" title="modbusSlave::setBaud">setBaud()</a>:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Baud  </th><th class="markdownTableHeadNone">Character Time (10 bits)  </th><th class="markdownTableHeadNone">T1.5 Silent Interval  </th><th class="markdownTableHeadNone">T3.5 Silent Interval  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">9600  </td><td class="markdownTableBodyNone">1041.7 us  </td><td class="markdownTableBodyNone">1562.5 us  </td><td class="markdownTableBodyNone">3645.8 us  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">19200  </td><td class="markdownTableBodyNone">520.8 us  </td><td class="markdownTableBodyNone">781.3 us  </td><td class="markdownTableBodyNone">1822.9 us  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">115200  </td><td class="markdownTableBodyNone">86.8 us  </td><td class="markdownTableBodyNone">130.2 us  </td><td class="markdownTableBodyNone">303.8 us  </td></tr>
+</table>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="ga0806a4ae16ff21e1a7f9330260d5eec4" name="ga0806a4ae16ff21e1a7f9330260d5eec4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga0806a4ae16ff21e1a7f9330260d5eec4">&#9670;&#160;</a></span>setTxEnableDelays()</h2>
 
@@ -209,6 +140,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Configure RS485 ms-level pre/post TX delays. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00165">165</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
 
 </div>
 </div>
@@ -233,6 +166,8 @@ Variables</h2></td></tr>
 
 <p>Configure RS485 us-level pre/post TX delays. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00171">171</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
 </div>
 </div>
 <a id="gad1a8b2099ad70d24a6f39aec85e7150b" name="gad1a8b2099ad70d24a6f39aec85e7150b"></a>
@@ -256,54 +191,7 @@ Variables</h2></td></tr>
 
 <p>Configure RS485 DE/RE direction pin control. </p>
 
-</div>
-</div>
-<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
-<a id="ga456c5749747d57e27c2f2069167db7a3" name="ga456c5749747d57e27c2f2069167db7a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga456c5749747d57e27c2f2069167db7a3">&#9670;&#160;</a></span>_auchCRCHi</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const byte _auchCRCHi[256]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>CRC lookup high-byte table, defined in modbusSlave.cpp. </p>
-
-</div>
-</div>
-<a id="gabf61c29f5a1985036a82b58208a59db5" name="gabf61c29f5a1985036a82b58208a59db5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gabf61c29f5a1985036a82b58208a59db5">&#9670;&#160;</a></span>_auchCRCLo</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const byte _auchCRCLo[256]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>CRC lookup low-byte table, defined in modbusSlave.cpp. </p>
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00157">157</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
 
 </div>
 </div>

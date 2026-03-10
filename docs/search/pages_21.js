@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['⭐_20start_20here_0',['Level 1: Basic - Minimal Slave ⭐ START HERE',['../index.html#autotoc_md22',1,'']]]
+  ['✅_20atomic_20transaction_20protection_0',['✅ Atomic Transaction Protection',['../index.html#autotoc_md57',1,'']]],
+  ['✅_20professional_20doxygen_20documentation_1',['✅ Professional Doxygen Documentation',['../index.html#autotoc_md58',1,'']]]
 ];

@@ -1,0 +1,7 @@
+<map id="modbusRegBank::setString" name="modbusRegBank::setString">
+<area shape="rect" id="Node000001" title="Write ASCII string (2 chars/register) starting at address." alt="" coords="5,31,187,57"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html#a66c95bd2897487bbb5e27b73b3279e56" title="Check whether register exists." alt="" coords="235,5,385,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,31,222,29,217,30,187,36"/>
+<area shape="rect" id="Node000003" href="$classmodbus_reg_bank.html#a73657c19d92fc54cac8c5c61e32f0845" title="Set register value." alt="" coords="236,56,384,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,52,224,59,218,59,187,57"/>
+</map>

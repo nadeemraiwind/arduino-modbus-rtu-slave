@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['known_5fissues_2emd_0',['KNOWN_ISSUES.md',['../_k_n_o_w_n___i_s_s_u_e_s_8md.html',1,'']]]
+  ['changelog_2emd_0',['CHANGELOG.md',['../_c_h_a_n_g_e_l_o_g_8md.html',1,'']]]
 ];

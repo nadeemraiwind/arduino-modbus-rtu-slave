@@ -1,0 +1,17 @@
+<map id="modbusDevice.cpp" name="modbusDevice.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="24,5,157,32"/>
+<area shape="rect" id="Node000002" href="$modbus_device_8h.html" title="Modbus device abstraction that extends the register bank with slave ID handling." alt="" coords="31,80,150,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,30,93,65,88,64,90,35"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="109,304,174,331"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="76,109,52,136,24,174,14,194,9,215,9,235,17,255,32,272,52,286,97,305,92,308,49,291,29,276,13,257,4,236,4,214,9,192,20,171,48,133,78,105"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="27,229,104,256"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="82,109,75,130,67,155,64,185,65,214,59,213,58,185,62,154,70,128,84,105"/>
+<area shape="rect" id="Node000005" href="$modbus_reg_bank_8h.html" title="Register storage engine and typed data helpers for Modbus maps." alt="" coords="77,155,209,181"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="100,105,128,142,122,143,100,110"/>
+<area shape="rect" id="Node000006" href="$modbus_8h.html" title="Core protocol constants, limits, and compile&#45;time configuration for the Modbus RTU library." alt="" coords="178,229,257,256"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="151,104,192,123,209,136,224,153,230,168,232,184,229,216,224,213,227,184,225,170,219,156,206,140,189,127,151,110"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="145,180,144,289,139,288,140,183"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="128,184,92,220,88,217,131,180"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="156,179,197,218,191,219,155,184"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="207,256,167,296,164,291,202,258"/>
+</map>

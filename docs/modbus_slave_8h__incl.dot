@@ -1,0 +1,26 @@
+digraph "src/modbusSlave.h"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="src/modbusSlave.h",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Modbus RTU slave protocol engine and callback API."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="stdint.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="Arduino.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="modbus.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$modbus_8h.html",tooltip="Core protocol constants, limits, and compile-time configuration for the Modbus RTU library."];
+  Node4 -> Node2 [id="edge4_Node000004_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node5 [id="edge5_Node000001_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="modbusDevice.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$modbus_device_8h.html",tooltip="Modbus device abstraction that extends the register bank with slave ID handling."];
+  Node5 -> Node2 [id="edge6_Node000005_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node5 -> Node3 [id="edge7_Node000005_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node5 -> Node6 [id="edge8_Node000005_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="modbusRegBank.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$modbus_reg_bank_8h.html",tooltip="Register storage engine and typed data helpers for Modbus maps."];
+  Node6 -> Node2 [id="edge9_Node000006_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node6 -> Node3 [id="edge10_Node000006_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node6 -> Node4 [id="edge11_Node000006_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node5 -> Node4 [id="edge12_Node000005_Node000004",color="steelblue1",style="solid",tooltip=" "];
+}

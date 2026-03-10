@@ -1,0 +1,5 @@
+<map id="modbusRegBank::get" name="modbusRegBank::get">
+<area shape="rect" id="Node000001" title="Get register value or MODBUS_REG_NOT_FOUND when missing." alt="" coords="5,5,153,32"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html#a053dbb17cb5b236f74c4cf82499fe1b9" title="Try reading register value; returns false if register is missing." alt="" coords="201,5,366,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,16,188,19,182,19,153,21"/>
+</map>

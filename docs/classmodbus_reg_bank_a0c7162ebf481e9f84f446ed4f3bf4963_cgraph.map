@@ -1,0 +1,9 @@
+<map id="modbusRegBank::getString" name="modbusRegBank::getString">
+<area shape="rect" id="Node000001" title="Read ASCII string from packed register area." alt="" coords="5,31,187,57"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html#a20327e143f658ca7c31f08d001d5c421" title="Get register value or MODBUS_REG_NOT_FOUND when missing." alt="" coords="236,5,384,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,31,224,29,218,30,187,36"/>
+<area shape="rect" id="Node000004" href="$classmodbus_reg_bank.html#a66c95bd2897487bbb5e27b73b3279e56" title="Check whether register exists." alt="" coords="235,56,385,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="187,52,222,58,217,59,187,57"/>
+<area shape="rect" id="Node000003" href="$classmodbus_reg_bank.html#a053dbb17cb5b236f74c4cf82499fe1b9" title="Try reading register value; returns false if register is missing." alt="" coords="433,5,598,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,16,420,18,415,19,384,21"/>
+</map>

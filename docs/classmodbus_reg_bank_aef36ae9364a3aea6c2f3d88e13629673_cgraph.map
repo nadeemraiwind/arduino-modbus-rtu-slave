@@ -1,0 +1,7 @@
+<map id="modbusRegBank::setLong" name="modbusRegBank::setLong">
+<area shape="rect" id="Node000001" title="Write 32&#45;bit integer to two adjacent registers." alt="" coords="5,31,181,57"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html#a66c95bd2897487bbb5e27b73b3279e56" title="Check whether register exists." alt="" coords="229,5,379,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,31,216,29,211,30,181,36"/>
+<area shape="rect" id="Node000003" href="$classmodbus_reg_bank.html#a73657c19d92fc54cac8c5c61e32f0845" title="Set register value." alt="" coords="230,56,378,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,52,217,59,212,59,181,57"/>
+</map>

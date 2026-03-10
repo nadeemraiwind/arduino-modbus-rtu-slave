@@ -1,0 +1,4 @@
+<map id="Core Runtime" name="Core Runtime">
+<area shape="rect" id="Node000001" title="Core protocol definitions and compile&#45;time configuration." alt="" coords="5,5,108,32"/>
+<area shape="rect" id="Node000002" href="$group__protocol__engine.html" title="Core protocol constants, function codes, diagnostics codes, and exception values." alt="" coords="156,5,269,32"/>
+</map>

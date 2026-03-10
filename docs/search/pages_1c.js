@@ -1,8 +1,25 @@
 var searchData=
 [
-  ['why_20this_20architecture_20works_0',['Why This Architecture Works',['../index.html#autotoc_md12',1,'']]],
-  ['window_1',['⚠️ &lt;b&gt;Frame Completion Depends on RTU Silence Window&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md70',1,'']]],
-  ['wiring_2',['Wiring',['../index.html#autotoc_md31',1,'']]],
-  ['works_3',['Why This Architecture Works',['../index.html#autotoc_md12',1,'']]],
-  ['write_20support_4',['✅ &lt;b&gt;ADDED: FC15/FC16 Multi-Write Support&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md63',1,'']]]
+  ['test_20plan_0',['Board Matrix Test Plan',['../index.html#autotoc_md26',1,'']]],
+  ['tested_20areas_1',['Important untested or partially tested areas',['../index.html#autotoc_md25',1,'']]],
+  ['tested_20features_2',['Tested Features',['../status.html#autotoc_md104',1,'']]],
+  ['tested_20vs_20untested_20status_3',['Tested vs Untested Status',['../status.html',1,'']]],
+  ['testing_4',['Operational Rules Found in Field-Like Testing',['../status.html#autotoc_md107',1,'']]],
+  ['testing_20guide_20example_2003_20typed_20data_5',['Modbus Poll Testing Guide - Example 03 (Typed Data)',['../modbus_poll_example03.html',1,'index']]],
+  ['tests_6',['Tests',['../modbus_poll_example04.html#autotoc_md133',1,'']]],
+  ['tests_20library_20safety_20and_20api_20checks_7',['Level 6: Validation Tests - Library Safety and API Checks',['../index.html#autotoc_md40',1,'']]],
+  ['thanks_8',['Special Thanks',['../index.html#autotoc_md64',1,'']]],
+  ['the_20validated_20workflow_9',['Serial routing and debug rules used by the validated workflow',['../index.html#autotoc_md24',1,'']]],
+  ['this_20architecture_20works_10',['Why This Architecture Works',['../index.html#autotoc_md17',1,'']]],
+  ['this_20page_20exists_11',['Why This Page Exists',['../register_addressing_guide.html#autotoc_md112',1,'']]],
+  ['time_20arduino_20mega_2016mhz_12',['Execution Time (Arduino Mega 16MHz)',['../architecture.html#autotoc_md94',1,'']]],
+  ['timing_20reference_13',['Hardware Control Timing Reference',['../architecture.html#hardware_timing_reference',1,'']]],
+  ['timing_20robustness_14',['Timing Robustness',['../architecture.html#autotoc_md90',1,'']]],
+  ['to_20contribute_15',['How to Contribute',['../index.html#autotoc_md68',1,'']]],
+  ['tools_16',['Development Tools',['../architecture.html#autotoc_md100',1,'']]],
+  ['topology_17',['Industrial Link Topology',['../architecture.html#industrial_topology',1,'']]],
+  ['transaction_20protection_18',['✅ Atomic Transaction Protection',['../index.html#autotoc_md57',1,'']]],
+  ['troubleshooting_19',['Troubleshooting',['../modbus_poll_example03.html#autotoc_md127',1,'']]],
+  ['typed_20data_20',['Modbus Poll Testing Guide - Example 03 (Typed Data)',['../modbus_poll_example03.html',1,'index']]],
+  ['typed_20data_20float_20long_20string_21',['Level 3: Advanced - Typed Data (Float/Long/String)',['../index.html#autotoc_md37',1,'']]]
 ];

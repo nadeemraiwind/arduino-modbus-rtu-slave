@@ -1,0 +1,11 @@
+<map id="modbusRegBank::set" name="modbusRegBank::set">
+<area shape="rect" id="Node000001" title="Set register value." alt="" coords="242,81,389,108"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html#ad8c1beef92f1cb2abcc264f8edd50177" title="Atomic wrapper around set()." alt="" coords="5,5,194,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,75,193,47,157,35,156,30,195,41,273,74"/>
+<area shape="rect" id="Node000003" href="$classmodbus_reg_bank.html#a31076a62cdef557959f32299c39c18c6" title="Write 32&#45;bit float to two adjacent registers." alt="" coords="11,56,188,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,85,188,82,188,77,229,84"/>
+<area shape="rect" id="Node000004" href="$classmodbus_reg_bank.html#aef36ae9364a3aea6c2f3d88e13629673" title="Write 32&#45;bit integer to two adjacent registers." alt="" coords="12,107,187,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="223,106,188,112,187,107,229,104"/>
+<area shape="rect" id="Node000005" href="$classmodbus_reg_bank.html#a8be65635073738d364c81b54f87b4ec8" title="Write ASCII string (2 chars/register) starting at address." alt="" coords="9,157,190,184"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="273,114,195,148,157,159,156,154,193,143,268,115"/>
+</map>

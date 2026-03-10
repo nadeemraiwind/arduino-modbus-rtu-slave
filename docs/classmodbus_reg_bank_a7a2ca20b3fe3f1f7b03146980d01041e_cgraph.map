@@ -1,0 +1,9 @@
+<map id="modbusRegBank::getLong" name="modbusRegBank::getLong">
+<area shape="rect" id="Node000001" title="Read 32&#45;bit integer from two adjacent registers." alt="" coords="5,31,181,57"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html#a20327e143f658ca7c31f08d001d5c421" title="Get register value or MODBUS_REG_NOT_FOUND when missing." alt="" coords="230,5,378,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,31,217,29,212,30,181,36"/>
+<area shape="rect" id="Node000004" href="$classmodbus_reg_bank.html#a66c95bd2897487bbb5e27b73b3279e56" title="Check whether register exists." alt="" coords="229,56,379,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="181,52,216,58,211,59,181,57"/>
+<area shape="rect" id="Node000003" href="$classmodbus_reg_bank.html#a053dbb17cb5b236f74c4cf82499fe1b9" title="Try reading register value; returns false if register is missing." alt="" coords="427,5,592,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="378,16,414,18,409,19,378,21"/>
+</map>

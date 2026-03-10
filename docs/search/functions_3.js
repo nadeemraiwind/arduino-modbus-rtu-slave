@@ -11,6 +11,7 @@ var searchData=
   ['getfloat_8',['getFloat',['../classmodbus_reg_bank.html#a2b36921dcaf72e0a79ed841d43b5337b',1,'modbusRegBank']]],
   ['getid_9',['getId',['../classmodbus_device.html#a7818718f2feecfa2f60fac02ab05723b',1,'modbusDevice']]],
   ['getlong_10',['getLong',['../classmodbus_reg_bank.html#a7a2ca20b3fe3f1f7b03146980d01041e',1,'modbusRegBank']]],
-  ['getslavemessagecount_11',['getSlaveMessageCount',['../classmodbus_slave.html#a648d452f6d5bf086f5716caa1b9ee5e5',1,'modbusSlave']]],
-  ['getstring_12',['getString',['../classmodbus_reg_bank.html#a0c7162ebf481e9f84f446ed4f3bf4963',1,'modbusRegBank']]]
+  ['getprotocol_11',['getProtocol',['../classmodbus_slave.html#a7ff4a27cfcd12e2617757d2d27e37107',1,'modbusSlave']]],
+  ['getslavemessagecount_12',['getSlaveMessageCount',['../classmodbus_slave.html#a648d452f6d5bf086f5716caa1b9ee5e5',1,'modbusSlave']]],
+  ['getstring_13',['getString',['../classmodbus_reg_bank.html#a0c7162ebf481e9f84f446ed4f3bf4963',1,'modbusRegBank']]]
 ];

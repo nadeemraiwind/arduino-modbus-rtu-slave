@@ -1,5 +1,10 @@
 <map id="modbusDevice.h" name="modbusDevice.h">
-<area shape="rect" id="Node000001" title="Modbus device abstraction that extends the register bank with slave ID handling." alt="" coords="5,5,125,32"/>
-<area shape="rect" id="Node000002" href="$modbus_slave_8h.html" title="Modbus RTU slave protocol engine and callback API." alt="" coords="9,80,121,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,46,68,80,62,79,63,50"/>
+<area shape="rect" id="Node000001" title="Modbus device abstraction that extends the register bank with slave ID handling." alt="" coords="116,5,236,32"/>
+<area shape="rect" id="Node000002" href="$modbus_device_8cpp.html" title=" " alt="" coords="5,80,139,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,43,92,81,89,77,147,39"/>
+<area shape="rect" id="Node000003" href="$modbus_slave_8cpp.html" title=" " alt="" coords="160,155,285,181"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,45,204,106,221,155,216,153,199,107,182,49"/>
+<area shape="rect" id="Node000004" href="$modbus_slave_8h.html" title="Modbus RTU slave protocol engine and callback API." alt="" coords="214,80,325,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="205,39,256,79,251,80,204,44"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="255,119,232,156,229,152,251,121"/>
 </map>

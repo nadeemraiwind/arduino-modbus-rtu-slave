@@ -1,5 +1,30 @@
 var searchData=
 [
-  ['uno_20serial0_0',['Arduino UNO (Serial0)',['../index.html#autotoc_md32',1,'']]],
-  ['user_20level_1',['Architecture Patterns by User Level',['../index.html#autotoc_md10',1,'']]]
+  ['recently_20updated_20example_20status_20current_20cycle_0',['Recently Updated Example Status (Current Cycle)',['../index.html#autotoc_md22',1,'']]],
+  ['reference_1',['Hardware Control Timing Reference',['../architecture.html#hardware_timing_reference',1,'']]],
+  ['references_2',['References',['../validation.html#autotoc_md119',1,'']]],
+  ['register_20access_3',['Safe Register Access',['../index.html#autotoc_md45',1,'']]],
+  ['register_20addressing_20guide_4',['Register Addressing Guide',['../register_addressing_guide.html',1,'index']]],
+  ['register_20addressing_20model_5',['Register Addressing Model',['../index.html#autotoc_md32',1,'']]],
+  ['register_20map_20modicon_20vs_20zero_20based_6',['Register Map (Modicon vs Zero-Based)',['../register_addressing_guide.html#autotoc_md113',1,'']]],
+  ['register_20process_7',['Level 2: Intermediate - Multi-Register Process',['../index.html#autotoc_md36',1,'']]],
+  ['register_20safety_8',['Level 8: Atomic Integrity - Multi-Register Safety',['../index.html#autotoc_md42',1,'']]],
+  ['removed_9',['Removed',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md77',1,'']]],
+  ['repository_10',['GitHub Repository',['../index.html#autotoc_md67',1,'']]],
+  ['repository_20contributions_11',['Repository &amp;amp; Contributions',['../index.html#autotoc_md66',1,'']]],
+  ['request_20response_20sequence_20diagram_12',['Request-Response Sequence Diagram',['../architecture.html#sequence_diagram',1,'']]],
+  ['response_20sequence_20diagram_13',['Request-Response Sequence Diagram',['../architecture.html#sequence_diagram',1,'']]],
+  ['results_20summary_14',['Validated example results summary',['../index.html#autotoc_md21',1,'']]],
+  ['roadmap_15',['Next Version Roadmap',['../roadmap.html',1,'']]],
+  ['robustness_16',['Timing Robustness',['../architecture.html#autotoc_md90',1,'']]],
+  ['robustness_20features_17',['Security and Robustness Features',['../architecture.html#security',1,'']]],
+  ['routing_20and_20debug_20rules_20used_20by_20the_20validated_20workflow_18',['Serial routing and debug rules used by the validated workflow',['../index.html#autotoc_md24',1,'']]],
+  ['rs485_20hardware_20industrial_20deployment_19',['Level 5: RS485 Hardware - Industrial Deployment',['../index.html#autotoc_md39',1,'']]],
+  ['rtu_20arduino_20library_20',['Modbus RTU Arduino Library',['../index.html',1,'']]],
+  ['rule_21',['Practical Rule',['../register_addressing_guide.html#autotoc_md115',1,'']]],
+  ['rule_20zero_20based_22',['Rule Zero Based',['../modbus_poll_example03.html#autotoc_md123',1,'Addressing Rule (Zero-Based)'],['../modbus_poll_example04.html#autotoc_md132',1,'Addressing Rule (Zero-Based)']]],
+  ['rules_20found_20in_20field_20like_20testing_23',['Operational Rules Found in Field-Like Testing',['../status.html#autotoc_md107',1,'']]],
+  ['rules_20load_20bearing_24',['Rules Load Bearing',['../index.html#autotoc_md1',1,'Field Rules (Load-Bearing)'],['../modbus_poll_example03.html#autotoc_md122',1,'Serial0 USB Rules (Load-Bearing)'],['../modbus_poll_example04.html#autotoc_md131',1,'Serial0 USB Rules (Load-Bearing)']]],
+  ['rules_20used_20by_20the_20validated_20workflow_25',['Serial routing and debug rules used by the validated workflow',['../index.html#autotoc_md24',1,'']]],
+  ['run_20state_20machine_20flowchart_26',['run() State Machine Flowchart',['../architecture.html#state_machine',1,'']]]
 ];

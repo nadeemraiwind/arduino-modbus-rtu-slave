@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['8_20byte_20read_20assumption_20in_20run_0',['✅ &lt;b&gt;FIXED: 8-Byte Read Assumption in run()&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md61',1,'']]]
+  ['6_3a_20validation_20tests_20library_20safety_20and_20api_20checks_0',['Level 6: Validation Tests - Library Safety and API Checks',['../index.html#autotoc_md40',1,'']]]
 ];

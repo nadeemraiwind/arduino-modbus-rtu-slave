@@ -1,0 +1,5 @@
+<map id="modbusSlave::getAnalogStatus" name="modbusSlave::getAnalogStatus">
+<area shape="rect" id="Node000001" title="Build analog status response payload." alt="" coords="5,5,210,32"/>
+<area shape="rect" id="Node000002" href="$classmodbus_slave.html#a12c58c696b6e1af1d5f2086ef81ac6e2" title="Calculate CRC for current frame buffer." alt="" coords="258,5,411,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,16,245,19,240,19,210,21"/>
+</map>

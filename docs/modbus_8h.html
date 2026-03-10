@@ -18,6 +18,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-modern.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Industrial-grade Modbus RTU slave library for Arduino by Nadeem Abbas</div>
   </td>
@@ -104,7 +105,7 @@ Include dependency graph for modbus.h:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="modbus_8h__dep__incl.svg" width="200" height="262"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="modbus_8h__dep__incl.svg" width="367" height="336"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="modbus_8h_source.html">Go to the source code of this file.</a></p>
@@ -122,17 +123,19 @@ Macros</h2></td></tr>
 <tr class="memdesc:ga89f8701562ac09bf5c1e58516124c500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legacy short aliases for backward compatibility.  <br /></td></tr>
 <tr class="memitem:ga3fa2d3bf1901157f734a584d47b25d8b" id="r_ga3fa2d3bf1901157f734a584d47b25d8b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga3fa2d3bf1901157f734a584d47b25d8b">MASTER</a>&#160;&#160;&#160;0x01</td></tr>
 <tr class="memdesc:ga3fa2d3bf1901157f734a584d47b25d8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Master role constant.  <br /></td></tr>
-<tr class="memitem:ga95af14d1c064188546943e5d2ba42ff3" id="r_ga95af14d1c064188546943e5d2ba42ff3"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga95af14d1c064188546943e5d2ba42ff3">MODBUS_MAX_ANA_REGS</a>&#160;&#160;&#160;64</td></tr>
-<tr class="memitem:ga49f1911bc388813c70c87b4680d8ac28" id="r_ga49f1911bc388813c70c87b4680d8ac28"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga49f1911bc388813c70c87b4680d8ac28">MODBUS_MAX_DIG_REGS</a>&#160;&#160;&#160;64</td></tr>
-<tr class="memitem:ga230623fc50d09cb57a44428e336849ca" id="r_ga230623fc50d09cb57a44428e336849ca"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga230623fc50d09cb57a44428e336849ca">MODBUS_MAX_FRAME</a>&#160;&#160;&#160;128</td></tr>
+<tr class="memitem:ga95af14d1c064188546943e5d2ba42ff3" id="r_ga95af14d1c064188546943e5d2ba42ff3"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga95af14d1c064188546943e5d2ba42ff3">MODBUS_MAX_ANA_REGS</a>&#160;&#160;&#160;64</td></tr>
+<tr class="memdesc:ga95af14d1c064188546943e5d2ba42ff3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static pool size for analog registers when MODBUS_USE_STATIC_REG_POOL=1.  <br /></td></tr>
+<tr class="memitem:ga49f1911bc388813c70c87b4680d8ac28" id="r_ga49f1911bc388813c70c87b4680d8ac28"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga49f1911bc388813c70c87b4680d8ac28">MODBUS_MAX_DIG_REGS</a>&#160;&#160;&#160;64</td></tr>
+<tr class="memdesc:ga49f1911bc388813c70c87b4680d8ac28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static pool size for digital registers when MODBUS_USE_STATIC_REG_POOL=1.  <br /></td></tr>
+<tr class="memitem:ga230623fc50d09cb57a44428e336849ca" id="r_ga230623fc50d09cb57a44428e336849ca"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga230623fc50d09cb57a44428e336849ca">MODBUS_MAX_FRAME</a>&#160;&#160;&#160;128</td></tr>
 <tr class="memdesc:ga230623fc50d09cb57a44428e336849ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum supported RTU frame size in bytes.  <br /></td></tr>
-<tr class="memitem:gadd744a9e9e5f96b0f466d08e86d1e231" id="r_gadd744a9e9e5f96b0f466d08e86d1e231"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gadd744a9e9e5f96b0f466d08e86d1e231">MODBUS_MAX_READ_CALLBACKS</a>&#160;&#160;&#160;8</td></tr>
+<tr class="memitem:gadd744a9e9e5f96b0f466d08e86d1e231" id="r_gadd744a9e9e5f96b0f466d08e86d1e231"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gadd744a9e9e5f96b0f466d08e86d1e231">MODBUS_MAX_READ_CALLBACKS</a>&#160;&#160;&#160;8</td></tr>
 <tr class="memdesc:gadd744a9e9e5f96b0f466d08e86d1e231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback hook capacities (per slave instance).  <br /></td></tr>
-<tr class="memitem:ga6ecb98dfcbba631c465749b211f8274d" id="r_ga6ecb98dfcbba631c465749b211f8274d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga6ecb98dfcbba631c465749b211f8274d">MODBUS_MAX_UNKNOWN_FUNCTION_CALLBACKS</a>&#160;&#160;&#160;1</td></tr>
-<tr class="memitem:gae73d3cbaf832f8916fd7850b3c20b40b" id="r_gae73d3cbaf832f8916fd7850b3c20b40b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gae73d3cbaf832f8916fd7850b3c20b40b">MODBUS_MAX_WRITE_CALLBACKS</a>&#160;&#160;&#160;8</td></tr>
+<tr class="memitem:ga6ecb98dfcbba631c465749b211f8274d" id="r_ga6ecb98dfcbba631c465749b211f8274d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga6ecb98dfcbba631c465749b211f8274d">MODBUS_MAX_UNKNOWN_FUNCTION_CALLBACKS</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:gae73d3cbaf832f8916fd7850b3c20b40b" id="r_gae73d3cbaf832f8916fd7850b3c20b40b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gae73d3cbaf832f8916fd7850b3c20b40b">MODBUS_MAX_WRITE_CALLBACKS</a>&#160;&#160;&#160;8</td></tr>
 <tr class="memitem:ga866d279da38ed86445ba32fe3f6ca621" id="r_ga866d279da38ed86445ba32fe3f6ca621"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga866d279da38ed86445ba32fe3f6ca621">MODBUS_REG_NOT_FOUND</a>&#160;&#160;&#160;0xFFFF</td></tr>
 <tr class="memdesc:ga866d279da38ed86445ba32fe3f6ca621"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sentinel returned by get() when a register does not exist.  <br /></td></tr>
-<tr class="memitem:ga86369636b2aad63ca473149593fa71aa" id="r_ga86369636b2aad63ca473149593fa71aa"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga86369636b2aad63ca473149593fa71aa">MODBUS_USE_STATIC_REG_POOL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:ga86369636b2aad63ca473149593fa71aa" id="r_ga86369636b2aad63ca473149593fa71aa"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga86369636b2aad63ca473149593fa71aa">MODBUS_USE_STATIC_REG_POOL</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga86369636b2aad63ca473149593fa71aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional memory model: use static pools instead of malloc-backed linked nodes.  <br /></td></tr>
 <tr class="memitem:ga6b250f39d49d4692a0a6f7682e7fe3cd" id="r_ga6b250f39d49d4692a0a6f7682e7fe3cd"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga6b250f39d49d4692a0a6f7682e7fe3cd">QUEMAX</a>&#160;&#160;&#160;10</td></tr>
 <tr class="memdesc:ga6b250f39d49d4692a0a6f7682e7fe3cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum control register queue size.  <br /></td></tr>
@@ -145,24 +148,24 @@ Macros</h2></td></tr>
 <tr class="memitem:gae342da5a4630c191c1c983958808edd8" id="r_gae342da5a4630c191c1c983958808edd8"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gae342da5a4630c191c1c983958808edd8">SLAVE</a>&#160;&#160;&#160;0x02</td></tr>
 <tr class="memdesc:gae342da5a4630c191c1c983958808edd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slave role constant.  <br /></td></tr>
 <tr id="define-members-0" class="groupHeader"><td colspan="2"><div class="groupHeader">Modbus Function Codes</div></td></tr>
-<tr class="memitem:gaf42b66736634ff7e28f686f24317c7da" id="r_gaf42b66736634ff7e28f686f24317c7da"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gaf42b66736634ff7e28f686f24317c7da">DIAGNOSTICS</a>&#160;&#160;&#160;0x08</td></tr>
-<tr class="memitem:ga2f962dad5faddd33da91c51b5712c4fe" id="r_ga2f962dad5faddd33da91c51b5712c4fe"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga2f962dad5faddd33da91c51b5712c4fe">READ_AI</a>&#160;&#160;&#160;0x04</td></tr>
-<tr class="memitem:ga5bad7fb4cc52c9ef6a79e38d65d01a1f" id="r_ga5bad7fb4cc52c9ef6a79e38d65d01a1f"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga5bad7fb4cc52c9ef6a79e38d65d01a1f">READ_AO</a>&#160;&#160;&#160;0x03</td></tr>
-<tr class="memitem:gab02544123e8058760a9caccb93f727b4" id="r_gab02544123e8058760a9caccb93f727b4"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gab02544123e8058760a9caccb93f727b4">READ_DI</a>&#160;&#160;&#160;0x02</td></tr>
-<tr class="memitem:gad151b08b45c127e065c7c5a0dd434d16" id="r_gad151b08b45c127e065c7c5a0dd434d16"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gad151b08b45c127e065c7c5a0dd434d16">READ_DO</a>&#160;&#160;&#160;0x01</td></tr>
-<tr class="memitem:gaf19d0779cfa2a151c8aeec4a3ca4d2c7" id="r_gaf19d0779cfa2a151c8aeec4a3ca4d2c7"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gaf19d0779cfa2a151c8aeec4a3ca4d2c7">WRITE_AO</a>&#160;&#160;&#160;0x06</td></tr>
-<tr class="memitem:gadc95b1d7c8c61b124d19c168b64403bd" id="r_gadc95b1d7c8c61b124d19c168b64403bd"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gadc95b1d7c8c61b124d19c168b64403bd">WRITE_AO_MULTI</a>&#160;&#160;&#160;0x10</td></tr>
-<tr class="memitem:ga87605a466a79cb992ddb5b3bfdc0e3da" id="r_ga87605a466a79cb992ddb5b3bfdc0e3da"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga87605a466a79cb992ddb5b3bfdc0e3da">WRITE_DO</a>&#160;&#160;&#160;0x05</td></tr>
-<tr class="memitem:gaf3a0c0ac6d57523cb88c214fd3aaed26" id="r_gaf3a0c0ac6d57523cb88c214fd3aaed26"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gaf3a0c0ac6d57523cb88c214fd3aaed26">WRITE_DO_MULTI</a>&#160;&#160;&#160;0x0F</td></tr>
+<tr class="memitem:gaf42b66736634ff7e28f686f24317c7da" id="r_gaf42b66736634ff7e28f686f24317c7da"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gaf42b66736634ff7e28f686f24317c7da">DIAGNOSTICS</a>&#160;&#160;&#160;0x08</td></tr>
+<tr class="memitem:ga2f962dad5faddd33da91c51b5712c4fe" id="r_ga2f962dad5faddd33da91c51b5712c4fe"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga2f962dad5faddd33da91c51b5712c4fe">READ_AI</a>&#160;&#160;&#160;0x04</td></tr>
+<tr class="memitem:ga5bad7fb4cc52c9ef6a79e38d65d01a1f" id="r_ga5bad7fb4cc52c9ef6a79e38d65d01a1f"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga5bad7fb4cc52c9ef6a79e38d65d01a1f">READ_AO</a>&#160;&#160;&#160;0x03</td></tr>
+<tr class="memitem:gab02544123e8058760a9caccb93f727b4" id="r_gab02544123e8058760a9caccb93f727b4"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gab02544123e8058760a9caccb93f727b4">READ_DI</a>&#160;&#160;&#160;0x02</td></tr>
+<tr class="memitem:gad151b08b45c127e065c7c5a0dd434d16" id="r_gad151b08b45c127e065c7c5a0dd434d16"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gad151b08b45c127e065c7c5a0dd434d16">READ_DO</a>&#160;&#160;&#160;0x01</td></tr>
+<tr class="memitem:gaf19d0779cfa2a151c8aeec4a3ca4d2c7" id="r_gaf19d0779cfa2a151c8aeec4a3ca4d2c7"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gaf19d0779cfa2a151c8aeec4a3ca4d2c7">WRITE_AO</a>&#160;&#160;&#160;0x06</td></tr>
+<tr class="memitem:gadc95b1d7c8c61b124d19c168b64403bd" id="r_gadc95b1d7c8c61b124d19c168b64403bd"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gadc95b1d7c8c61b124d19c168b64403bd">WRITE_AO_MULTI</a>&#160;&#160;&#160;0x10</td></tr>
+<tr class="memitem:ga87605a466a79cb992ddb5b3bfdc0e3da" id="r_ga87605a466a79cb992ddb5b3bfdc0e3da"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga87605a466a79cb992ddb5b3bfdc0e3da">WRITE_DO</a>&#160;&#160;&#160;0x05</td></tr>
+<tr class="memitem:gaf3a0c0ac6d57523cb88c214fd3aaed26" id="r_gaf3a0c0ac6d57523cb88c214fd3aaed26"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gaf3a0c0ac6d57523cb88c214fd3aaed26">WRITE_DO_MULTI</a>&#160;&#160;&#160;0x0F</td></tr>
 <tr id="define-members-1" class="groupHeader"><td colspan="2"><div class="groupHeader">32-bit Endianness Modes for getFloat/getLong Helpers</div></td></tr>
-<tr class="memitem:gaa7eeda8d1c0172f5221aa3587e999ebd" id="r_gaa7eeda8d1c0172f5221aa3587e999ebd"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gaa7eeda8d1c0172f5221aa3587e999ebd">MODBUS_BIG_ENDIAN</a>&#160;&#160;&#160;0</td></tr>
-<tr class="memitem:ga78370c708faa100940952be8cb3ce85d" id="r_ga78370c708faa100940952be8cb3ce85d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga78370c708faa100940952be8cb3ce85d">MODBUS_BIG_ENDIAN_SWAPPED</a>&#160;&#160;&#160;2</td></tr>
-<tr class="memitem:gaf8d6fe82459925bb2c2ff45e08f75e71" id="r_gaf8d6fe82459925bb2c2ff45e08f75e71"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gaf8d6fe82459925bb2c2ff45e08f75e71">MODBUS_LITTLE_ENDIAN</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:gaa7eeda8d1c0172f5221aa3587e999ebd" id="r_gaa7eeda8d1c0172f5221aa3587e999ebd"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gaa7eeda8d1c0172f5221aa3587e999ebd">MODBUS_BIG_ENDIAN</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:ga78370c708faa100940952be8cb3ce85d" id="r_ga78370c708faa100940952be8cb3ce85d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga78370c708faa100940952be8cb3ce85d">MODBUS_BIG_ENDIAN_SWAPPED</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memitem:gaf8d6fe82459925bb2c2ff45e08f75e71" id="r_gaf8d6fe82459925bb2c2ff45e08f75e71"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gaf8d6fe82459925bb2c2ff45e08f75e71">MODBUS_LITTLE_ENDIAN</a>&#160;&#160;&#160;1</td></tr>
 <tr id="define-members-2" class="groupHeader"><td colspan="2"><div class="groupHeader">FC08 Diagnostics Subfunctions</div></td></tr>
-<tr class="memitem:ga8a9680031af94d926a96587a0bb6ea61" id="r_ga8a9680031af94d926a96587a0bb6ea61"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga8a9680031af94d926a96587a0bb6ea61">DIAG_BUS_COMM_ERROR_COUNT</a>&#160;&#160;&#160;0x000C</td></tr>
-<tr class="memitem:ga8914782e0b9df7d881882c6e2a3c1b25" id="r_ga8914782e0b9df7d881882c6e2a3c1b25"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga8914782e0b9df7d881882c6e2a3c1b25">DIAG_BUS_MESSAGE_COUNT</a>&#160;&#160;&#160;0x000B</td></tr>
-<tr class="memitem:gaa3a4ae370c6d69fb88c4530ec8052458" id="r_gaa3a4ae370c6d69fb88c4530ec8052458"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#gaa3a4ae370c6d69fb88c4530ec8052458">DIAG_RETURN_QUERY_DATA</a>&#160;&#160;&#160;0x0000</td></tr>
-<tr class="memitem:ga44a990520e6836027990eec2a5db5f46" id="r_ga44a990520e6836027990eec2a5db5f46"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga44a990520e6836027990eec2a5db5f46">DIAG_SLAVE_MESSAGE_COUNT</a>&#160;&#160;&#160;0x000E</td></tr>
+<tr class="memitem:ga8a9680031af94d926a96587a0bb6ea61" id="r_ga8a9680031af94d926a96587a0bb6ea61"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga8a9680031af94d926a96587a0bb6ea61">DIAG_BUS_COMM_ERROR_COUNT</a>&#160;&#160;&#160;0x000C</td></tr>
+<tr class="memitem:ga8914782e0b9df7d881882c6e2a3c1b25" id="r_ga8914782e0b9df7d881882c6e2a3c1b25"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga8914782e0b9df7d881882c6e2a3c1b25">DIAG_BUS_MESSAGE_COUNT</a>&#160;&#160;&#160;0x000B</td></tr>
+<tr class="memitem:gaa3a4ae370c6d69fb88c4530ec8052458" id="r_gaa3a4ae370c6d69fb88c4530ec8052458"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#gaa3a4ae370c6d69fb88c4530ec8052458">DIAG_RETURN_QUERY_DATA</a>&#160;&#160;&#160;0x0000</td></tr>
+<tr class="memitem:ga44a990520e6836027990eec2a5db5f46" id="r_ga44a990520e6836027990eec2a5db5f46"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__config.html#ga44a990520e6836027990eec2a5db5f46">DIAG_SLAVE_MESSAGE_COUNT</a>&#160;&#160;&#160;0x000E</td></tr>
 <tr id="define-members-3" class="groupHeader"><td colspan="2"><div class="groupHeader">Register Type Identifiers (Preferred, Prefix-Safe)</div></td></tr>
 <tr class="memitem:ga261446eec5c68a480872920e6c5d6150" id="r_ga261446eec5c68a480872920e6c5d6150"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga261446eec5c68a480872920e6c5d6150">MODBUS_AI</a>&#160;&#160;&#160;0x03</td></tr>
 <tr class="memitem:ga64fbc4727fb8982fcb78fb53506b4793" id="r_ga64fbc4727fb8982fcb78fb53506b4793"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group__protocol__engine.html#ga64fbc4727fb8982fcb78fb53506b4793">MODBUS_AO</a>&#160;&#160;&#160;0x04</td></tr>
@@ -190,7 +193,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="modbus_8h.html">modbus.h</a></li>
+    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="modbus_8h.html">modbus.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

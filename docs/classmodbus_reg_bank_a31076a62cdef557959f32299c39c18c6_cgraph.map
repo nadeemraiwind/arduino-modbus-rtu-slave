@@ -1,0 +1,7 @@
+<map id="modbusRegBank::setFloat" name="modbusRegBank::setFloat">
+<area shape="rect" id="Node000001" title="Write 32&#45;bit float to two adjacent registers." alt="" coords="5,31,182,57"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html#a66c95bd2897487bbb5e27b73b3279e56" title="Check whether register exists." alt="" coords="230,5,380,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,31,217,29,212,30,183,36"/>
+<area shape="rect" id="Node000003" href="$classmodbus_reg_bank.html#a73657c19d92fc54cac8c5c61e32f0845" title="Set register value." alt="" coords="231,56,378,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,52,219,59,213,59,182,57"/>
+</map>

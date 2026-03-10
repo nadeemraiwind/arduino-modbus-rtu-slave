@@ -18,6 +18,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-modern.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Industrial-grade Modbus RTU slave library for Arduino by Nadeem Abbas</div>
   </td>
@@ -153,6 +154,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aef36ae9364a3aea6c2f3d88e13629673 inherit pub_methods_classmodbus_reg_bank"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 32-bit integer to two adjacent registers.  <br /></td></tr>
 <tr class="memitem:a8be65635073738d364c81b54f87b4ec8 inherit pub_methods_classmodbus_reg_bank" id="r_a8be65635073738d364c81b54f87b4ec8"><td class="memItemLeft">word&#160;</td><td class="memItemRight"><a class="el" href="classmodbus_reg_bank.html#a8be65635073738d364c81b54f87b4ec8">setString</a> (word address, const char *str, word maxRegs=0)</td></tr>
 <tr class="memdesc:a8be65635073738d364c81b54f87b4ec8 inherit pub_methods_classmodbus_reg_bank"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write ASCII string (2 chars/register) starting at <code class="param">address</code>.  <br /></td></tr>
+<tr class="memitem:a053dbb17cb5b236f74c4cf82499fe1b9 inherit pub_methods_classmodbus_reg_bank" id="r_a053dbb17cb5b236f74c4cf82499fe1b9"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="classmodbus_reg_bank.html#a053dbb17cb5b236f74c4cf82499fe1b9">tryGet</a> (word address, word *outValue)</td></tr>
+<tr class="memdesc:a053dbb17cb5b236f74c4cf82499fe1b9 inherit pub_methods_classmodbus_reg_bank"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try reading register value; returns false if register is missing.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a Modbus slave device data model. </p>
@@ -177,6 +180,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Constructs a device instance with default settings. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_device_8cpp_source.html#l00003">3</a> of file <a class="el" href="modbus_device_8cpp_source.html">modbusDevice.cpp</a>.</p>
+
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
@@ -197,6 +202,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Gets the current Modbus slave ID. </p>
 <dl class="section return"><dt>Returns</dt><dd>Configured slave ID. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="modbus_device_8cpp_source.html#l00013">13</a> of file <a class="el" href="modbus_device_8cpp_source.html">modbusDevice.cpp</a>.</p>
 
 </div>
 </div>
@@ -223,10 +230,13 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p class="definition">Definition at line <a class="el" href="modbus_device_8cpp_source.html#l00008">8</a> of file <a class="el" href="modbus_device_8cpp_source.html">modbusDevice.cpp</a>.</p>
+
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="modbus_device_8h_source.html">modbusDevice.h</a></li>
+<li><a class="el" href="modbus_device_8cpp_source.html">modbusDevice.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

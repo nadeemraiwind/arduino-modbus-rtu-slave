@@ -1,0 +1,26 @@
+var group__config =
+[
+    [ "DIAG_BUS_COMM_ERROR_COUNT", "group__config.html#ga8a9680031af94d926a96587a0bb6ea61", null ],
+    [ "DIAG_BUS_MESSAGE_COUNT", "group__config.html#ga8914782e0b9df7d881882c6e2a3c1b25", null ],
+    [ "DIAG_RETURN_QUERY_DATA", "group__config.html#gaa3a4ae370c6d69fb88c4530ec8052458", null ],
+    [ "DIAG_SLAVE_MESSAGE_COUNT", "group__config.html#ga44a990520e6836027990eec2a5db5f46", null ],
+    [ "DIAGNOSTICS", "group__config.html#gaf42b66736634ff7e28f686f24317c7da", null ],
+    [ "MODBUS_BIG_ENDIAN", "group__config.html#gaa7eeda8d1c0172f5221aa3587e999ebd", null ],
+    [ "MODBUS_BIG_ENDIAN_SWAPPED", "group__config.html#ga78370c708faa100940952be8cb3ce85d", null ],
+    [ "MODBUS_LITTLE_ENDIAN", "group__config.html#gaf8d6fe82459925bb2c2ff45e08f75e71", null ],
+    [ "MODBUS_MAX_ANA_REGS", "group__config.html#ga95af14d1c064188546943e5d2ba42ff3", null ],
+    [ "MODBUS_MAX_DIG_REGS", "group__config.html#ga49f1911bc388813c70c87b4680d8ac28", null ],
+    [ "MODBUS_MAX_FRAME", "group__config.html#ga230623fc50d09cb57a44428e336849ca", null ],
+    [ "MODBUS_MAX_READ_CALLBACKS", "group__config.html#gadd744a9e9e5f96b0f466d08e86d1e231", null ],
+    [ "MODBUS_MAX_UNKNOWN_FUNCTION_CALLBACKS", "group__config.html#ga6ecb98dfcbba631c465749b211f8274d", null ],
+    [ "MODBUS_MAX_WRITE_CALLBACKS", "group__config.html#gae73d3cbaf832f8916fd7850b3c20b40b", null ],
+    [ "MODBUS_USE_STATIC_REG_POOL", "group__config.html#ga86369636b2aad63ca473149593fa71aa", null ],
+    [ "READ_AI", "group__config.html#ga2f962dad5faddd33da91c51b5712c4fe", null ],
+    [ "READ_AO", "group__config.html#ga5bad7fb4cc52c9ef6a79e38d65d01a1f", null ],
+    [ "READ_DI", "group__config.html#gab02544123e8058760a9caccb93f727b4", null ],
+    [ "READ_DO", "group__config.html#gad151b08b45c127e065c7c5a0dd434d16", null ],
+    [ "WRITE_AO", "group__config.html#gaf19d0779cfa2a151c8aeec4a3ca4d2c7", null ],
+    [ "WRITE_AO_MULTI", "group__config.html#gadc95b1d7c8c61b124d19c168b64403bd", null ],
+    [ "WRITE_DO", "group__config.html#ga87605a466a79cb992ddb5b3bfdc0e3da", null ],
+    [ "WRITE_DO_MULTI", "group__config.html#gaf3a0c0ac6d57523cb88c214fd3aaed26", null ]
+];

@@ -18,6 +18,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-modern.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Industrial-grade Modbus RTU slave library for Arduino by Nadeem Abbas</div>
   </td>
@@ -89,7 +90,7 @@ $(function(){initNavTree('classmodbus_slave.html','',''); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">modbusSlave Class Reference<div class="ingroups"><a class="el" href="group__rs485__control.html">RS485 Control</a> &#124; <a class="el" href="group__protocol__engine.html">Protocol Engine</a></div></div></div>
+  <div class="headertitle"><div class="title">modbusSlave Class Reference<div class="ingroups"><a class="el" href="group__core__runtime.html">Core Runtime</a> &raquo; <a class="el" href="group__protocol__engine.html">Protocol Engine</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -129,16 +130,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a5300a676840404ee04cddccfcc040280"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build digital status response payload.  <br /></td></tr>
 <tr class="memitem:a1e2ae5b2f0156fa311012d358fd505d8" id="r_a1e2ae5b2f0156fa311012d358fd505d8"><td class="memItemLeft">byte&#160;</td><td class="memItemRight"><a class="el" href="#a1e2ae5b2f0156fa311012d358fd505d8">getEndianness</a> (void)</td></tr>
 <tr class="memdesc:a1e2ae5b2f0156fa311012d358fd505d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get active 32-bit helper endianness mode.  <br /></td></tr>
+<tr class="memitem:a7ff4a27cfcd12e2617757d2d27e37107" id="r_a7ff4a27cfcd12e2617757d2d27e37107"><td class="memItemLeft">byte&#160;</td><td class="memItemRight"><a class="el" href="#a7ff4a27cfcd12e2617757d2d27e37107">getProtocol</a> (void)</td></tr>
+<tr class="memdesc:a7ff4a27cfcd12e2617757d2d27e37107"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get active protocol framing mode.  <br /></td></tr>
 <tr class="memitem:a648d452f6d5bf086f5716caa1b9ee5e5" id="r_a648d452f6d5bf086f5716caa1b9ee5e5"><td class="memItemLeft">word&#160;</td><td class="memItemRight"><a class="el" href="#a648d452f6d5bf086f5716caa1b9ee5e5">getSlaveMessageCount</a> (void)</td></tr>
 <tr class="memdesc:a648d452f6d5bf086f5716caa1b9ee5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get FC08 slave message counter.  <br /></td></tr>
 <tr class="memitem:ad1bb6eaa747222dfa05e955c969f5ceb" id="r_ad1bb6eaa747222dfa05e955c969f5ceb"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad1bb6eaa747222dfa05e955c969f5ceb">modbusSlave</a> (void)</td></tr>
 <tr class="memdesc:ad1bb6eaa747222dfa05e955c969f5ceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a slave instance with defaults.  <br /></td></tr>
-<tr class="memitem:a3bed602cf84787a220b584a56a16831a" id="r_a3bed602cf84787a220b584a56a16831a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3bed602cf84787a220b584a56a16831a">onRead</a> (word address, <a class="el" href="group__rs485__control.html#gacec0f980d7eda7f7c309c98bebe56217">modbusReadCallback</a> cb)</td></tr>
-<tr class="memdesc:a3bed602cf84787a220b584a56a16831a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register read callback for specific address.  <br /></td></tr>
-<tr class="memitem:a3f6dc4dc250f97ca1429b7d6793fb454" id="r_a3f6dc4dc250f97ca1429b7d6793fb454"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3f6dc4dc250f97ca1429b7d6793fb454">onUnknownFunction</a> (<a class="el" href="group__rs485__control.html#gaf50cda51434e7c27f886f8280774312d">modbusUnknownFunctionCallback</a> cb)</td></tr>
-<tr class="memdesc:a3f6dc4dc250f97ca1429b7d6793fb454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register callback for unsupported/custom function codes.  <br /></td></tr>
-<tr class="memitem:aba25bdd82ae6a813c9f25ffc194f9d15" id="r_aba25bdd82ae6a813c9f25ffc194f9d15"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aba25bdd82ae6a813c9f25ffc194f9d15">onWrite</a> (word address, <a class="el" href="group__rs485__control.html#ga560f2ec3ea2f4d6c572d06fcc3b4b3ca">modbusWriteCallback</a> cb)</td></tr>
-<tr class="memdesc:aba25bdd82ae6a813c9f25ffc194f9d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register write callback for specific address.  <br /></td></tr>
+<tr class="memitem:ga3bed602cf84787a220b584a56a16831a" id="r_ga3bed602cf84787a220b584a56a16831a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group__callback__hooks.html#ga3bed602cf84787a220b584a56a16831a">onRead</a> (word address, <a class="el" href="group__callback__hooks.html#ga7a4a2906d2831020ca8efff9b0407dba">modbusReadCallback</a> cb)</td></tr>
+<tr class="memdesc:ga3bed602cf84787a220b584a56a16831a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register read callback for specific address.  <br /></td></tr>
+<tr class="memitem:ga3f6dc4dc250f97ca1429b7d6793fb454" id="r_ga3f6dc4dc250f97ca1429b7d6793fb454"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group__callback__hooks.html#ga3f6dc4dc250f97ca1429b7d6793fb454">onUnknownFunction</a> (<a class="el" href="group__callback__hooks.html#gaf50cda51434e7c27f886f8280774312d">modbusUnknownFunctionCallback</a> cb)</td></tr>
+<tr class="memdesc:ga3f6dc4dc250f97ca1429b7d6793fb454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register callback for unsupported/custom function codes.  <br /></td></tr>
+<tr class="memitem:gaba25bdd82ae6a813c9f25ffc194f9d15" id="r_gaba25bdd82ae6a813c9f25ffc194f9d15"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group__callback__hooks.html#gaba25bdd82ae6a813c9f25ffc194f9d15">onWrite</a> (word address, <a class="el" href="group__callback__hooks.html#ga560f2ec3ea2f4d6c572d06fcc3b4b3ca">modbusWriteCallback</a> cb)</td></tr>
+<tr class="memdesc:gaba25bdd82ae6a813c9f25ffc194f9d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register write callback for specific address.  <br /></td></tr>
 <tr class="memitem:ae929ba491893a2423ce3620d1d2be3ce" id="r_ae929ba491893a2423ce3620d1d2be3ce"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae929ba491893a2423ce3620d1d2be3ce">run</a> (void)</td></tr>
 <tr class="memdesc:ae929ba491893a2423ce3620d1d2be3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-blocking slave engine tick.  <br /></td></tr>
 <tr class="memitem:a39ab39b22dbcabe264da170ce087f2f7" id="r_a39ab39b22dbcabe264da170ce087f2f7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a39ab39b22dbcabe264da170ce087f2f7">serialRx</a> (void)</td></tr>
@@ -151,10 +154,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa668716e0c9d8f55a792f72335a16ca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind hardware serial transport.  <br /></td></tr>
 <tr class="memitem:a0bf89ef1fa2ec4a08c3db6263a9ad05c" id="r_a0bf89ef1fa2ec4a08c3db6263a9ad05c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0bf89ef1fa2ec4a08c3db6263a9ad05c">setPort</a> (Stream &amp;port)</td></tr>
 <tr class="memdesc:a0bf89ef1fa2ec4a08c3db6263a9ad05c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind generic Stream transport.  <br /></td></tr>
+<tr class="memitem:a4916abb767fbad13cc8fbdfe5472b26e" id="r_a4916abb767fbad13cc8fbdfe5472b26e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4916abb767fbad13cc8fbdfe5472b26e">setProtocol</a> (byte mode)</td></tr>
+<tr class="memdesc:a4916abb767fbad13cc8fbdfe5472b26e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select protocol transport framing mode (RTU default, optional ASCII).  <br /></td></tr>
 <tr class="memitem:a54d0d00d60eae2974a74e76a6a2c2a79" id="r_a54d0d00d60eae2974a74e76a6a2c2a79"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a54d0d00d60eae2974a74e76a6a2c2a79">setStatus</a> (byte, word, word)</td></tr>
 <tr class="memdesc:a54d0d00d60eae2974a74e76a6a2c2a79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle single-write function payloads.  <br /></td></tr>
 <tr class="memitem:a84354689ab5c2a67e67cb593793386a4" id="r_a84354689ab5c2a67e67cb593793386a4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a84354689ab5c2a67e67cb593793386a4">setStatusMultiple</a> (byte, word, word)</td></tr>
 <tr class="memdesc:a84354689ab5c2a67e67cb593793386a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle multi-write function payloads.  <br /></td></tr>
+<tr class="memitem:gab2962dec4e69b784ef267907cd46a425" id="r_gab2962dec4e69b784ef267907cd46a425"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group__callback__hooks.html#gab2962dec4e69b784ef267907cd46a425">setStreamBaudHandler</a> (<a class="el" href="group__callback__hooks.html#gab951362093d170e5e283b18f0d19c2dd">modbusStreamBaudCallback</a> cb)</td></tr>
+<tr class="memdesc:gab2962dec4e69b784ef267907cd46a425"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register baud reconfiguration callback for generic Stream transports.  <br /></td></tr>
 <tr class="memitem:ga0806a4ae16ff21e1a7f9330260d5eec4" id="r_ga0806a4ae16ff21e1a7f9330260d5eec4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group__rs485__control.html#ga0806a4ae16ff21e1a7f9330260d5eec4">setTxEnableDelays</a> (word preDelayMs, word postDelayMs)</td></tr>
 <tr class="memdesc:ga0806a4ae16ff21e1a7f9330260d5eec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure RS485 ms-level pre/post TX delays.  <br /></td></tr>
 <tr class="memitem:ga8903fa71a422d77d3f3dd03f071be5ad" id="r_ga8903fa71a422d77d3f3dd03f071be5ad"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group__rs485__control.html#ga8903fa71a422d77d3f3dd03f071be5ad">setTxEnableDelaysUs</a> (word preDelayUs, word postDelayUs)</td></tr>
@@ -164,8 +171,11 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Modbus RTU slave communications and frame processing engine. </p>
-
-<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00037">37</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
+<p>Internal parser state machine used by <a class="el" href="#ae929ba491893a2423ce3620d1d2be3ce" title="modbusSlave::run">run()</a>:</p>
+<div class="dotgraph">
+<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_46a0300c3aa947c50fd9bac72d6aadab.svg" width="782" height="176"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+ 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00073">73</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad1bb6eaa747222dfa05e955c969f5ceb" name="ad1bb6eaa747222dfa05e955c969f5ceb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad1bb6eaa747222dfa05e955c969f5ceb">&#9670;&#160;</a></span>modbusSlave()</h2>
@@ -183,6 +193,10 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Construct a slave instance with defaults. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00086">86</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_8h_source.html#l00098">MODBUS_MAX_READ_CALLBACKS</a>, <a class="el" href="modbus_8h_source.html#l00102">MODBUS_MAX_WRITE_CALLBACKS</a>, <a class="el" href="modbus_8h_source.html#l00112">RTU</a>, and <a class="el" href="modbus_8h_source.html#l00028">SERIALBAUD</a>.</p>
 
 </div>
 </div>
@@ -204,6 +218,17 @@ Public Member Functions</h2></td></tr>
 
 <p>Calculate CRC for current frame buffer. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00301">301</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_slave_8cpp_source.html#l00045">_auchCRCHi</a>, <a class="el" href="modbus_slave_8cpp_source.html#l00066">_auchCRCLo</a>, and <a class="el" href="modbus_8h_source.html#l00114">ASCII</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="modbus_slave_8cpp_source.html#l00816">diagnostics()</a>, <a class="el" href="modbus_slave_8cpp_source.html#l00694">getAnalogStatus()</a>, <a class="el" href="modbus_slave_8cpp_source.html#l00632">getDigitalStatus()</a>, <a class="el" href="modbus_slave_8cpp_source.html#l00741">setStatus()</a>, and <a class="el" href="modbus_slave_8cpp_source.html#l00776">setStatusMultiple()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classmodbus_slave_a12c58c696b6e1af1d5f2086ef81ac6e2_icgraph.svg" width="422" height="240"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
 </div>
 </div>
 <a id="a118c9c5f5f44b1af5c3a469414d70dfb" name="a118c9c5f5f44b1af5c3a469414d70dfb"></a>
@@ -223,6 +248,10 @@ Public Member Functions</h2></td></tr>
 
 <p>Legacy helper: check serial frame status. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00333">333</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_8h_source.html#l00042">MODBUS_MAX_FRAME</a>.</p>
+
 </div>
 </div>
 <a id="a8b2316e74688593cc6c7cad41f4f6e32" name="a8b2316e74688593cc6c7cad41f4f6e32"></a>
@@ -241,6 +270,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Reset all FC08 diagnostic counters to zero. </p>
+<p>Useful for periodic diagnostics reset or after maintenance. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00264">264</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
 
 </div>
 </div>
@@ -261,6 +293,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Set 32-bit helper endianness mode on bound register bank. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00243">243</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
 </div>
 </div>
 <a id="ac8418d8d2a62d7de5e82e5833bf4cee8" name="ac8418d8d2a62d7de5e82e5833bf4cee8"></a>
@@ -272,17 +306,26 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void modbusSlave::diagnostics </td>
           <td>(</td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>subFunction</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Handle FC08 diagnostics subfunctions. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00816">816</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_slave_8cpp_source.html#l00301">calcCrc()</a>, <a class="el" href="modbus_8h_source.html#l00088">DIAG_BUS_COMM_ERROR_COUNT</a>, <a class="el" href="modbus_8h_source.html#l00087">DIAG_BUS_MESSAGE_COUNT</a>, <a class="el" href="modbus_8h_source.html#l00086">DIAG_RETURN_QUERY_DATA</a>, <a class="el" href="modbus_8h_source.html#l00089">DIAG_SLAVE_MESSAGE_COUNT</a>, and <a class="el" href="modbus_8h_source.html#l00074">DIAGNOSTICS</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classmodbus_slave_ac8418d8d2a62d7de5e82e5833bf4cee8_cgraph.svg" width="387" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -295,22 +338,31 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void modbusSlave::getAnalogStatus </td>
           <td>(</td>
-          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em>funcType</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>startreg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>numregs</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Build analog status response payload. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00694">694</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_slave_8cpp_source.html#l00301">calcCrc()</a>, <a class="el" href="modbus_8h_source.html#l00042">MODBUS_MAX_FRAME</a>, and <a class="el" href="modbus_8h_source.html#l00068">READ_AI</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classmodbus_slave_aeb74fb9170b49430c60175b66db784d3_cgraph.svg" width="416" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -339,7 +391,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Get current configured baud rate. </p>
 
-<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00080">80</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00130">130</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
 
 </div>
 </div>
@@ -360,6 +412,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Get FC08 bus communication error counter. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00254">254</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
 </div>
 </div>
 <a id="acbdf28828d08a3546602d351e4adc474" name="acbdf28828d08a3546602d351e4adc474"></a>
@@ -378,6 +432,8 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get FC08 bus message counter. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00249">249</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
 
 </div>
 </div>
@@ -406,7 +462,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Get currently bound device model pointer. </p>
 
-<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00045">45</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00081">81</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
 
 </div>
 </div>
@@ -419,22 +475,31 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void modbusSlave::getDigitalStatus </td>
           <td>(</td>
-          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em>funcType</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>startreg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>numregs</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Build digital status response payload. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00632">632</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_slave_8cpp_source.html#l00301">calcCrc()</a>, <a class="el" href="modbus_8h_source.html#l00042">MODBUS_MAX_FRAME</a>, and <a class="el" href="modbus_8h_source.html#l00066">READ_DI</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classmodbus_slave_a5300a676840404ee04cddccfcc040280_cgraph.svg" width="414" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -463,9 +528,38 @@ Public Member Functions</h2></td></tr>
 
 <p>Get active 32-bit helper endianness mode. </p>
 
-<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00068">68</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00111">111</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
 
-<p class="reference">References <a class="el" href="modbus_8h_source.html#l00059">MODBUS_BIG_ENDIAN</a>.</p>
+<p class="reference">References <a class="el" href="modbus_8h_source.html#l00079">MODBUS_BIG_ENDIAN</a>.</p>
+
+</div>
+</div>
+<a id="a7ff4a27cfcd12e2617757d2d27e37107" name="a7ff4a27cfcd12e2617757d2d27e37107"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ff4a27cfcd12e2617757d2d27e37107">&#9670;&#160;</a></span>getProtocol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte modbusSlave::getProtocol </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get active protocol framing mode. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8h_source.html#l00128">128</a> of file <a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a>.</p>
 
 </div>
 </div>
@@ -486,70 +580,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Get FC08 slave message counter. </p>
 
-</div>
-</div>
-<a id="a3bed602cf84787a220b584a56a16831a" name="a3bed602cf84787a220b584a56a16831a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bed602cf84787a220b584a56a16831a">&#9670;&#160;</a></span>onRead()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool modbusSlave::onRead </td>
-          <td>(</td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>address</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__rs485__control.html#gacec0f980d7eda7f7c309c98bebe56217">modbusReadCallback</a></td>          <td class="paramname"><span class="paramname"><em>cb</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Register read callback for specific address. </p>
-
-</div>
-</div>
-<a id="a3f6dc4dc250f97ca1429b7d6793fb454" name="a3f6dc4dc250f97ca1429b7d6793fb454"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f6dc4dc250f97ca1429b7d6793fb454">&#9670;&#160;</a></span>onUnknownFunction()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool modbusSlave::onUnknownFunction </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__rs485__control.html#gaf50cda51434e7c27f886f8280774312d">modbusUnknownFunctionCallback</a></td>          <td class="paramname"><span class="paramname"><em>cb</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Register callback for unsupported/custom function codes. </p>
-
-</div>
-</div>
-<a id="aba25bdd82ae6a813c9f25ffc194f9d15" name="aba25bdd82ae6a813c9f25ffc194f9d15"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba25bdd82ae6a813c9f25ffc194f9d15">&#9670;&#160;</a></span>onWrite()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool modbusSlave::onWrite </td>
-          <td>(</td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>address</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__rs485__control.html#ga560f2ec3ea2f4d6c572d06fcc3b4b3ca">modbusWriteCallback</a></td>          <td class="paramname"><span class="paramname"><em>cb</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Register write callback for specific address. </p>
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00259">259</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
 
 </div>
 </div>
@@ -571,6 +602,10 @@ Public Member Functions</h2></td></tr>
 <p>Non-blocking slave engine tick. </p>
 <p>Call this continuously from Arduino loop(). </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l01055">1055</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_8h_source.html#l00114">ASCII</a>, and <a class="el" href="modbus_8h_source.html#l00042">MODBUS_MAX_FRAME</a>.</p>
+
 </div>
 </div>
 <a id="a39ab39b22dbcabe264da170ce087f2f7" name="a39ab39b22dbcabe264da170ce087f2f7"></a>
@@ -590,6 +625,10 @@ Public Member Functions</h2></td></tr>
 
 <p>Legacy helper: receive serial payload. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00363">363</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_8h_source.html#l00042">MODBUS_MAX_FRAME</a>.</p>
+
 </div>
 </div>
 <a id="a8880cf4c5425b83c1f5a372bd98b4651" name="a8880cf4c5425b83c1f5a372bd98b4651"></a>
@@ -601,13 +640,15 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void modbusSlave::setBaud </td>
           <td>(</td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>baud</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Configure RTU baud rate and frame timing. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00276">276</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
 
 </div>
 </div>
@@ -628,6 +669,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Bind logical register device model. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00131">131</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
 </div>
 </div>
 <a id="aa668716e0c9d8f55a792f72335a16ca7" name="aa668716e0c9d8f55a792f72335a16ca7"></a>
@@ -646,6 +689,8 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Bind hardware serial transport. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00136">136</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
 
 </div>
 </div>
@@ -666,6 +711,31 @@ Public Member Functions</h2></td></tr>
 
 <p>Bind generic Stream transport. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00142">142</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4916abb767fbad13cc8fbdfe5472b26e" name="a4916abb767fbad13cc8fbdfe5472b26e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4916abb767fbad13cc8fbdfe5472b26e">&#9670;&#160;</a></span>setProtocol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void modbusSlave::setProtocol </td>
+          <td>(</td>
+          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Select protocol transport framing mode (RTU default, optional ASCII). </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00148">148</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_8h_source.html#l00114">ASCII</a>, and <a class="el" href="modbus_8h_source.html#l00112">RTU</a>.</p>
+
 </div>
 </div>
 <a id="a54d0d00d60eae2974a74e76a6a2c2a79" name="a54d0d00d60eae2974a74e76a6a2c2a79"></a>
@@ -677,22 +747,31 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void modbusSlave::setStatus </td>
           <td>(</td>
-          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em>funcType</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>reg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>val</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Handle single-write function payloads. </p>
+
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00741">741</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_slave_8cpp_source.html#l00301">calcCrc()</a>, and <a class="el" href="modbus_8h_source.html#l00070">WRITE_DO</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classmodbus_slave_a54d0d00d60eae2974a74e76a6a2c2a79_cgraph.svg" width="376" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -705,27 +784,37 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void modbusSlave::setStatusMultiple </td>
           <td>(</td>
-          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">byte</td>          <td class="paramname"><span class="paramname"><em>funcType</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>reg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">word</td>          <td class="paramname"><span class="paramname"><em>count</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Handle multi-write function payloads. </p>
 
+<p class="definition">Definition at line <a class="el" href="modbus_slave_8cpp_source.html#l00776">776</a> of file <a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="modbus_slave_8cpp_source.html#l00301">calcCrc()</a>, and <a class="el" href="modbus_8h_source.html#l00072">WRITE_DO_MULTI</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classmodbus_slave_a84354689ab5c2a67e67cb593793386a4_cgraph.svg" width="422" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="modbus_slave_8h_source.html">modbusSlave.h</a></li>
+<li><a class="el" href="modbus_slave_8cpp_source.html">modbusSlave.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

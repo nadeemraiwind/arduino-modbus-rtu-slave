@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🏆_20modbus_20master_20library_0',['🏆 Modbus Master Library',['../index.html#autotoc_md43',1,'']]]
+  ['⭐_20start_20here_0',['Level 1: Basic - Minimal Slave ⭐ START HERE',['../index.html#autotoc_md35',1,'']]]
 ];

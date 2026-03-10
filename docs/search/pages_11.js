@@ -1,26 +1,10 @@
 var searchData=
 [
-  ['layered_20architecture_0',['Main Lifecycle - Layered Architecture',['../index.html#autotoc_md8',1,'']]],
-  ['lead_20developer_1',['Lead Developer',['../architecture.html#autotoc_md110',1,'']]],
-  ['length_2',['Check 1: Frame Length',['../architecture.html#autotoc_md93',1,'']]],
-  ['length_20request_20validation_20for_20fc01_20fc06_3',['⚠️ &lt;b&gt;Fixed-Length Request Validation for FC01-FC06&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md67',1,'']]],
-  ['level_4',['Architecture Patterns by User Level',['../index.html#autotoc_md10',1,'']]],
-  ['level_201_3a_20basic_20minimal_20slave_20⭐_20start_20here_5',['Level 1: Basic - Minimal Slave ⭐ START HERE',['../index.html#autotoc_md22',1,'']]],
-  ['level_202_3a_20intermediate_20multi_20register_20process_6',['Level 2: Intermediate - Multi-Register Process',['../index.html#autotoc_md23',1,'']]],
-  ['level_203_3a_20advanced_20typed_20data_20float_20long_20string_7',['Level 3: Advanced - Typed Data (Float/Long/String)',['../index.html#autotoc_md24',1,'']]],
-  ['level_204_3a_20expert_20callbacks_20diagnostics_20custom_20functions_8',['Level 4: Expert - Callbacks, Diagnostics, Custom Functions',['../index.html#autotoc_md25',1,'']]],
-  ['level_205_3a_20rs485_20hardware_20industrial_20deployment_9',['Level 5: RS485 Hardware - Industrial Deployment',['../index.html#autotoc_md26',1,'']]],
-  ['level_20features_10',['Elite Level Features',['../index.html#autotoc_md39',1,'']]],
-  ['level_20major_20features_11',['Elite Level (Major Features)',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md85',1,'']]],
-  ['library_12',['Library',['../index.html#autotoc_md43',1,'🏆 Modbus Master Library'],['../index.html',1,'Modbus RTU Arduino Library']]],
-  ['library_20api_13',['Library API',['../index.html#autotoc_md15',1,'']]],
-  ['license_14',['License',['../index.html#autotoc_md54',1,'']]],
-  ['lifecycle_20layered_20architecture_15',['Main Lifecycle - Layered Architecture',['../index.html#autotoc_md8',1,'']]],
-  ['limitations_16',['Limitations',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md66',1,'Current Limitations'],['../md__k_n_o_w_n___i_s_s_u_e_s.html',1,'Known Issues and Limitations'],['../index.html#autotoc_md30',1,'Known Limitations']]],
-  ['limits_17',['Communication Limits',['../architecture.html#autotoc_md107',1,'']]],
-  ['linked_20list_20lookup_20cost_20default_20mode_18',['⚠️ &lt;b&gt;Linked List Lookup Cost (Default Mode)&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md69',1,'']]],
-  ['linker_20errors_19',['✅ &lt;b&gt;FIXED: CRC Table Linker Errors&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md59',1,'']]],
-  ['list_20lookup_20cost_20default_20mode_20',['⚠️ &lt;b&gt;Linked List Lookup Cost (Default Mode)&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md69',1,'']]],
-  ['long_20string_21',['Level 3: Advanced - Typed Data (Float/Long/String)',['../index.html#autotoc_md24',1,'']]],
-  ['lookup_20cost_20default_20mode_22',['⚠️ &lt;b&gt;Linked List Lookup Cost (Default Mode)&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md69',1,'']]]
+  ['hardware_20and_20link_20matrix_0',['Hardware and Link Matrix',['../validation.html#autotoc_md117',1,'']]],
+  ['hardware_20control_20timing_20reference_1',['Hardware Control Timing Reference',['../architecture.html#hardware_timing_reference',1,'']]],
+  ['hardware_20industrial_20deployment_2',['Level 5: RS485 Hardware - Industrial Deployment',['../index.html#autotoc_md39',1,'']]],
+  ['hardware_20validation_3',['Untested or Partial Hardware Validation',['../status.html#autotoc_md106',1,'']]],
+  ['here_4',['Level 1: Basic - Minimal Slave ⭐ START HERE',['../index.html#autotoc_md35',1,'']]],
+  ['how_20to_20contribute_5',['How to Contribute',['../index.html#autotoc_md68',1,'']]],
+  ['html_20docs_6',['Generate HTML Docs',['../index.html#autotoc_md8',1,'']]]
 ];

@@ -18,6 +18,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-modern.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Industrial-grade Modbus RTU slave library for Arduino by Nadeem Abbas</div>
   </td>
@@ -94,6 +95,27 @@ $(function(){initNavTree('architecture.html','',''); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__a_r_c_h_i_t_e_c_t_u_r_e"></a></p>
 <p>This document provides detailed sequence diagrams and flowcharts showing the internal logic of the Modbus RTU Slave library. Understanding these flows is essential for industrial deployment and debugging.</p>
+<h1 class="doxsection"><a class="anchor" id="industrial_topology"></a>
+Industrial Link Topology</h1>
+<div class="dotgraph">
+<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_41458be1161b3255c79ae4a3d04bf1a5.svg" width="1111" height="68"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<h1 class="doxsection"><a class="anchor" id="layered_architecture"></a>
+Layered Architecture Overview</h1>
+<div class="dotgraph">
+<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_e858c842facd1d638e52f2c474123d1c.svg" width="356" height="414"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<h1 class="doxsection"><a class="anchor" id="hardware_timing_reference"></a>
+Hardware Control Timing Reference</h1>
+<p>The protocol engine computes frame boundaries from character timing in <a class="el" href="classmodbus_slave.html#a8880cf4c5425b83c1f5a372bd98b4651" title="modbusSlave::setBaud">modbusSlave::setBaud</a>.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Baud  </th><th class="markdownTableHeadNone">Character Time (10 bits)  </th><th class="markdownTableHeadNone">T1.5  </th><th class="markdownTableHeadNone">T3.5  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">9600  </td><td class="markdownTableBodyNone">1041.7 us  </td><td class="markdownTableBodyNone">1562.5 us  </td><td class="markdownTableBodyNone">3645.8 us  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">19200  </td><td class="markdownTableBodyNone">520.8 us  </td><td class="markdownTableBodyNone">781.3 us  </td><td class="markdownTableBodyNone">1822.9 us  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">115200  </td><td class="markdownTableBodyNone">86.8 us  </td><td class="markdownTableBodyNone">130.2 us  </td><td class="markdownTableBodyNone">303.8 us  </td></tr>
+</table>
 <hr  />
 <h1 class="doxsection"><a class="anchor" id="sequence_diagram"></a>
 Request-Response Sequence Diagram</h1>
@@ -129,7 +151,7 @@ Request-Response Sequence Diagram</h1>
 run() State Machine Flowchart</h1>
 <p>The <span class="tt">slave.run()</span> method implements a non-blocking state machine that never stalls the main loop. This design is critical for industrial applications where the Arduino must perform other tasks.</p>
 <div class="dotgraph">
-<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_f3e67a0ce805240d6938cc6b93190387.svg" width="752" height="1186"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_b689c38764e87833398bcb826d71b489.svg" width="752" height="1186"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <p><b>State Transition Rules:</b></p>
 <ul>
 <li><b>IDLE → RECEIVING:</b> First byte detected</li>
@@ -153,34 +175,34 @@ processFrame() Validation Chain</h1>
 <div class="dotgraph">
 <iframe scrolling="no" loading="lazy" frameborder="0" src="dot_inline_dotgraph_b1334f0f56ff901053d1f129f056b62b.svg" width="886" height="2372"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <p><b>Validation Chain Details:</b></p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md93"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md82"></a>
 Check 1: Frame Length</h2>
 <ul>
 <li><b>Minimum:</b> 8 bytes (Slave ID + FC + 2 data + 2 CRC)</li>
 <li><b>Action on Fail:</b> Silent discard (prevents buffer underrun)</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md94"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md83"></a>
 Check 2: CRC-16 Integrity</h2>
 <ul>
 <li><b>Algorithm:</b> CRC-16-ANSI/Modbus (polynomial 0xA001)</li>
 <li><b>Action on Fail:</b> Increment bus error counter, silent discard</li>
 <li><b>Why:</b> Corrupted frames must not execute</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md95"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md84"></a>
 Check 3: Slave ID Matching</h2>
 <ul>
 <li><b>Valid IDs:</b> Our configured ID (1-247) or broadcast (0)</li>
 <li><b>Action on Fail:</b> Silent discard (not addressed to us)</li>
 <li><b>Multi-drop:</b> Prevents crosstalk on shared RS485 bus</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md96"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md85"></a>
 Check 4: Function Code Support</h2>
 <ul>
 <li><b>Supported:</b> FC01-06 (standard), FC15-16 (multi-write), FC08 (diagnostics)</li>
 <li><b>Custom Handler:</b> <span class="tt">onUnknownFunction()</span> callback for vendor extensions</li>
 <li><b>Action on Fail:</b> Send exception 0x01 (Illegal Function)</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md97"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md86"></a>
 Check 5: Data Validation</h2>
 <ul>
 <li><b>Address Range:</b> Register must exist in bank (<span class="tt">has()</span> check)</li>
@@ -190,8 +212,8 @@ Check 5: Data Validation</h2>
 </ul>
 <p><b>Callback Execution Order:</b></p>
 <ol type="1">
-<li><b>onRead()</b> - Fires <em>before</em> reading register values (just-in-time sampling)</li>
-<li><b>onWrite()</b> - Fires <em>after</em> writing register values (validation/reaction)</li>
+<li><b>onRead()</b> Fires before reading register values (just-in-time sampling)</li>
+<li><b>onWrite()</b> Fires after writing register values (validation/reaction)</li>
 </ol>
 <p><b>Broadcast Behavior:</b></p>
 <ul>
@@ -202,28 +224,28 @@ Check 5: Data Validation</h2>
 <hr  />
 <h1 class="doxsection"><a class="anchor" id="security"></a>
 Security and Robustness Features</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md99"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md88"></a>
 Frame Validation</h2>
 <ul>
 <li><b>Silent Discard:</b> Invalid frames never trigger responses</li>
 <li><b>Exception Responses:</b> Valid frames with bad data send proper error codes</li>
 <li><b>Error Counting:</b> Diagnostic counters track communication quality</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md100"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md89"></a>
 Buffer Safety</h2>
 <ul>
 <li><b>Overflow Detection:</b> <span class="tt">_rxOverflow</span> flag prevents buffer overrun</li>
 <li><b>Bounds Checking:</b> Array access validated before use</li>
 <li><b>Length Guards:</b> Dynamic length checks prevent out-of-bounds reads</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md101"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md90"></a>
 Timing Robustness</h2>
 <ul>
 <li><b>Microsecond Precision:</b> Uses <span class="tt">micros()</span> for accurate t3.5 detection</li>
 <li><b>Baud-Aware Silence:</b> Calculates t3.5 based on configured baud rate</li>
 <li><b>Wraparound Handling:</b> Properly handles <span class="tt">micros()</span> 70-minute rollover</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md102"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md91"></a>
 Atomic Protection</h2>
 <ul>
 <li><b>Critical Sections:</b> <span class="tt">atomicBegin()</span>/<span class="tt">atomicEnd()</span> defer frame processing</li>
@@ -255,7 +277,7 @@ Debugging Guide</h1>
 </div><!-- fragment --><hr  />
 <h1 class="doxsection"><a class="anchor" id="performance"></a>
 Performance Characteristics</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md105"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md94"></a>
 Execution Time (Arduino Mega 16MHz)</h2>
 <ul>
 <li><b>run() - IDLE state:</b> ~5 µs (no bytes available)</li>
@@ -263,14 +285,14 @@ Execution Time (Arduino Mega 16MHz)</h2>
 <li><b>processFrame() - FC03 single register:</b> ~200 µs</li>
 <li><b>processFrame() - FC16 multiple registers:</b> ~50 µs per register</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md106"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md95"></a>
 Memory Footprint</h2>
 <ul>
 <li><b>Static RAM:</b> ~350 bytes (objects + buffers)</li>
 <li><b>Frame Buffer:</b> 256 bytes</li>
 <li><b>Register Storage:</b> Dynamic (malloc or static pool)</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md107"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md96"></a>
 Communication Limits</h2>
 <ul>
 <li><b>Baud Rates:</b> 300 - 115200 (tested)</li>
@@ -282,19 +304,20 @@ Communication Limits</h2>
 <hr  />
 <h1 class="doxsection"><a class="anchor" id="credits"></a>
 Author &amp; Credits</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md110"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md99"></a>
 Lead Developer</h2>
 <p><b>Nadeem Abbas</b> <br  />
  📧 <a href="#" onclick="location.href='mai'+'lto:'+'zah'+'id'+'_pr'+'in'+'ter'+'s@'+'gma'+'il'+'.co'+'m'; return false;">zahid<span class="obfuscator">.nosp@m.</span>_pri<span class="obfuscator">.nosp@m.</span>nters<span class="obfuscator">.nosp@m.</span>@gma<span class="obfuscator">.nosp@m.</span>il.co<span class="obfuscator">.nosp@m.</span>m</a> <br  />
  📱 +923924509295 <br  />
  📍 Raiwind, Lahore, Pakistan</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md111"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md100"></a>
 Development Tools</h2>
-<p>This library was enhanced and professionally documented with AI assistance:</p><ul>
+<p>This library was enhanced and professionally documented with AI assistance:</p>
+<ul>
 <li><b>Google Gemini</b> - Architecture design, code refinement, and technical decisions</li>
 <li><b>GitHub Copilot</b> - Intelligent code completion and documentation generation</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md112"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md101"></a>
 Special Acknowledgment</h2>
 <p><b>Jason Vreeland [CodeRage]</b> <br  />
  Original Beta Library - Released March 7, 2010 under GNU License</p>
@@ -308,12 +331,12 @@ Special Acknowledgment</h2>
 <li><b>Functionality:</b> Extended function code support (FC15/FC16) and callback system</li>
 </ul>
 <p><em>Jason's pioneering work provided the conceptual foundation that made this industrial-grade library possible. We extend our sincere gratitude for his contribution to the Arduino Modbus community.</em></p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md113"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md102"></a>
 Contributing</h2>
 <p><b>Repository:</b> <a href="https://github.com/nadeemraiwind/arduino-modbus-rtu-slave">https://github.com/nadeemraiwind/arduino-modbus-rtu-slave</a></p>
 <p><b>Report Issues:</b> <a href="https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues">GitHub Issues</a> <br  />
  <b>Discuss Features:</b> <a href="https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions">GitHub Discussions</a></p>
-<p>Contributions are welcome! See <a class="el" href="index.html#md__r_e_a_d_m_e" title="Modbus RTU Arduino Library">README.md</a> for contribution guidelines. </p>
+<p>Contributions are welcome! See <a class="el" href="index.html" title="Modbus RTU Arduino Library">README</a> for contribution guidelines. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

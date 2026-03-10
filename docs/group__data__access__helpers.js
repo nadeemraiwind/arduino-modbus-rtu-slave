@@ -28,6 +28,7 @@ var group__data__access__helpers =
       [ "setEndianness", "classmodbus_reg_bank.html#a72fcdff80f9173e502ed9264084975af", null ],
       [ "setFloat", "classmodbus_reg_bank.html#a31076a62cdef557959f32299c39c18c6", null ],
       [ "setLong", "classmodbus_reg_bank.html#aef36ae9364a3aea6c2f3d88e13629673", null ],
-      [ "setString", "classmodbus_reg_bank.html#a8be65635073738d364c81b54f87b4ec8", null ]
+      [ "setString", "classmodbus_reg_bank.html#a8be65635073738d364c81b54f87b4ec8", null ],
+      [ "tryGet", "classmodbus_reg_bank.html#a053dbb17cb5b236f74c4cf82499fe1b9", null ]
     ] ]
 ];

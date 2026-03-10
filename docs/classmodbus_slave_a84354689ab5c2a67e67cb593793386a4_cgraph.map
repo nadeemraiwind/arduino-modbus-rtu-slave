@@ -1,0 +1,5 @@
+<map id="modbusSlave::setStatusMultiple" name="modbusSlave::setStatusMultiple">
+<area shape="rect" id="Node000001" title="Handle multi&#45;write function payloads." alt="" coords="5,5,215,32"/>
+<area shape="rect" id="Node000002" href="$classmodbus_slave.html#a12c58c696b6e1af1d5f2086ef81ac6e2" title="Calculate CRC for current frame buffer." alt="" coords="263,5,416,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,16,250,19,245,19,215,21"/>
+</map>

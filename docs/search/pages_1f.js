@@ -1,8 +1,13 @@
 var searchData=
 [
-  ['⚠️_20baud_20reconfiguration_20depends_20on_20hardwareserial_0',['⚠️ &lt;b&gt;Baud Reconfiguration Depends on HardwareSerial&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md71',1,'']]],
-  ['⚠️_20fixed_20length_20request_20validation_20for_20fc01_20fc06_1',['⚠️ &lt;b&gt;Fixed-Length Request Validation for FC01-FC06&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md67',1,'']]],
-  ['⚠️_20frame_20completion_20depends_20on_20rtu_20silence_20window_2',['⚠️ &lt;b&gt;Frame Completion Depends on RTU Silence Window&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md70',1,'']]],
-  ['⚠️_20linked_20list_20lookup_20cost_20default_20mode_3',['⚠️ &lt;b&gt;Linked List Lookup Cost (Default Mode)&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md69',1,'']]],
-  ['⚠️_20sentinel_20collision_20risk_20in_20get_4',['⚠️ &lt;b&gt;Sentinel Collision Risk in get()&lt;/b&gt;',['../md__k_n_o_w_n___i_s_s_u_e_s.html#autotoc_md68',1,'']]]
+  ['website_20github_20pages_0',['Public Documentation Website (GitHub Pages)',['../index.html#autotoc_md10',1,'']]],
+  ['why_20this_20architecture_20works_1',['Why This Architecture Works',['../index.html#autotoc_md17',1,'']]],
+  ['why_20this_20page_20exists_2',['Why This Page Exists',['../register_addressing_guide.html#autotoc_md112',1,'']]],
+  ['window_201_3a_20float_20block_3',['Window 1: Float Block',['../modbus_poll_example03.html#autotoc_md124',1,'']]],
+  ['window_202_3a_20long_20block_4',['Window 2: Long Block',['../modbus_poll_example03.html#autotoc_md125',1,'']]],
+  ['window_203_3a_20string_20block_5',['Window 3: String Block',['../modbus_poll_example03.html#autotoc_md126',1,'']]],
+  ['wiring_6',['Wiring',['../index.html#autotoc_md48',1,'']]],
+  ['workflow_7',['Serial routing and debug rules used by the validated workflow',['../index.html#autotoc_md24',1,'']]],
+  ['workflows_8',['Verified by automated Python + Modbus Poll workflows',['../index.html#autotoc_md20',1,'']]],
+  ['works_9',['Why This Architecture Works',['../index.html#autotoc_md17',1,'']]]
 ];

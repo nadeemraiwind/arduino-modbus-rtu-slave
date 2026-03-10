@@ -18,6 +18,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-modern.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Arduino Modbus RTU Slave<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">Industrial-grade Modbus RTU slave library for Arduino by Nadeem Abbas</div>
   </td>
@@ -114,8 +115,9 @@ Data Fields</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Linked-node representation for analog register domains. </p>
+<p>Memory layout: 6 bytes on AVR (2+2+2), 8 bytes on 32-bit platforms (due to pointer size). </p>
 
-<p class="definition">Definition at line <a class="el" href="modbus_reg_bank_8h_source.html#l00032">32</a> of file <a class="el" href="modbus_reg_bank_8h_source.html">modbusRegBank.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="modbus_reg_bank_8h_source.html#l00042">42</a> of file <a class="el" href="modbus_reg_bank_8h_source.html">modbusRegBank.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="a3b154d07a7cf3e8e2c25e6603be998e1" name="a3b154d07a7cf3e8e2c25e6603be998e1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3b154d07a7cf3e8e2c25e6603be998e1">&#9670;&#160;</a></span>address</h2>
@@ -131,7 +133,9 @@ Data Fields</h2></td></tr>
 
 <p>Modicon-style address. </p>
 
-<p class="definition">Definition at line <a class="el" href="modbus_reg_bank_8h_source.html#l00035">35</a> of file <a class="el" href="modbus_reg_bank_8h_source.html">modbusRegBank.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="modbus_reg_bank_8h_source.html#l00045">45</a> of file <a class="el" href="modbus_reg_bank_8h_source.html">modbusRegBank.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="modbus_reg_bank_8cpp_source.html#l00026">modbusRegBank::add()</a>.</p>
 
 </div>
 </div>
@@ -149,7 +153,9 @@ Data Fields</h2></td></tr>
 
 <p>Next list node. </p>
 
-<p class="definition">Definition at line <a class="el" href="modbus_reg_bank_8h_source.html#l00040">40</a> of file <a class="el" href="modbus_reg_bank_8h_source.html">modbusRegBank.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="modbus_reg_bank_8h_source.html#l00050">50</a> of file <a class="el" href="modbus_reg_bank_8h_source.html">modbusRegBank.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="modbus_reg_bank_8cpp_source.html#l00026">modbusRegBank::add()</a>.</p>
 
 </div>
 </div>
@@ -167,7 +173,9 @@ Data Fields</h2></td></tr>
 
 <p>16-bit payload. </p>
 
-<p class="definition">Definition at line <a class="el" href="modbus_reg_bank_8h_source.html#l00037">37</a> of file <a class="el" href="modbus_reg_bank_8h_source.html">modbusRegBank.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="modbus_reg_bank_8h_source.html#l00047">47</a> of file <a class="el" href="modbus_reg_bank_8h_source.html">modbusRegBank.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="modbus_reg_bank_8cpp_source.html#l00026">modbusRegBank::add()</a>, <a class="el" href="modbus_reg_bank_8cpp_source.html#l00133">modbusRegBank::set()</a>, and <a class="el" href="modbus_reg_bank_8cpp_source.html#l00110">modbusRegBank::tryGet()</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,7 @@
+<map id="modbusRegBank::atomicGet" name="modbusRegBank::atomicGet">
+<area shape="rect" id="Node000001" title="Atomic wrapper around get()." alt="" coords="5,5,195,32"/>
+<area shape="rect" id="Node000002" href="$classmodbus_reg_bank.html#a20327e143f658ca7c31f08d001d5c421" title="Get register value or MODBUS_REG_NOT_FOUND when missing." alt="" coords="243,5,390,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,16,230,19,225,19,195,21"/>
+<area shape="rect" id="Node000003" href="$classmodbus_reg_bank.html#a053dbb17cb5b236f74c4cf82499fe1b9" title="Try reading register value; returns false if register is missing." alt="" coords="438,5,603,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="390,16,425,19,420,19,391,21"/>
+</map>

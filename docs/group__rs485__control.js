@@ -1,41 +1,6 @@
 var group__rs485__control =
 [
-    [ "modbusSlave", "classmodbus_slave.html", [
-      [ "modbusSlave", "classmodbus_slave.html#ad1bb6eaa747222dfa05e955c969f5ceb", null ],
-      [ "calcCrc", "classmodbus_slave.html#a12c58c696b6e1af1d5f2086ef81ac6e2", null ],
-      [ "checkSerial", "classmodbus_slave.html#a118c9c5f5f44b1af5c3a469414d70dfb", null ],
-      [ "clearDiagnosticsCounters", "classmodbus_slave.html#a8b2316e74688593cc6c7cad41f4f6e32", null ],
-      [ "configureEndianness", "classmodbus_slave.html#a4ba6db5fe1e148d486944be31b416239", null ],
-      [ "diagnostics", "classmodbus_slave.html#ac8418d8d2a62d7de5e82e5833bf4cee8", null ],
-      [ "getAnalogStatus", "classmodbus_slave.html#aeb74fb9170b49430c60175b66db784d3", null ],
-      [ "getBaud", "classmodbus_slave.html#a9e04c260d1c44ce4f6afc2c3dfe0835c", null ],
-      [ "getBusCommunicationErrorCount", "classmodbus_slave.html#a4d762f2995d6c61184df0b8d3e80ecb8", null ],
-      [ "getBusMessageCount", "classmodbus_slave.html#acbdf28828d08a3546602d351e4adc474", null ],
-      [ "getDevice", "classmodbus_slave.html#a3c15441d6ab95fd5799d9aa6dca0d880", null ],
-      [ "getDigitalStatus", "classmodbus_slave.html#a5300a676840404ee04cddccfcc040280", null ],
-      [ "getEndianness", "classmodbus_slave.html#a1e2ae5b2f0156fa311012d358fd505d8", null ],
-      [ "getSlaveMessageCount", "classmodbus_slave.html#a648d452f6d5bf086f5716caa1b9ee5e5", null ],
-      [ "onRead", "classmodbus_slave.html#a3bed602cf84787a220b584a56a16831a", null ],
-      [ "onUnknownFunction", "classmodbus_slave.html#a3f6dc4dc250f97ca1429b7d6793fb454", null ],
-      [ "onWrite", "classmodbus_slave.html#aba25bdd82ae6a813c9f25ffc194f9d15", null ],
-      [ "run", "classmodbus_slave.html#ae929ba491893a2423ce3620d1d2be3ce", null ],
-      [ "serialRx", "classmodbus_slave.html#a39ab39b22dbcabe264da170ce087f2f7", null ],
-      [ "setBaud", "classmodbus_slave.html#a8880cf4c5425b83c1f5a372bd98b4651", null ],
-      [ "setDevice", "classmodbus_slave.html#aec55c2d223312c66ae9d61bc86a47d92", null ],
-      [ "setPort", "classmodbus_slave.html#aa668716e0c9d8f55a792f72335a16ca7", null ],
-      [ "setPort", "classmodbus_slave.html#a0bf89ef1fa2ec4a08c3db6263a9ad05c", null ],
-      [ "setStatus", "classmodbus_slave.html#a54d0d00d60eae2974a74e76a6a2c2a79", null ],
-      [ "setStatusMultiple", "classmodbus_slave.html#a84354689ab5c2a67e67cb593793386a4", null ],
-      [ "setTxEnableDelays", "group__rs485__control.html#ga0806a4ae16ff21e1a7f9330260d5eec4", null ],
-      [ "setTxEnableDelaysUs", "group__rs485__control.html#ga8903fa71a422d77d3f3dd03f071be5ad", null ],
-      [ "setTxEnablePin", "group__rs485__control.html#gad1a8b2099ad70d24a6f39aec85e7150b", null ]
-    ] ],
-    [ "modbusReadCallback", "group__rs485__control.html#gacec0f980d7eda7f7c309c98bebe56217", null ],
-    [ "modbusUnknownFunctionCallback", "group__rs485__control.html#gaf50cda51434e7c27f886f8280774312d", null ],
-    [ "modbusWriteCallback", "group__rs485__control.html#ga560f2ec3ea2f4d6c572d06fcc3b4b3ca", null ],
     [ "modbusSlave::setTxEnableDelays", "group__rs485__control.html#ga0806a4ae16ff21e1a7f9330260d5eec4", null ],
     [ "modbusSlave::setTxEnableDelaysUs", "group__rs485__control.html#ga8903fa71a422d77d3f3dd03f071be5ad", null ],
-    [ "modbusSlave::setTxEnablePin", "group__rs485__control.html#gad1a8b2099ad70d24a6f39aec85e7150b", null ],
-    [ "_auchCRCHi", "group__rs485__control.html#ga456c5749747d57e27c2f2069167db7a3", null ],
-    [ "_auchCRCLo", "group__rs485__control.html#gabf61c29f5a1985036a82b58208a59db5", null ]
+    [ "modbusSlave::setTxEnablePin", "group__rs485__control.html#gad1a8b2099ad70d24a6f39aec85e7150b", null ]
 ];

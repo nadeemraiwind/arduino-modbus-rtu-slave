@@ -1,0 +1,4 @@
+<map id="Compile&#45;time Configuration" name="Compile&#45;time Configuration">
+<area shape="rect" id="Node000001" title="Build&#45;time knobs that trade RAM, throughput, and behavior." alt="" coords="167,5,346,32"/>
+<area shape="rect" id="Node000002" href="$group__protocol__engine.html" title="Core protocol constants, function codes, diagnostics codes, and exception values." alt="" coords="5,5,119,32"/>
+</map>

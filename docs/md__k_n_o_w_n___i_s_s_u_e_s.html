@@ -18,6 +18,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-modern.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -92,288 +93,214 @@ $(function(){initNavTree('md__k_n_o_w_n___i_s_s_u_e_s.html','',''); });
   <div class="headertitle"><div class="title">Known Issues and Limitations </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md55"></a></p>
-<p>This document describes the current state of the library, recent fixes, and known limitations.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md56"></a>
-Recent Fixes (v1.1.0)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md57"></a>
-✅ <b>ADDED: Optional Static Register Pool Mode</b></h2>
-<ul>
-<li><b>Added</b>: Compile-time static pool mode to avoid heap allocation in register creation.</li>
-<li><b>Config</b>: <span class="tt"><a class="el" href="group__protocol__engine.html#ga86369636b2aad63ca473149593fa71aa" title="Optional memory model: use static pools instead of malloc-backed linked nodes.">MODBUS_USE_STATIC_REG_POOL</a></span>, <span class="tt"><a class="el" href="group__protocol__engine.html#ga49f1911bc388813c70c87b4680d8ac28">MODBUS_MAX_DIG_REGS</a></span>, <span class="tt"><a class="el" href="group__protocol__engine.html#ga95af14d1c064188546943e5d2ba42ff3">MODBUS_MAX_ANA_REGS</a></span>.</li>
-<li><b>Impact</b>: Better long-term stability for always-on industrial deployments.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md58"></a>
-✅ <b>FIXED: Broken Example Code</b></h2>
-<ul>
-<li><b>Issue</b>: The old simple example used non-existent methods (<span class="tt">addCoil()</span>, <span class="tt">addIsts()</span>, <span class="tt">slave.begin()</span>).</li>
-<li><b>Fix</b>: Updated example to use correct API (<span class="tt">add()</span>, <span class="tt">setDevice()</span>, <span class="tt">setPort()</span>)</li>
-<li><b>Impact</b>: Users can now compile the simple example without errors</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md59"></a>
-✅ <b>FIXED: CRC Table Linker Errors</b></h2>
-<ul>
-<li><b>Issue</b>: CRC lookup tables were defined in <span class="tt"><a class="el" href="modbus_slave_8h.html" title="Modbus RTU slave protocol engine and callback API.">modbusSlave.h</a></span>, causing "multiple definition" errors when including the header in multiple files</li>
-<li><b>Fix</b>: Moved CRC table definitions to <span class="tt">modbusSlave.cpp</span> and declared them as <span class="tt">extern const</span> in the header</li>
-<li><b>Impact</b>: Library can now be used in multi-file projects without linker errors</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md60"></a>
-✅ <b>IMPROVED: Example Documentation</b></h2>
-<ul>
-<li><b>Issue</b>: Limited inline documentation about how to use the library</li>
-<li><b>Fix</b>: Added comprehensive comments to <span class="tt">examples/01_Basic_MinimalSlave/01_Basic_MinimalSlave.ino</span> explaining:<ul>
-<li>Modicon address ranges (1-9999 for coils, 10001-19999 for discrete inputs, etc.)</li>
-<li>How to add more registers</li>
-<li>RS485 DE/RE control pin configuration</li>
-<li>Safe register access using <span class="tt">has()</span> method</li>
-<li>Supported Modbus function codes</li>
-</ul>
-</li>
-<li><b>Impact</b>: New users can understand the API more quickly</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md61"></a>
-✅ <b>FIXED: 8-Byte Read Assumption in run()</b></h2>
-<ul>
-<li><b>Issue</b>: <span class="tt">run()</span> previously read a hardcoded 8 bytes from UART.</li>
-<li><b>Fix</b>: <span class="tt">run()</span> now detects a complete frame first (<span class="tt">checkSerial()</span>), then reads the detected frame length (<span class="tt">serialRx()</span>).</li>
-<li><b>Impact</b>: Frame intake is no longer hardcoded to 8 bytes, making request parsing more robust.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md62"></a>
-✅ <b>IMPROVED: Microsecond RTU Frame Timing</b></h2>
-<ul>
-<li><b>Issue</b>: Millisecond-based frame timing was too coarse at high baud rates.</li>
-<li><b>Fix</b>: Frame silence detection now uses <span class="tt">micros()</span> with a 3.5-character RTU window.</li>
-<li><b>Impact</b>: Better behavior at higher baud rates and on timing-sensitive masters.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md63"></a>
-✅ <b>ADDED: FC15/FC16 Multi-Write Support</b></h2>
-<ul>
-<li><b>Added</b>: FC15 (<span class="tt">0x0F</span>, Write Multiple Coils) and FC16 (<span class="tt">0x10</span>, Write Multiple Holding Registers).</li>
-<li><b>Validation</b>: Request byte-count and payload-length checks were added for both functions.</li>
-<li><b>Response</b>: Standard Modbus write-multiple response (echo start address + quantity).</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md64"></a>
-✅ <b>ADDED: Stream Transport Support</b></h2>
-<ul>
-<li><b>Added</b>: <span class="tt">setPort(Stream&amp;)</span> in addition to <span class="tt">setPort(HardwareSerial&amp;)</span>.</li>
-<li><b>Impact</b>: Library can now work with stream-based transports (SoftwareSerial, bridges, etc.).</li>
-<li><b>Note</b>: <span class="tt">setBaud()</span> actively reconfigures UART only when using <span class="tt">HardwareSerial</span>.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md65"></a>
-✅ <b>IMPROVED: get() Not-Found Signaling</b></h2>
-<ul>
-<li><b>Issue</b>: <span class="tt">get()</span> previously returned <span class="tt">0</span> for missing registers.</li>
-<li><b>Fix</b>: <span class="tt">get()</span> now returns <span class="tt"><a class="el" href="group__protocol__engine.html#ga866d279da38ed86445ba32fe3f6ca621" title="Sentinel returned by get() when a register does not exist.">MODBUS_REG_NOT_FOUND</a></span> (<span class="tt">0xFFFF</span>) when a register is not present.</li>
-<li><b>Impact</b>: Missing-register reads are explicit; use <span class="tt">has()</span> for fully robust checks.</li>
-</ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md66"></a>
-Current Limitations</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md67"></a>
-⚠️ <b>Fixed-Length Request Validation for FC01-FC06</b></h2>
-<ul>
-<li><b>Issue</b>: FC01-FC06 validation still enforces 8-byte request size, which is correct for these function codes.</li>
-<li><b>Impact</b>: FC15/FC16 have their own variable-length validators, while FC01-FC06 remain strictly 8-byte as required.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md68"></a>
-⚠️ <b>Sentinel Collision Risk in get()</b></h2>
-<ul>
-<li><b>Issue</b>: <span class="tt"><a class="el" href="classmodbus_reg_bank.html#a20327e143f658ca7c31f08d001d5c421" title="Get register value or MODBUS_REG_NOT_FOUND when missing.">modbusRegBank::get()</a></span> returns <span class="tt"><a class="el" href="group__protocol__engine.html#ga866d279da38ed86445ba32fe3f6ca621" title="Sentinel returned by get() when a register does not exist.">MODBUS_REG_NOT_FOUND</a></span> (<span class="tt">0xFFFF</span>) for missing registers, but <span class="tt">0xFFFF</span> may also be valid register data.</li>
-<li><b>Workaround</b>: <b>Always use <span class="tt">has()</span> before <span class="tt">get()</span></b> to verify register existence: <div class="fragment"><div class="line"><span class="keywordflow">if</span> (regBank.has(40001)) {</div>
-<div class="line">  word value = regBank.get(40001);  <span class="comment">// Safe - register exists</span></div>
-<div class="line">  <span class="comment">// Use value...</span></div>
-<div class="line">}</div>
-</div><!-- fragment --></li>
-<li><b>Impact</b>: Minor - requires defensive programming</li>
-<li><b>Future</b>: Could add <span class="tt">bool get(word addr, word* outValue)</span> style API.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md69"></a>
-⚠️ <b>Linked List Lookup Cost (Default Mode)</b></h2>
-<ul>
-<li><b>Issue</b>: Default register storage uses linked list (O(n) lookup time)</li>
-<li><b>Impact</b>:<ul>
-<li>Slow for large register counts (100+ registers)</li>
-<li>Higher RAM overhead (~6 bytes per register + malloc overhead)</li>
-<li>Potential heap fragmentation on long-running systems</li>
-</ul>
-</li>
-<li><b>Benefit</b>: Allows sparse addressing (e.g., address 1 and 40001 without gaps)</li>
-<li><b>Workaround</b>: Enable static pool mode (<span class="tt"><a class="el" href="group__protocol__engine.html#ga86369636b2aad63ca473149593fa71aa" title="Optional memory model: use static pools instead of malloc-backed linked nodes.">MODBUS_USE_STATIC_REG_POOL</a>=1</span>) and keep register count sized to configured pools.</li>
-<li><b>Future</b>: Could add sorted-array/binary-search mode.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md70"></a>
-⚠️ <b>Frame Completion Depends on RTU Silence Window</b></h2>
-<ul>
-<li><b>Issue</b>: The parser is now non-blocking and byte-wise, but frame completion still relies on RTU silent interval detection.</li>
-<li><b>Impact</b>: If user code blocks for long periods in <span class="tt">loop()</span>, timing jitter can still affect request cadence.</li>
-<li><b>Workaround</b>: Keep polling loop tight and avoid long blocking code in <span class="tt">loop()</span>.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md71"></a>
-⚠️ <b>Baud Reconfiguration Depends on HardwareSerial</b></h2>
-<ul>
-<li><b>Issue</b>: <span class="tt">setBaud()</span> can only call <span class="tt">begin()</span> when the selected port is <span class="tt">HardwareSerial</span>.</li>
-<li><b>Impact</b>: With generic <span class="tt">Stream</span> transports, baud/radio settings must be configured externally by the user.</li>
-<li><b>Workaround</b>: Configure non-HardwareSerial transport speed in user code before calling <span class="tt">setPort(Stream&amp;)</span>.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md72"></a>
-ℹ️ <b>No Modbus ASCII Support</b></h2>
-<ul>
-<li><b>Issue</b>: <span class="tt"><a class="el" href="modbus_8h.html" title="Core protocol constants, limits, and compile-time configuration for the Modbus RTU library.">modbus.h</a></span> defines <span class="tt"><a class="el" href="group__protocol__engine.html#ga60710bac11b4f1135f61ded06542d661" title="ASCII mode constant (currently reserved/not implemented).">ASCII</a></span> constant but there is no implementation</li>
-<li><b>Impact</b>: None - constant is unused</li>
-<li><b>Recommendation</b>: Constant should be removed to avoid confusion, or ASCII mode should be implemented</li>
-</ul>
+<div class="textblock"><p><a class="anchor" id="autotoc_md72"></a></p>
+<p>This document tracks known limitations, practical workarounds, and recent fixes.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md73"></a>
-Best Practices</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md74"></a>
-Register Management</h2>
-<ol type="1">
-<li><b>Always check register existence:</b> <div class="fragment"><div class="line"><span class="keywordflow">if</span> (regBank.has(40001)) {</div>
-<div class="line">    word value = regBank.get(40001);</div>
-<div class="line">    <span class="comment">// Safe to use value</span></div>
-<div class="line">}</div>
-</div><!-- fragment --></li>
-<li><b>Use sparse addressing wisely:</b><ul>
-<li>Linked list allows gaps (coil 1, coil 100) without wasting memory</li>
-<li>But too many registers slows down lookups</li>
-<li>Recommended: &lt;50 total registers for good performance</li>
+Current Status</h1>
+<p>The following major items have already been implemented in code:</p>
+<ul>
+<li>Sentinel-safe register reads via <span class="tt">tryGet(word, word*)</span></li>
+<li>Sequential lookup cache for linked-list register searches</li>
+<li>Early frame completion for fixed-length RTU requests (FC01-FC06)</li>
+<li>Stream baud callback for non-<span class="tt">HardwareSerial</span> transports</li>
+<li>Optional Modbus ASCII mode (<span class="tt">setProtocol(ASCII)</span>)</li>
 </ul>
-</li>
-<li>**Follow Modicon address conventions:**<ul>
-<li>Coils: 1-9999</li>
-<li>Discrete Inputs: 10001-19999</li>
-<li>Input Registers: 30001-39999</li>
-<li>Holding Registers: 40001-49999</li>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md74"></a>
+Validation Status Snapshot</h1>
+<p>This snapshot consolidates practical audit findings that were previously tracked in development test logs.</p>
+<ul>
+<li>Verified working examples in current workflow: 01 through 07</li>
+<li>Recently updated compile-verified examples pending fresh runtime sweep: 03, 05, 06, 08, 09</li>
+<li>Manual verification guides are maintained under <span class="tt">docs/manual_testing/</span></li>
 </ul>
-</li>
-</ol>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md75"></a>
-Serial Communication</h2>
-<ol type="1">
-<li>**Use recommended baud rates:**<ul>
-<li>9600 (most reliable)</li>
-<li>19200 (good balance)</li>
-<li>38400 (advanced use only)</li>
+<p>Key findings from practical validation:</p>
+<ul>
+<li>Arduino USB serial auto-reset can cause false startup failures without a startup delay.</li>
+<li>Serial Monitor conflicts with Modbus traffic when Modbus uses <span class="tt">Serial</span>.</li>
+<li>Core integration path is strong, but industrial advanced paths remain partially validated or unvalidated.</li>
 </ul>
-</li>
-<li>**For RS485:** <div class="fragment"><div class="line">slave.setTxEnablePin(2, <span class="keyword">true</span>);     <span class="comment">// Pin 2, active HIGH</span></div>
-<div class="line">slave.setTxEnableDelays(0, 1);     <span class="comment">// 0ms pre, 1ms post</span></div>
-</div><!-- fragment --></li>
-<li>**Test with single-register operations first** before attempting complex scenarios</li>
-</ol>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md75"></a>
+Active Limitations</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md76"></a>
-Memory Management</h2>
-<ol type="1">
-<li>**Watch RAM usage:** Each register uses ~6 bytes + malloc overhead</li>
-<li>**On Arduino Uno (2KB RAM):** Keep total registers under 100</li>
-<li>**On Arduino MEGA (8KB RAM):** Can handle more but still monitor usage</li>
-</ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md77"></a>
+0. Validation Scope Gaps (Board/Transport/API Coverage)</h2>
+<ul>
+<li>Current automated and manual verification is strongest on USB Serial0 test profiles.</li>
+<li>Public examples are documented to match that validated profile first, then explain how to move Modbus onto another UART for debug-heavy deployments.</li>
+<li>RTU validation is broader than ASCII validation; current ASCII evidence is example-driven rather than full function-matrix coverage.</li>
+<li>The following areas are not yet fully validated in practical hardware tests:<ul>
+<li>Multi-UART board paths (e.g., MEGA <span class="tt">Serial1/Serial2/Serial3</span> for Modbus while <span class="tt">Serial0</span> is used for logs/programming)</li>
+<li>ESP32 and other non-AVR board-specific UART behavior</li>
+<li>SoftwareSerial and other non-HardwareSerial stream transports under realistic traffic</li>
+<li>Static register pool builds and runtime behavior:<ul>
+<li><span class="tt"><a class="el" href="group__config.html#ga86369636b2aad63ca473149593fa71aa" title="Optional memory model: use static pools instead of malloc-backed linked nodes.">MODBUS_USE_STATIC_REG_POOL</a></span></li>
+<li><span class="tt"><a class="el" href="group__config.html#ga49f1911bc388813c70c87b4680d8ac28" title="Static pool size for digital registers when MODBUS_USE_STATIC_REG_POOL=1.">MODBUS_MAX_DIG_REGS</a></span></li>
+<li><span class="tt"><a class="el" href="group__config.html#ga95af14d1c064188546943e5d2ba42ff3" title="Static pool size for analog registers when MODBUS_USE_STATIC_REG_POOL=1.">MODBUS_MAX_ANA_REGS</a></span></li>
+</ul>
+</li>
+<li>RS485 DE/RE runtime timing APIs:<ul>
+<li><span class="tt">setTxEnablePin(...)</span></li>
+<li><span class="tt">setTxEnableDelays(...)</span></li>
+<li><span class="tt">setTxEnableDelaysUs(...)</span></li>
+</ul>
+</li>
+<li>Endianness mode switching beyond the default path:<ul>
+<li><span class="tt">configureEndianness(MODBUS_LITTLE_ENDIAN)</span></li>
+<li><span class="tt">configureEndianness(MODBUS_BIG_ENDIAN_SWAPPED)</span></li>
+</ul>
+</li>
+<li>Direct unsupported-function injection checks for <span class="tt">onUnknownFunction(...)</span></li>
+<li>Direct FC08 diagnostics request automation (mirror-register checks are covered)</li>
+<li>Atomic API behavior in integrated runtime scenarios:<ul>
+<li><span class="tt">atomicBegin()</span>, <span class="tt">atomicEnd()</span>, <span class="tt">atomicGet()</span>, <span class="tt">atomicSet()</span>, <span class="tt">isAtomicLocked()</span></li>
+</ul>
+</li>
+<li>Throughput and latency characterization of the non-blocking <span class="tt">slave.run()</span> state machine under heavy traffic</li>
+<li>Explicit firmware-side <span class="tt">getFloat(...)</span> / <span class="tt">getLong(...)</span> assertion coverage</li>
+</ul>
+</li>
+</ul>
+<p>Workarounds:</p>
+<ul>
+<li>Treat these paths as deployment-specific validation items.</li>
+<li>Create board-targeted smoke tests before release for each hardware target.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md77"></a>
+0.1 USB Serial0 Auto-Reset on COM Open</h2>
+<ul>
+<li>On common Arduino USB boards, opening the COM port resets the MCU.</li>
+<li>Immediate Modbus requests can fail while the sketch is rebooting.</li>
+<li>This was the main cause of false startup failures during Example 04 development testing.</li>
+</ul>
+<p>Workarounds:</p>
+<ul>
+<li>Wait about 2 to 3 seconds after opening the COM port before the first request.</li>
+<li>Add retry logic in test or master-side automation.</li>
+<li>Keep this in mind when comparing Modbus Poll behavior against scripted tests.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md78"></a>
+0.2 Debug Output Conflicts with Serial0 Modbus</h2>
+<ul>
+<li>If <span class="tt">slave.setPort(Serial)</span> is used, the USB Serial port is reserved for Modbus traffic.</li>
+<li><span class="tt">Serial.print()</span> output and an open Serial Monitor can corrupt or block Modbus frames.</li>
+<li>Single-UART boards cannot safely use USB Modbus traffic and USB debug prints at the same time.</li>
+</ul>
+<p>Workarounds:</p>
+<ul>
+<li>Keep Serial Monitor closed whenever Modbus uses <span class="tt">Serial</span>.</li>
+<li>On MEGA-class boards, move Modbus to <span class="tt">Serial1</span>, <span class="tt">Serial2</span>, or <span class="tt">Serial3</span> and keep <span class="tt">Serial</span> for logging.</li>
+<li>For Uno-class boards, use LEDs, coils/register mirrors, or temporary alternative test sketches instead of live Serial debug.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md79"></a>
+1. Linked-List Storage Cost at Scale</h2>
+<ul>
+<li>Register storage still uses linked lists by default.</li>
+<li>Lookup remains O(n) in the worst case (cache helps common sequential access).</li>
+<li>Large maps can increase latency and RAM overhead.</li>
+</ul>
+<p>Workarounds:</p>
+<ul>
+<li>Keep register maps compact and grouped.</li>
+<li>Use static register pool mode for deterministic memory behavior:<ul>
+<li><span class="tt"><a class="el" href="group__config.html#ga86369636b2aad63ca473149593fa71aa" title="Optional memory model: use static pools instead of malloc-backed linked nodes.">MODBUS_USE_STATIC_REG_POOL</a>=1</span></li>
+<li><span class="tt"><a class="el" href="group__config.html#ga49f1911bc388813c70c87b4680d8ac28" title="Static pool size for digital registers when MODBUS_USE_STATIC_REG_POOL=1.">MODBUS_MAX_DIG_REGS</a>=&lt;n&gt;</span></li>
+<li><span class="tt"><a class="el" href="group__config.html#ga95af14d1c064188546943e5d2ba42ff3" title="Static pool size for analog registers when MODBUS_USE_STATIC_REG_POOL=1.">MODBUS_MAX_ANA_REGS</a>=&lt;n&gt;</span></li>
+</ul>
+</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md80"></a>
+2. RTU Timing Still Requires a Fast <span class="tt">loop()</span></h2>
+<ul>
+<li>Parser behavior is non-blocking and byte-wise.</li>
+<li>RTU frame boundary detection still depends on silence-window timing.</li>
+<li>Long blocking calls in <span class="tt">loop()</span> can reduce request throughput.</li>
+</ul>
+<p>Workarounds:</p>
+<ul>
+<li>Call <span class="tt">slave.run()</span> frequently.</li>
+<li>Replace <span class="tt">delay()</span> with non-blocking timing patterns (<span class="tt">millis()</span> based).</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md81"></a>
+3. Generic <span class="tt">Stream</span> Does Not Have Standardized Baud Control</h2>
+<ul>
+<li><span class="tt">setBaud()</span> can directly reconfigure only <span class="tt">HardwareSerial</span>.</li>
+<li>Generic <span class="tt">Stream</span> transport speed must be configured by user code.</li>
+</ul>
+<p>Workaround:</p>
+<ul>
+<li>Register <span class="tt">setStreamBaudHandler(...)</span> when using custom transports and reconfigure the transport in the callback.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md82"></a>
+Behavior Notes</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md83"></a>
+Implemented vs Validated</h2>
+<ul>
+<li>The source code implements more capability than the current test workflow validates.</li>
+<li>In particular, support for FC15, FC16, alternate endianness modes, static register pools, and RS485 timing APIs should be treated as implemented features that still require target-specific verification.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md84"></a>
+FC01-FC06 Request Length Enforcement</h2>
+<ul>
+<li>Fixed-length request validation for FC01-FC06 remains strict by design.</li>
+<li>This is protocol-correct behavior (8-byte RTU request frame for these function codes).</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md85"></a>
+<span class="tt">get()</span> vs <span class="tt">tryGet()</span></h2>
+<ul>
+<li><span class="tt">get()</span> preserves compatibility and returns <span class="tt"><a class="el" href="group__protocol__engine.html#ga866d279da38ed86445ba32fe3f6ca621" title="Sentinel returned by get() when a register does not exist.">MODBUS_REG_NOT_FOUND</a></span> for missing registers.</li>
+<li><span class="tt">tryGet()</span> should be preferred for unambiguous reads.</li>
+</ul>
+<p>Example:</p>
+<div class="fragment"><div class="line">word value = 0;</div>
+<div class="line"><span class="keywordflow">if</span> (regBank.tryGet(40001, &amp;value)) {</div>
+<div class="line">  <span class="comment">// Safe: register exists and value is valid (including 0xFFFF)</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md86"></a>
 Supported Function Codes</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Code  </th><th class="markdownTableHeadNone">Hex  </th><th class="markdownTableHeadNone">Function  </th><th class="markdownTableHeadNone">Status  </th></tr>
+<th class="markdownTableHeadLeft">Code  </th><th class="markdownTableHeadLeft">Hex  </th><th class="markdownTableHeadLeft">Function  </th><th class="markdownTableHeadLeft">Status  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">FC01  </td><td class="markdownTableBodyNone">0x01  </td><td class="markdownTableBodyNone">Read Coils  </td><td class="markdownTableBodyNone">✅ Supported  </td></tr>
+<td class="markdownTableBodyLeft">FC01  </td><td class="markdownTableBodyLeft">0x01  </td><td class="markdownTableBodyLeft">Read Coils  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">FC02  </td><td class="markdownTableBodyNone">0x02  </td><td class="markdownTableBodyNone">Read Discrete Inputs  </td><td class="markdownTableBodyNone">✅ Supported  </td></tr>
+<td class="markdownTableBodyLeft">FC02  </td><td class="markdownTableBodyLeft">0x02  </td><td class="markdownTableBodyLeft">Read Discrete Inputs  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">FC03  </td><td class="markdownTableBodyNone">0x03  </td><td class="markdownTableBodyNone">Read Holding Registers  </td><td class="markdownTableBodyNone">✅ Supported  </td></tr>
+<td class="markdownTableBodyLeft">FC03  </td><td class="markdownTableBodyLeft">0x03  </td><td class="markdownTableBodyLeft">Read Holding Registers  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">FC04  </td><td class="markdownTableBodyNone">0x04  </td><td class="markdownTableBodyNone">Read Input Registers  </td><td class="markdownTableBodyNone">✅ Supported  </td></tr>
+<td class="markdownTableBodyLeft">FC04  </td><td class="markdownTableBodyLeft">0x04  </td><td class="markdownTableBodyLeft">Read Input Registers  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">FC05  </td><td class="markdownTableBodyNone">0x05  </td><td class="markdownTableBodyNone">Write Single Coil  </td><td class="markdownTableBodyNone">✅ Supported  </td></tr>
+<td class="markdownTableBodyLeft">FC05  </td><td class="markdownTableBodyLeft">0x05  </td><td class="markdownTableBodyLeft">Write Single Coil  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">FC06  </td><td class="markdownTableBodyNone">0x06  </td><td class="markdownTableBodyNone">Write Single Holding Register  </td><td class="markdownTableBodyNone">✅ Supported  </td></tr>
+<td class="markdownTableBodyLeft">FC06  </td><td class="markdownTableBodyLeft">0x06  </td><td class="markdownTableBodyLeft">Write Single Holding Register  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">FC15  </td><td class="markdownTableBodyNone">0x0F  </td><td class="markdownTableBodyNone">Write Multiple Coils  </td><td class="markdownTableBodyNone">✅ Supported  </td></tr>
+<td class="markdownTableBodyLeft">FC08  </td><td class="markdownTableBodyLeft">0x08  </td><td class="markdownTableBodyLeft">Diagnostics (subset)  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">FC16  </td><td class="markdownTableBodyNone">0x10  </td><td class="markdownTableBodyNone">Write Multiple Registers  </td><td class="markdownTableBodyNone">✅ Supported  </td></tr>
+<td class="markdownTableBodyLeft">FC15  </td><td class="markdownTableBodyLeft">0x0F  </td><td class="markdownTableBodyLeft">Write Multiple Coils  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">FC16  </td><td class="markdownTableBodyLeft">0x10  </td><td class="markdownTableBodyLeft">Write Multiple Holding Registers  </td><td class="markdownTableBodyLeft">Supported  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md78"></a>
-Testing Recommendations</h1>
-<ol type="1">
-<li><b>Start with the simple example</b> to verify basic operation</li>
-<li><b>Test each function code individually</b> before combining</li>
-<li><b>Use a Modbus master tool</b> (like Modbus Poll or pymodbus) for testing</li>
-<li><b>Monitor Serial output</b> during debug phase</li>
-</ol>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md80"></a>
-Found a Bug or Issue?</h1>
-<p>If you encounter a problem not listed here:</p>
-<p><b>📋 Report it:</b> <a href="https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new">GitHub Issues</a></p>
-<p>Please include:</p><ul>
-<li>Arduino board model and version</li>
-<li>Library version (check <span class="tt">library.properties</span>)</li>
-<li>Minimal reproducible code</li>
-<li>Expected vs actual behavior</li>
-<li>Serial output or error messages</li>
-</ul>
-<p><b>💬 Ask questions:</b> <a href="https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions">GitHub Discussions</a></p>
-<p><b>📧 Commercial support:</b> <a href="#" onclick="location.href='mai'+'lto:'+'zah'+'id'+'_pr'+'in'+'ter'+'s@'+'gma'+'il'+'.co'+'m'; return false;">zahid<span class="obfuscator">.nosp@m.</span>_pri<span class="obfuscator">.nosp@m.</span>nters<span class="obfuscator">.nosp@m.</span>@gma<span class="obfuscator">.nosp@m.</span>il.co<span class="obfuscator">.nosp@m.</span>m</a></p>
-<hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md82"></a>
-Acknowledgments</h1>
-<p><b>Special Thanks to Jason Vreeland [CodeRage]</b></p>
-<p>This library is inspired by Jason's original Beta Modbus library (released March 7, 2010 under GNU License). His pioneering work provided the conceptual foundation that has been modernized and enhanced into this industrial-grade implementation.</p>
-<hr  />
-<p><b>Maintainer:</b> Nadeem Abbas (Raiwind, Lahore, Pakistan) <br  />
- <b>Repository:</b> <a href="https://github.com/nadeemraiwind/arduino-modbus-rtu-slave">https://github.com/nadeemraiwind/arduino-modbus-rtu-slave</a></p><ol type="1">
-<li><b>Test RS485 direction control</b> thoroughly if using RS485 hardware</li>
-</ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md84"></a>
-Future Enhancements (Suggestions)</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md85"></a>
-Elite Level (Major Features)</h2>
-<ol type="1">
-<li>🏆 <b>Doxygen Documentation</b><ul>
-<li>Generate professional HTML documentation from code comments</li>
-<li>Automated API reference with class diagrams</li>
-<li>Searchable function/method documentation</li>
-<li>Prerequisites: Add Doxygen-style comments to headers</li>
-<li>Tools: Doxygen, GraphViz for class diagrams</li>
-</ul>
-</li>
-<li>🏆 <b>Modbus Master Library</b><ul>
-<li>Companion library for master/client functionality</li>
-<li>Enable Arduino-to-Arduino Modbus networks</li>
-<li>Support same function codes as slave library</li>
-<li>Use cases: Multi-board systems, distributed control, data aggregation</li>
-</ul>
-</li>
-</ol>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md86"></a>
-Performance &amp; API Improvements</h2>
-<ol type="1">
-<li>⭐ Add sorted-array/binary-search register storage option</li>
-<li>Add <span class="tt">bool get(word addr, word* outValue)</span> API to eliminate sentinel ambiguity</li>
-<li>Add configurable exception response policy for unknown function codes</li>
-<li>Remove or implement ASCII mode constant</li>
-</ol>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md87"></a>
-Version History</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md88"></a>
-v1.1.0 (Current)</h2>
+Best Practices</h1>
+<ol type="1">
+<li>Use <span class="tt">tryGet()</span> for read paths where missing registers are possible.</li>
+<li>Keep <span class="tt">loop()</span> non-blocking and call <span class="tt">slave.run()</span> as often as possible.</li>
+<li>If Modbus uses <span class="tt">Serial</span>, keep Serial Monitor closed and avoid <span class="tt">Serial.print()</span>.</li>
+<li>If you need debug logging, route Modbus to a different UART first.</li>
+<li>For RS485, configure DE/RE timing and test at target baud rate.</li>
+<li>Validate all register addresses against Modicon ranges.</li>
+</ol>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md88"></a>
+Roadmap Ideas</h1>
+<ol type="1">
+<li>Optional array-backed storage mode with binary search.</li>
+<li>Optional compile-time profiles for low-RAM boards.</li>
+<li>Additional diagnostics counters and telemetry hooks.</li>
+</ol>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md89"></a>
+Report Issues</h1>
 <ul>
-<li>Added non-blocking byte-wise parser state machine</li>
-<li>Added unknown/custom function hook (<span class="tt">onUnknownFunction</span>)</li>
-<li>Added endianness configuration for 32-bit helpers</li>
-<li>Added FC08 diagnostics subset + counters API</li>
-<li>Added float/long/string register helper functions</li>
-<li>Added FC15/FC16 support</li>
-<li>Added <span class="tt">Stream</span> transport support (<span class="tt">setPort(Stream&amp;)</span>)</li>
-<li>Added microsecond RTU frame timing (<span class="tt">micros()</span> based)</li>
-<li>Added optional static register pool mode (no-heap)</li>
-<li>Added Arduino IDE <span class="tt">keywords.txt</span></li>
-<li>Added MIT <span class="tt">LICENSE</span></li>
-<li>Added and refreshed example sketches</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md89"></a>
-v0.1.x (Previous)</h2>
-<ul>
-<li>Initial implementation</li>
-<li>FC01-FC06 support</li>
-<li>Basic register bank with linked list</li>
-<li>RS485 DE/RE control support </li>
+<li>Issues: <a href="https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues/new">GitHub Issues</a></li>
+<li>Discussions: <a href="https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions">GitHub Discussions</a></li>
+<li>Email: <span class="tt">zahid_printers@gmail.com</span> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
