@@ -12,8 +12,24 @@
  * Notes:
  * - RTU remains the default mode for backwards compatibility.
  * - ASCII is useful with text-oriented links and some legacy gateways.
+ * 
+ * VALIDATED WORKFLOW:
+ * - This example was validated with a Modbus ASCII master on USB `Serial`.
+ * - Keep Serial Monitor closed while ASCII traffic is active on `Serial`.
+ * - If the board resets when the COM port opens, wait about 2 to 3 seconds before polling.
+ * 
+ * HOW TO CHANGE SERIAL PORTS AND ENABLE DEBUG:
+ * - Default: keep Modbus on `Serial` for the simplest ASCII test setup.
+ * - MEGA / multi-UART boards: move Modbus to `Serial1`, `Serial2`, or `Serial3`
+ *   if you want USB `Serial` available for debug output.
+ * - If Modbus stays on `Serial`, do not call `Serial.print()` while the master is active.
  *
  ******************************************************************************/
+
+/**
+ * @example 07_ASCII_Protocol_Mode.ino
+ * Modbus ASCII framing mode with safe register-read patterns.
+ */
 
 #include <modbus.h>
 #include <modbusDevice.h>
@@ -44,7 +60,7 @@ void setup() {
   regBank.set(40001, 1000);  // Setpoint
 
   slave.setDevice(&regBank);
-  slave.setPort(Serial);
+  slave.setPort(Serial);  // Validated USB ASCII profile. Move Modbus to another UART before enabling Serial debug.
 
   // New API: optional handler for generic Stream-based transports.
   slave.setStreamBaudHandler(onStreamBaudChange);

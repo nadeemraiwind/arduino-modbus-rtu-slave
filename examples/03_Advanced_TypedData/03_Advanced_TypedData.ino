@@ -6,6 +6,7 @@
  * - Using 32-bit long integers across two registers
  * - Storing ASCII strings (2 characters per register)
  * - Configuring endianness for multi-vendor compatibility
+ * - Protecting multi-register writes using atomicBegin()/atomicEnd()
  * - Advanced data type conversions
  * 
  * WHY USE TYPED HELPERS?
@@ -37,6 +38,18 @@
  * - Arduino UNO, MEGA, or compatible
  * - USB connection for testing
  * 
+ * VALIDATED WORKFLOW:
+ * - This example was validated in a USB Serial0 Modbus profile.
+ * - Keep Serial Monitor closed while Modbus traffic is active on `Serial`.
+ * - Typed values were verified from an external master; no Serial debug output is
+ *   required when using the validated profile.
+ * 
+ * HOW TO CHANGE SERIAL PORTS:
+ * - Default: use `Serial` for direct USB Modbus tests.
+ * - MEGA / multi-UART boards: move Modbus to `Serial1`, `Serial2`, or `Serial3`
+ *   if you need `Serial` for logging or a terminal.
+ * - On single-UART boards, prefer register-based diagnostics instead of Serial prints.
+ * 
  * MODBUS SLAVE ADDRESS: 1
  * BAUD RATE: 19200
  * 
@@ -58,6 +71,11 @@
  *    40031-40035: Status Message (10 chars) Example: "RUNNING"
  * 
  ******************************************************************************/
+
+/**
+ * @example 03_Advanced_TypedData.ino
+ * Typed helpers for float, long, and string register packing.
+ */
 
 #include <modbus.h>
 #include <modbusDevice.h>
@@ -134,15 +152,14 @@ void setup() {
   
   // ===== MODBUS CONFIGURATION =====
   slave.setDevice(&regBank);
-  slave.setPort(Serial);
+  slave.setPort(Serial);       // Validated USB profile. Move Modbus to another UART before adding Serial debug.
   slave.setProtocol(RTU);  // Default framing mode
   slave.setBaud(19200);
   
   // ===== ENDIANNESS CONFIGURATION =====
-  // Choose the endianness mode that matches your SCADA/PLC system
-  // Default is MODBUS_BIG_ENDIAN (most common)
-  
-  // slave.configureEndianness(MODBUS_BIG_ENDIAN);        // Default
+  // Call this explicitly so users can see the active data layout right away.
+  // Change to LITTLE_ENDIAN or BIG_ENDIAN_SWAPPED if your master expects it.
+  slave.configureEndianness(MODBUS_BIG_ENDIAN);        // Explicit default
   // slave.configureEndianness(MODBUS_LITTLE_ENDIAN);     // Allen-Bradley style
   // slave.configureEndianness(MODBUS_BIG_ENDIAN_SWAPPED); // Some Siemens PLCs
   
@@ -183,12 +200,14 @@ void updateProcessValues() {
   humidity -= 0.2;
   if (humidity < 50.0) humidity = 70.0;
   
-  // Write floats to Modbus registers
-  // Each float occupies 2 registers (32 bits)
+  // Write floats to Modbus registers.
+  // Atomic section prevents masters from reading half-updated float pairs.
+  regBank.atomicBegin();
   regBank.setFloat(40001, temperature);
   regBank.setFloat(40003, pressure);
   regBank.setFloat(40005, flowRate);
   regBank.setFloat(40007, humidity);
+  regBank.atomicEnd();
   
   // READING BACK FLOATS:
   // You can also read float values if needed
@@ -215,11 +234,13 @@ void updateCounters() {
     errorCode = 0;     // No error
   }
   
-  // Write long values to Modbus registers
-  // Each long occupies 2 registers (32 bits signed)
+  // Write long values to Modbus registers.
+  // Atomic section keeps each 32-bit value consistent during live polling.
+  regBank.atomicBegin();
   regBank.setLong(40011, totalRuntime);
   regBank.setLong(40013, pulseCounter);
   regBank.setLong(40015, errorCode);
+  regBank.atomicEnd();
   
   // READING BACK LONGS:
   // long runtime = regBank.getLong(40011);
@@ -239,9 +260,11 @@ void updateStatusMessage() {
     strcpy(statusMessage, "RUNNING");
   }
   
-  // Write string to Modbus registers
-  // 5 registers can hold up to 10 ASCII characters
+  // Write string to Modbus registers.
+  // Atomic section prevents split-string reads during updates.
+  regBank.atomicBegin();
   regBank.setString(40031, statusMessage, 5);
+  regBank.atomicEnd();
   
   // READING BACK STRINGS:
   // char buffer[11];  // 10 chars + null terminator

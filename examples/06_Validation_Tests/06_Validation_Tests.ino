@@ -1,388 +1,407 @@
 /*******************************************************************************
- * VALIDATION TEST: Address Range and Safety Checks
- * 
- * PURPOSE:
- * This sketch validates the micro-level safety improvements including:
- * 1. Address range validation (rejects invalid Modbus addresses)
- * 2. micros() rollover safety (timing calculations)
- * 3. Memory pool alignment verification
- * 4. Sentinel-safe register reads using tryGet()
- * 5. Runtime protocol mode selection (RTU/ASCII)
- * 
- * HARDWARE REQUIRED:
- * - Arduino UNO, MEGA, or compatible
- * - USB connection for Serial Monitor output
- * 
- * EXPECTED OUTPUT:
- * Serial monitor should show all tests PASS with no errors.
- * 
- * HOW TO USE:
- * 1. Upload this sketch to your Arduino
- * 2. Open Serial Monitor (9600 baud)
- * 3. Review test results - all should show "PASS"
- * 
+ * LEVEL 6: VALIDATION TESTS - Modbus-Readable Library Safety Checks
+ *
+ * WHAT YOU'LL LEARN:
+ * - How to verify library behavior without relying on Serial Monitor output
+ * - Address range validation for standard Modbus spaces
+ * - Duplicate-register safety and digital normalization behavior
+ * - String helper coverage with edge cases
+ * - Sentinel-safe reads with tryGet()
+ * - Protocol selection checks with setProtocol()/getProtocol()
+ *
+ * WHY THIS EXAMPLE EXISTS:
+ * - Earlier development versions printed PASS/FAIL text to Serial Monitor.
+ * - That conflicts with the validated Serial0 Modbus workflow because Serial0 is
+ *   reserved for Modbus traffic when `slave.setPort(Serial)` is used.
+ * - This public example now exposes validation results through holding registers,
+ *   so you can inspect results from any Modbus master.
+ * - It is intentionally a self-test/regression sketch, not the first sketch to
+ *   learn Modbus concepts. Start with Level 1 for initial onboarding.
+ *
+ * VALIDATED WORKFLOW:
+ * - Default validated profile: `slave.setPort(Serial)` using USB Serial0.
+ * - Keep Serial Monitor closed and do not use Serial.print() in that profile.
+ * - Wait about 2 to 3 seconds after COM open before polling because Arduino USB
+ *   boards commonly reset when the serial port opens.
+ *
+ * HOW TO CHANGE SERIAL PORTS AND ENABLE DEBUG:
+ * - Default: keep Modbus on `Serial` for the simplest validation workflow.
+ * - MEGA / multi-UART boards: move Modbus to `Serial1`, `Serial2`, or `Serial3`
+ *   if you want USB `Serial` available for extra debug prints.
+ * - Single-UART boards should keep debugging register-based instead of using
+ *   Serial Monitor while Modbus is active.
+ *
+ * RESULT REGISTER MAP:
+ *   40001: Suite complete flag (0 = running/not started, 1 = complete)
+ *   40002: Passed test count
+ *   40003: Failed test count
+ *   40004: Current/last test number
+ *   40005: Last error code (0 = no error)
+ *   40006: Active protocol mode (0 = RTU, 1 = ASCII)
+ *   40011-40017: Per-test status (0 = not run, 1 = pass, 2 = fail)
+ *
+ * DEFAULT SETTINGS:
+ * - Slave ID: 1
+ * - Baud: 9600
+ * - Framing: RTU
+ *
  ******************************************************************************/
+
+/**
+ * @example 06_Validation_Tests.ino
+ * Register-exposed validation suite for regression and deployment checks.
+ */
 
 #include <modbus.h>
 #include <modbusDevice.h>
 #include <modbusRegBank.h>
 #include <modbusSlave.h>
 
+#define SLAVE_ID               1
+#define MODBUS_BAUD            9600
+
+#define REG_SUITE_COMPLETE     40001
+#define REG_TESTS_PASSED       40002
+#define REG_TESTS_FAILED       40003
+#define REG_ACTIVE_TEST        40004
+#define REG_LAST_ERROR         40005
+#define REG_PROTOCOL_MODE      40006
+#define REG_TEST_STATUS_BASE   40011
+#define REG_TEST_STATUS_COUNT  7
+
+#define TEST_STATUS_NOT_RUN    0
+#define TEST_STATUS_PASS       1
+#define TEST_STATUS_FAIL       2
+
+#define ERR_NONE               0
+#define ERR_VALID_RANGE        101
+#define ERR_INVALID_RANGE      102
+#define ERR_DUPLICATE_SAFE     103
+#define ERR_DIGITAL_NORMALIZE  104
+#define ERR_DIGITAL_ZERO       105
+#define ERR_STRING_BASIC       106
+#define ERR_STRING_ODD         107
+#define ERR_STRING_EMPTY       108
+#define ERR_STRING_FULL        109
+#define ERR_ROLLOVER_LT        110
+#define ERR_ROLLOVER_GTE       111
+#define ERR_TIMING_NORMAL      112
+#define ERR_TRYGET_VALID       113
+#define ERR_TRYGET_MISSING     114
+#define ERR_PROTOCOL_ASCII     115
+#define ERR_PROTOCOL_RTU       116
+
 modbusDevice regBank;
 modbusSlave slave;
 
+static void setupResultRegisters();
+static void resetResultRegisters();
+static void beginTest(byte testNumber);
+static void finishTest(byte testNumber, bool passed, word errorCode);
+static void runValidationSuite();
+
+static bool testValidAddresses(word *errorCode);
+static bool testInvalidAddresses(word *errorCode);
+static bool testMemoryPoolSafety(word *errorCode);
+static bool testStringOperations(word *errorCode);
+static bool testTimingRollover(word *errorCode);
+static bool testTryGetSafety(word *errorCode);
+static bool testProtocolSelection(word *errorCode);
+
 void setup() {
-  Serial.begin(9600);
-  while (!Serial && millis() < 3000);  // Wait for Serial (Leonardo/Micro)
-  
-  Serial.println(F("==========================================="));
-  Serial.println(F("MODBUS RTU LIBRARY - VALIDATION TEST SUITE"));
-  Serial.println(F("==========================================="));
-  Serial.println();
-  
-  // Test 1: Valid Address Ranges
-  testValidAddresses();
-  
-  // Test 2: Invalid Address Rejection
-  testInvalidAddresses();
-  
-  // Test 3: Memory Pool Safety
-  testMemoryPoolSafety();
-  
-  // Test 4: String Operations
-  testStringOperations();
-  
-  // Test 5: Timing Rollover Simulation
-  testTimingRollover();
+  regBank.setId(SLAVE_ID);
+  setupResultRegisters();
+  resetResultRegisters();
 
-  // Test 6: tryGet() Sentinel-Safe Access
-  testTryGetSafety();
+  slave.setDevice(&regBank);
+  slave.setPort(Serial);  // Validated USB Serial0 profile. Move Modbus to another UART before enabling Serial debug.
+  slave.setProtocol(RTU);
+  slave.setBaud(MODBUS_BAUD);
 
-  // Test 7: Protocol Mode Selection API
-  testProtocolSelection();
-  
-  Serial.println();
-  Serial.println(F("==========================================="));
-  Serial.println(F("ALL TESTS COMPLETE"));
-  Serial.println(F("==========================================="));
+  runValidationSuite();
+  regBank.set(REG_SUITE_COMPLETE, 1);
+  regBank.set(REG_ACTIVE_TEST, 0);
+  regBank.set(REG_PROTOCOL_MODE, slave.getProtocol());
 }
 
 void loop() {
-  // Nothing to do - all tests run in setup()
+  slave.run();
 }
 
-/*******************************************************************************
- * TEST 1: Valid Address Ranges
- * Verify that standard Modbus addresses are accepted
- ******************************************************************************/
-void testValidAddresses() {
-  Serial.println(F("TEST 1: Valid Address Ranges"));
-  Serial.println(F("-----------------------------"));
-  
+static void setupResultRegisters() {
+  for (word addr = REG_SUITE_COMPLETE; addr <= REG_PROTOCOL_MODE; addr++) {
+    regBank.add(addr);
+  }
+
+  for (word offset = 0; offset < REG_TEST_STATUS_COUNT; offset++) {
+    regBank.add((word)(REG_TEST_STATUS_BASE + offset));
+  }
+}
+
+static void resetResultRegisters() {
+  regBank.set(REG_SUITE_COMPLETE, 0);
+  regBank.set(REG_TESTS_PASSED, 0);
+  regBank.set(REG_TESTS_FAILED, 0);
+  regBank.set(REG_ACTIVE_TEST, 0);
+  regBank.set(REG_LAST_ERROR, 0);
+  regBank.set(REG_PROTOCOL_MODE, RTU);
+
+  for (word offset = 0; offset < REG_TEST_STATUS_COUNT; offset++) {
+    regBank.set((word)(REG_TEST_STATUS_BASE + offset), TEST_STATUS_NOT_RUN);
+  }
+}
+
+static void beginTest(byte testNumber) {
+  regBank.set(REG_ACTIVE_TEST, testNumber);
+  regBank.set(REG_LAST_ERROR, ERR_NONE);
+}
+
+static void finishTest(byte testNumber, bool passed, word errorCode) {
+  regBank.set((word)(REG_TEST_STATUS_BASE + (testNumber - 1)),
+              passed ? TEST_STATUS_PASS : TEST_STATUS_FAIL);
+
+  if (passed) {
+    regBank.set(REG_TESTS_PASSED, (word)(regBank.get(REG_TESTS_PASSED) + 1));
+    regBank.set(REG_LAST_ERROR, ERR_NONE);
+  } else {
+    regBank.set(REG_TESTS_FAILED, (word)(regBank.get(REG_TESTS_FAILED) + 1));
+    regBank.set(REG_LAST_ERROR, errorCode);
+  }
+}
+
+static void runValidationSuite() {
+  word errorCode = ERR_NONE;
+  bool passed = false;
+
+  beginTest(1);
+  passed = testValidAddresses(&errorCode);
+  finishTest(1, passed, errorCode);
+
+  beginTest(2);
+  passed = testInvalidAddresses(&errorCode);
+  finishTest(2, passed, errorCode);
+
+  beginTest(3);
+  passed = testMemoryPoolSafety(&errorCode);
+  finishTest(3, passed, errorCode);
+
+  beginTest(4);
+  passed = testStringOperations(&errorCode);
+  finishTest(4, passed, errorCode);
+
+  beginTest(5);
+  passed = testTimingRollover(&errorCode);
+  finishTest(5, passed, errorCode);
+
+  beginTest(6);
+  passed = testTryGetSafety(&errorCode);
+  finishTest(6, passed, errorCode);
+
+  beginTest(7);
+  passed = testProtocolSelection(&errorCode);
+  finishTest(7, passed, errorCode);
+}
+
+static bool testValidAddresses(word *errorCode) {
   modbusDevice testBank;
   testBank.setId(1);
-  
-  // Coils: 1-9999
+
   testBank.add(1);
   testBank.add(5000);
   testBank.add(9999);
-  if (testBank.has(1) && testBank.has(5000) && testBank.has(9999)) {
-    Serial.println(F("  ✓ Coils (1-9999) accepted"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Coils not accepted"));
-  }
-  
-  // Discrete Inputs: 10001-19999
   testBank.add(10001);
   testBank.add(15000);
   testBank.add(19999);
-  if (testBank.has(10001) && testBank.has(15000) && testBank.has(19999)) {
-    Serial.println(F("  ✓ Discrete Inputs (10001-19999) accepted"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Discrete Inputs not accepted"));
-  }
-  
-  // Input Registers: 30001-39999
   testBank.add(30001);
   testBank.add(35000);
   testBank.add(39999);
-  if (testBank.has(30001) && testBank.has(35000) && testBank.has(39999)) {
-    Serial.println(F("  ✓ Input Registers (30001-39999) accepted"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Input Registers not accepted"));
-  }
-  
-  // Holding Registers: 40001-49999
   testBank.add(40001);
   testBank.add(45000);
   testBank.add(49999);
-  if (testBank.has(40001) && testBank.has(45000) && testBank.has(49999)) {
-    Serial.println(F("  ✓ Holding Registers (40001-49999) accepted"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Holding Registers not accepted"));
+
+  if (!testBank.has(1) || !testBank.has(5000) || !testBank.has(9999) ||
+      !testBank.has(10001) || !testBank.has(15000) || !testBank.has(19999) ||
+      !testBank.has(30001) || !testBank.has(35000) || !testBank.has(39999) ||
+      !testBank.has(40001) || !testBank.has(45000) || !testBank.has(49999)) {
+    *errorCode = ERR_VALID_RANGE;
+    return false;
   }
-  
-  Serial.println();
+
+  *errorCode = ERR_NONE;
+  return true;
 }
 
-/*******************************************************************************
- * TEST 2: Invalid Address Rejection
- * Verify that out-of-range addresses are rejected
- ******************************************************************************/
-void testInvalidAddresses() {
-  Serial.println(F("TEST 2: Invalid Address Rejection"));
-  Serial.println(F("----------------------------------"));
-  
+static bool testInvalidAddresses(word *errorCode) {
   modbusDevice testBank;
   testBank.setId(1);
-  
-  // Invalid: Address 0
+
   testBank.add(0);
-  if (!testBank.has(0)) {
-    Serial.println(F("  ✓ Address 0 rejected (below valid range)"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Address 0 should be rejected"));
-  }
-  
-  // Invalid: Gap between coils and discrete inputs (10000)
   testBank.add(10000);
-  if (!testBank.has(10000)) {
-    Serial.println(F("  ✓ Address 10000 rejected (gap range)"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Address 10000 should be rejected"));
-  }
-  
-  // Invalid: Gap between discrete inputs and input registers (20000-29999)
   testBank.add(25000);
-  if (!testBank.has(25000)) {
-    Serial.println(F("  ✓ Address 25000 rejected (gap range)"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Address 25000 should be rejected"));
-  }
-  
-  // Invalid: Above holding registers (50000+)
   testBank.add(50000);
-  if (!testBank.has(50000)) {
-    Serial.println(F("  ✓ Address 50000 rejected (above valid range)"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Address 50000 should be rejected"));
-  }
-  
-  // Invalid: Maximum word value (65535)
   testBank.add(65535);
-  if (!testBank.has(65535)) {
-    Serial.println(F("  ✓ Address 65535 rejected (far above range)"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Address 65535 should be rejected"));
+
+  if (testBank.has(0) || testBank.has(10000) || testBank.has(25000) ||
+      testBank.has(50000) || testBank.has(65535)) {
+    *errorCode = ERR_INVALID_RANGE;
+    return false;
   }
-  
-  Serial.println();
+
+  *errorCode = ERR_NONE;
+  return true;
 }
 
-/*******************************************************************************
- * TEST 3: Memory Pool Safety
- * Verify memory allocation handles edge cases
- ******************************************************************************/
-void testMemoryPoolSafety() {
-  Serial.println(F("TEST 3: Memory Pool Safety"));
-  Serial.println(F("--------------------------"));
-  
+static bool testMemoryPoolSafety(word *errorCode) {
   modbusDevice testBank;
   testBank.setId(1);
-  
-  // Add duplicate addresses (should be silently ignored)
+
   testBank.add(40001);
   testBank.add(40001);
   testBank.add(40001);
   testBank.set(40001, 123);
-  if (testBank.get(40001) == 123) {
-    Serial.println(F("  ✓ Duplicate address handling safe"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Duplicate handling failed"));
+  if (testBank.get(40001) != 123) {
+    *errorCode = ERR_DUPLICATE_SAFE;
+    return false;
   }
-  
-  // Test digital register value normalization
+
   testBank.add(1);
-  testBank.set(1, 42);  // Non-zero should normalize to 0xFF
-  word value = testBank.get(1);
-  if (value == 0xFF) {
-    Serial.println(F("  ✓ Digital register normalization correct"));
-  } else {
-    Serial.print(F("  ✗ FAIL: Expected 0xFF, got 0x"));
-    Serial.println(value, HEX);
+  testBank.set(1, 42);
+  if (testBank.get(1) != 0xFF) {
+    *errorCode = ERR_DIGITAL_NORMALIZE;
+    return false;
   }
-  
-  testBank.set(1, 0);  // Zero should stay 0x00
-  value = testBank.get(1);
-  if (value == 0x00) {
-    Serial.println(F("  ✓ Digital register zero handling correct"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Zero handling failed"));
+
+  testBank.set(1, 0);
+  if (testBank.get(1) != 0x00) {
+    *errorCode = ERR_DIGITAL_ZERO;
+    return false;
   }
-  
-  Serial.println();
+
+  *errorCode = ERR_NONE;
+  return true;
 }
 
-/*******************************************************************************
- * TEST 4: String Operations
- * Verify string packing/unpacking with edge cases
- ******************************************************************************/
-void testStringOperations() {
-  Serial.println(F("TEST 4: String Operations"));
-  Serial.println(F("-------------------------"));
-  
+static bool testStringOperations(word *errorCode) {
   modbusDevice testBank;
+  char buffer[11];
+
   testBank.setId(1);
-  
-  // Allocate 5 registers for 10-character string
   for (word addr = 40001; addr <= 40005; addr++) {
     testBank.add(addr);
   }
-  
-  // Test 1: Normal string
-  const char* test1 = "HELLO";
-  testBank.setString(40001, test1, 5);
-  char buffer[11];
-  testBank.getString(40001, buffer, 11, 5);
-  if (strcmp(buffer, "HELLO") == 0) {
-    Serial.println(F("  ✓ String write/read works"));
-  } else {
-    Serial.print(F("  ✗ FAIL: Expected 'HELLO', got '"));
-    Serial.print(buffer);
-    Serial.println(F("'"));
+
+  testBank.setString(40001, "HELLO", 5);
+  testBank.getString(40001, buffer, sizeof(buffer), 5);
+  if (strcmp(buffer, "HELLO") != 0) {
+    *errorCode = ERR_STRING_BASIC;
+    return false;
   }
-  
-  // Test 2: Odd-length string (7 chars = 3.5 registers)
-  const char* test2 = "MODBUS!";
-  testBank.setString(40001, test2, 5);
-  testBank.getString(40001, buffer, 11, 5);
-  if (strcmp(buffer, "MODBUS!") == 0) {
-    Serial.println(F("  ✓ Odd-length string handled correctly"));
-  } else {
-    Serial.print(F("  ✗ FAIL: Expected 'MODBUS!', got '"));
-    Serial.print(buffer);
-    Serial.println(F("'"));
+
+  testBank.setString(40001, "MODBUS!", 5);
+  testBank.getString(40001, buffer, sizeof(buffer), 5);
+  if (strcmp(buffer, "MODBUS!") != 0) {
+    *errorCode = ERR_STRING_ODD;
+    return false;
   }
-  
-  // Test 3: Empty string
-  const char* test3 = "";
-  testBank.setString(40001, test3, 5);
-  testBank.getString(40001, buffer, 11, 5);
-  if (strlen(buffer) == 0) {
-    Serial.println(F("  ✓ Empty string handled correctly"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Empty string produced non-empty result"));
+
+  testBank.setString(40001, "", 5);
+  testBank.getString(40001, buffer, sizeof(buffer), 5);
+  if (strlen(buffer) != 0) {
+    *errorCode = ERR_STRING_EMPTY;
+    return false;
   }
-  
-  // Test 4: Full 10-character string
-  const char* test4 = "1234567890";
-  testBank.setString(40001, test4, 5);
-  testBank.getString(40001, buffer, 11, 5);
-  if (strcmp(buffer, "1234567890") == 0) {
-    Serial.println(F("  ✓ Full-length string correct"));
-  } else {
-    Serial.print(F("  ✗ FAIL: Expected '1234567890', got '"));
-    Serial.print(buffer);
-    Serial.println(F("'"));
+
+  testBank.setString(40001, "1234567890", 5);
+  testBank.getString(40001, buffer, sizeof(buffer), 5);
+  if (strcmp(buffer, "1234567890") != 0) {
+    *errorCode = ERR_STRING_FULL;
+    return false;
   }
-  
-  Serial.println();
+
+  *errorCode = ERR_NONE;
+  return true;
 }
 
-/*******************************************************************************
- * TEST 5: Timing Rollover Simulation
- * Verify micros() rollover math works correctly
- ******************************************************************************/
-void testTimingRollover() {
-  Serial.println(F("TEST 5: Timing Rollover Simulation"));
-  Serial.println(F("-----------------------------------"));
-  
-  // Simulate rollover condition
-  unsigned long lastTime = 4294967290UL;  // 6 microseconds before rollover
-  unsigned long nowTime = 100UL;           // 100 microseconds after rollover
-  unsigned long frameDelay = 1750UL;       // Standard 1.75ms delay
-  
-  // This should be false (only 106 microseconds elapsed)
-  if ((nowTime - lastTime) < frameDelay) {
-    Serial.println(F("  ✓ Rollover math: 106µs < 1750µs (correct)"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Rollover math incorrect"));
-  }
-  
-  // Simulate enough time passing
-  nowTime = 2000UL;  // 2000 + (rollover compensation) microseconds after
+static bool testTimingRollover(word *errorCode) {
+  unsigned long lastTime = 4294967290UL;
+  unsigned long nowTime = 100UL;
+  unsigned long frameDelay = 1750UL;
+
   if ((nowTime - lastTime) >= frameDelay) {
-    Serial.println(F("  ✓ Rollover math: 2106µs >= 1750µs (correct)"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Rollover threshold incorrect"));
+    *errorCode = ERR_ROLLOVER_LT;
+    return false;
   }
-  
-  // Normal (non-rollover) case
+
+  nowTime = 2000UL;
+  if ((nowTime - lastTime) < frameDelay) {
+    *errorCode = ERR_ROLLOVER_GTE;
+    return false;
+  }
+
   lastTime = 1000000UL;
   nowTime = 1002000UL;
-  if ((nowTime - lastTime) >= frameDelay) {
-    Serial.println(F("  ✓ Normal timing: 2000µs >= 1750µs (correct)"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Normal timing incorrect"));
+  if ((nowTime - lastTime) < frameDelay) {
+    *errorCode = ERR_TIMING_NORMAL;
+    return false;
   }
-  
-  Serial.println();
+
+  *errorCode = ERR_NONE;
+  return true;
 }
 
-/*******************************************************************************
- * TEST 6: tryGet() Sentinel-Safe Access
- * Verify 0xFFFF can be stored as valid data without lookup ambiguity
- ******************************************************************************/
-void testTryGetSafety() {
-  Serial.println(F("TEST 6: tryGet() Sentinel-Safe Access"));
-  Serial.println(F("------------------------------------"));
-
+static bool testTryGetSafety(word *errorCode) {
   modbusDevice testBank;
+  word value = 0;
+
   testBank.setId(1);
   testBank.add(40050);
-
-  // Store the same value as MODBUS_REG_NOT_FOUND sentinel
   testBank.set(40050, 0xFFFF);
 
-  word value = 0;
-  if (testBank.tryGet(40050, &value) && value == 0xFFFF) {
-    Serial.println(F("  ✓ tryGet() distinguishes valid 0xFFFF payload"));
-  } else {
-    Serial.println(F("  ✗ FAIL: tryGet() could not read valid 0xFFFF payload"));
+  if (!testBank.tryGet(40050, &value) || value != 0xFFFF) {
+    *errorCode = ERR_TRYGET_VALID;
+    return false;
   }
 
-  if (!testBank.tryGet(40051, &value)) {
-    Serial.println(F("  ✓ tryGet() correctly reports missing register"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Missing register incorrectly reported as present"));
+  if (testBank.tryGet(40051, &value)) {
+    *errorCode = ERR_TRYGET_MISSING;
+    return false;
   }
 
-  Serial.println();
+  *errorCode = ERR_NONE;
+  return true;
 }
 
-/*******************************************************************************
- * TEST 7: Protocol Mode Selection API
- * Verify setProtocol()/getProtocol() mode toggling
- ******************************************************************************/
-void testProtocolSelection() {
-  Serial.println(F("TEST 7: Protocol Mode Selection API"));
-  Serial.println(F("----------------------------------"));
-
+static bool testProtocolSelection(word *errorCode) {
   modbusSlave testSlave;
-  testSlave.setProtocol(ASCII);
 
-  if (testSlave.getProtocol() == ASCII) {
-    Serial.println(F("  ✓ ASCII mode selected"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Could not select ASCII mode"));
+  testSlave.setProtocol(ASCII);
+  if (testSlave.getProtocol() != ASCII) {
+    *errorCode = ERR_PROTOCOL_ASCII;
+    return false;
   }
 
   testSlave.setProtocol(RTU);
-  if (testSlave.getProtocol() == RTU) {
-    Serial.println(F("  ✓ RTU mode restored"));
-  } else {
-    Serial.println(F("  ✗ FAIL: Could not restore RTU mode"));
+  if (testSlave.getProtocol() != RTU) {
+    *errorCode = ERR_PROTOCOL_RTU;
+    return false;
   }
 
-  Serial.println();
+  *errorCode = ERR_NONE;
+  return true;
 }
+
+/*******************************************************************************
+ * QUICK TEST GUIDE
+ *
+ * 1. Upload this sketch.
+ * 2. Connect a Modbus RTU master to the board COM port at 9600 8N1, slave ID 1.
+ * 3. Wait about 2 to 3 seconds after connect.
+ * 4. Read holding registers 40001-40006 and 40011-40017.
+ * 5. Expected healthy summary:
+ *    - 40001 = 1 (suite complete)
+ *    - 40002 = 7 (tests passed)
+ *    - 40003 = 0 (tests failed)
+ *    - 40005 = 0 (no error)
+ *    - 40011-40017 = 1 for all seven test slots
+ *
+ ******************************************************************************/

@@ -221,6 +221,11 @@ float modbusRegBank::getFloat(word addr)
 	return cvt.f;
 }
 
+/**
+ * @warning On 8-bit MCUs, this writes two 16-bit registers in sequence.
+ * Wrap periodic updates in atomicBegin()/atomicEnd() when masters may poll live,
+ * otherwise readers can observe half-updated 32-bit values.
+ */
 void modbusRegBank::setFloat(word addr, float value)
 {
 	if(!this->has(addr) || !this->has(addr + 1))
@@ -270,6 +275,11 @@ uint32_t modbusRegBank::getLong(word addr)
 	return ((uint32_t)hi << 16) | lo;
 }
 
+/**
+ * @warning On 8-bit MCUs, this writes two 16-bit registers in sequence.
+ * Wrap periodic updates in atomicBegin()/atomicEnd() when masters may poll live,
+ * otherwise readers can observe half-updated 32-bit values.
+ */
 void modbusRegBank::setLong(word addr, uint32_t value)
 {
 	if(!this->has(addr) || !this->has(addr + 1))

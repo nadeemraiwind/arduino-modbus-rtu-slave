@@ -2,6 +2,26 @@
 
 This document contains micro-level performance tips for industrial deployments.
 
+## Industrial Setup Rules (Required for Reliable USB Serial0 Testing)
+
+These rules came from practical integration findings and should be treated as mandatory when Modbus uses Serial over USB.
+
+1. Auto-reset rule:
+- On common Arduino boards (UNO/MEGA class), opening the COM port typically resets the MCU.
+
+2. Startup delay rule:
+- Modbus masters should wait about 2.5 seconds after connection before sending the first request.
+
+3. Serial conflict rule:
+- Keep Arduino Serial Monitor closed during Modbus traffic on Serial0.
+- Avoid Serial.print output while Modbus is using Serial0.
+
+4. Single-UART board rule:
+- On single-UART boards, USB Modbus and USB debug logging cannot be used concurrently.
+
+5. Multi-UART board rule:
+- On MEGA-class boards, move Modbus to Serial1/Serial2/Serial3 if you need USB Serial debug logs.
+
 ## Memory Management
 
 ### 1. Use Static Memory Pools for 24/7 Operation
@@ -224,5 +244,5 @@ Performance measured on Arduino UNO (16 MHz ATmega328P):
 **For More Information:**
 
 - See `ARCHITECTURE.md` for protocol timing details
-- See `KNOWN_ISSUES.md` for known performance limitations
+- See `STATUS.md` for known validation limits and deployment constraints
 - See examples `01_Basic` through `05_RS485` for implementation patterns

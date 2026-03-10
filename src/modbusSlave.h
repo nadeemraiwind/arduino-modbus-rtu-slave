@@ -14,7 +14,18 @@
 
 /** @defgroup rs485_control RS485 Control
  * RS485 DE/RE direction control and timing behavior.
- * @{
+ *
+ * RTU timing reference used by @ref modbusSlave::setBaud "setBaud()":
+ *
+ * | Baud | Character Time (10 bits) | T1.5 Silent Interval | T3.5 Silent Interval |
+ * | ---- | ------------------------ | -------------------- | -------------------- |
+ * | 9600   | 1041.7 us | 1562.5 us | 3645.8 us |
+ * | 19200  | 520.8 us  | 781.3 us  | 1822.9 us |
+ * | 115200 | 86.8 us   | 130.2 us  | 303.8 us  |
+ */
+
+/** @defgroup callback_hooks Callback Hooks
+ * Dynamic read/write behavior and custom function handlers.
  */
 
 /** @brief CRC lookup high-byte table, defined in modbusSlave.cpp. */
@@ -23,18 +34,41 @@ extern const byte _auchCRCHi[256];
 extern const byte _auchCRCLo[256];
 
 /** @brief Callback signature for dynamic read values. */
+/** @ingroup callback_hooks */
 typedef uint16_t (*modbusReadCallback)(word address, modbusDevice *device);
 /** @brief Callback signature invoked after register writes. */
+/** @ingroup callback_hooks */
 typedef void (*modbusWriteCallback)(word address, word value, modbusDevice *device);
 /** @brief Callback signature for custom/unknown function code handling. */
+/** @ingroup callback_hooks */
 typedef bool (*modbusUnknownFunctionCallback)(byte funcType, const byte *request, byte requestLen, byte *response, byte *responseLen, modbusDevice *device);
 /** @brief Callback signature to reconfigure baud on non-HardwareSerial Stream transports. */
+/** @ingroup callback_hooks */
 typedef void (*modbusStreamBaudCallback)(word baud, Stream *port);
 
 /**
  * @class modbusSlave
  * @brief Modbus RTU slave communications and frame processing engine.
  * @ingroup protocol_engine
+ *
+ * Internal parser state machine used by @ref modbusSlave::run "run()":
+ *
+ * @dot
+ * digraph ParserFSM {
+ *   rankdir=LR;
+ *   node [shape=box, style=rounded, fontname=Helvetica, fontsize=10];
+ *
+ *   IDLE [label="PARSER_IDLE"];
+ *   RX [label="PARSER_RECEIVING"];
+ *   COMPLETE [label="PARSER_COMPLETE"];
+ *
+ *   IDLE -> RX [label="first byte received"];
+ *   RX -> RX [label="more bytes;\nreset silence timer"];
+ *   RX -> COMPLETE [label="silence >= T3.5"];
+ *   RX -> IDLE [label="overflow or reset"];
+ *   COMPLETE -> IDLE [label="processFrame() done"];
+ * }
+ * @enddot
  */
 class modbusSlave
 {
@@ -59,12 +93,17 @@ class modbusSlave
 		/** @ingroup rs485_control */
 		void setTxEnableDelaysUs(word preDelayUs, word postDelayUs);
 		/** @brief Register read callback for specific address. */
+		/** @ingroup callback_hooks */
+		/** @see 04_Expert_Callbacks.ino */
 		bool onRead(word address, modbusReadCallback cb);
 		/** @brief Register write callback for specific address. */
+		/** @ingroup callback_hooks */
 		bool onWrite(word address, modbusWriteCallback cb);
 		/** @brief Register callback for unsupported/custom function codes. */
+		/** @ingroup callback_hooks */
 		bool onUnknownFunction(modbusUnknownFunctionCallback cb);
 		/** @brief Register baud reconfiguration callback for generic Stream transports. */
+		/** @ingroup callback_hooks */
 		bool setStreamBaudHandler(modbusStreamBaudCallback cb);
 		/** @brief Set 32-bit helper endianness mode on bound register bank. */
 		void configureEndianness(byte mode);
@@ -134,7 +173,17 @@ class modbusSlave
 		bool decodeAsciiFrame(void);
 		/** @brief Process complete frame and generate response. */
 		void processFrame(void);
-		/** @brief Build and send Modbus exception response. */
+		/**
+		 * @brief Build and send Modbus exception response.
+		 *
+		 * Exception trigger reference:
+		 *
+		 * | Code | Name | Typical Trigger in This Library |
+		 * | ---- | ---- | ------------------------------- |
+		 * | 0x01 | Illegal Function | Unsupported function code, or onUnknownFunction callback returned false. |
+		 * | 0x02 | Illegal Data Address | Requested register/range does not exist in modbusDevice/modbusRegBank. |
+		 * | 0x03 | Illegal Data Value | Request quantity/field is invalid (for example exceeds frame constraints for multi-write). |
+		 */
 		void sendException(byte funcType, byte exceptionCode);
 		/** @brief Transmit frame buffer with RS485 direction control. */
 		void sendFrame(void);
@@ -190,5 +239,4 @@ class modbusSlave
 		char _asciiBuf[(MODBUS_MAX_FRAME * 2) + 8];
 		unsigned long _lastRxByteUs;
 };
-/** @} */
 #endif

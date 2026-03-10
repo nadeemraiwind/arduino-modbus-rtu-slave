@@ -76,7 +76,25 @@
  * MODBUS SLAVE ADDRESS: 10 (change as needed for your bus)
  * BAUD RATE: 38400 (common industrial rate)
  * 
+ * VALIDATED WORKFLOW VS PRODUCTION RS485:
+ * - Development validation confirmed this sketch logic in a USB Serial0 profile.
+ * - Real RS485 deployment still requires hardware-specific validation of DE/RE timing,
+ *   cable quality, and bus topology.
+ * 
+ * HOW TO CHANGE SERIAL PORTS AND ENABLE DEBUG:
+ * - UNO/NANO production path: Modbus usually stays on `Serial`, so USB debug output is
+ *   not safe while traffic is active.
+ * - MEGA production path: keep Modbus on `Serial1` and use USB `Serial` for debug prints.
+ * - USB-only validation path: force `slave.setPort(Serial)` and keep Serial Monitor closed.
+ * - If Modbus uses `Serial`, do not use `Serial.print()` and allow 2 to 3 seconds after
+ *   COM open before the first request.
+ * 
  ******************************************************************************/
+
+/**
+ * @example 05_RS485_Hardware.ino
+ * RS485 direction control and deployment-oriented timing guidance.
+ */
 
 #include <modbus.h>
 #include <modbusDevice.h>
@@ -91,6 +109,18 @@
 // Adjust these if you see communication errors at high speeds
 #define RS485_PRE_DELAY_US  100   // Delay before transmitting (us)
 #define RS485_POST_DELAY_US 100   // Delay after transmitting (us)
+
+// Practical tuning for slower transceivers / long cables:
+// charTimeUs ~= 10000000 / baud  for 8N1 (10 bits/char)
+// Example at 38400 baud: charTimeUs ~= 260us
+// MAX485-class transceivers commonly need ~10-50us of DE/RE settling time
+// before/after TX for reliable first/last-bit integrity.
+// If pre-delay is too short, the first response bit is clipped and masters
+// usually report CRC/frame errors.
+// A common starting point is:
+//   preDelay  = 0.25 to 0.5 char times
+//   postDelay = 1.0 to 2.0 char times
+// For MAX485 on noisy or long links, increase post delay first.
 
 // ===== MODBUS CONFIGURATION =====
 #define SLAVE_ADDRESS 10        // Set unique address for each slave (1-247)
@@ -126,28 +156,33 @@ void setup() {
   regBank.set(40002, 500);
   
   // ===== MODBUS SERIAL CONFIGURATION =====
-  // For UNO: use Serial (pins 0 and 1)
-  // For MEGA: use Serial1, Serial2, or Serial3 for RS485
+  // Production default:
+  // - UNO/NANO: Modbus on Serial (pins 0/1), so USB debug is unavailable during traffic.
+  // - MEGA: Modbus on Serial1 so USB Serial can remain available for logging.
+  // Validation alternative:
+  // - Force slave.setPort(Serial) to match the USB Serial0 test profile.
   
   slave.setDevice(&regBank);
   
   #if defined(__AVR_ATmega2560__)  // Arduino MEGA
-    slave.setPort(Serial1);  // Use Serial1 (pins 18/19)
+    slave.setPort(Serial1);  // Production default: Modbus on Serial1, USB Serial free for debug.
   #else  // Arduino UNO, NANO, etc.
-    slave.setPort(Serial);   // Use Serial (pins 0/1)
+    slave.setPort(Serial);   // Single-UART boards use Serial for Modbus; avoid Serial debug output.
   #endif
   
   slave.setProtocol(RTU);      // Default framing mode (see Level 7 for ASCII)
   slave.setBaud(BAUD_RATE);
   
   // ===== RS485 DIRECTION CONTROL =====
-  // CRITICAL: This tells the library which pin controls transmit/receive
+  // CRITICAL: Enable this in real RS485 deployments so DE/RE follows TX state.
   slave.setTxEnablePin(RS485_DE_PIN, RS485_DE_ACTIVE);
   
   // ===== RS485 TIMING DELAYS =====
-  // Use microsecond-precision delays for high-speed RS485
-  // Standard setTxEnableDelays() uses milliseconds (not precise enough)
-  slave.setTxEnableDelaysUs(RS485_PRE_DELAY_US, RS485_POST_DELAY_US);
+  // Use microsecond-precision delays for high-speed RS485.
+  // This path is documented and compiled here, but final values must be tuned on
+  // your real bus because USB Serial0 testing does not validate DE/RE timing.
+  // Gold-standard demo profile for microsecond RS485 control.
+  slave.setTxEnableDelaysUs(10, 10);
   
   // Millisecond version (less precise, but simpler):
   // slave.setTxEnableDelays(0, 1);  // 0ms pre, 1ms post
@@ -162,6 +197,8 @@ void setup() {
   // At 9600 baud: 1 char ≈ 1.04ms
   // At 38400 baud: 1 char ≈ 260us
   // At 115200 baud: 1 char ≈ 87us
+  // If response truncation appears, increase RS485_POST_DELAY_US.
+  // If first bytes are lost, increase RS485_PRE_DELAY_US.
 }
 
 void loop() {

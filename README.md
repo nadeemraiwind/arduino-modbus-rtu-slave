@@ -1,15 +1,56 @@
 # Modbus RTU Arduino Library
 
+@mainpage Modbus RTU Arduino Library
+
 Standard Modbus RTU slave library for Arduino with support for core Modbus function codes and flexible register-bank usage.
 
-## Version 1.1.0
+## Field Rules (Load-Bearing)
+
+- Opening a USB COM port typically resets Arduino boards.
+- Wait about 2 to 3 seconds after COM open before the first Modbus request.
+- If Modbus uses Serial, keep Serial Monitor closed and avoid Serial.print output.
+- On single-UART boards, USB Modbus traffic and USB debug logs cannot run reliably at the same time.
+- On multi-UART boards (for example MEGA), move Modbus to Serial1/Serial2/Serial3 when you need USB debug logs.
+
+## System Block Diagram
+
+@dot
+digraph MainBlock {
+  rankdir=LR;
+  node [shape=box, style=rounded, fontname=Helvetica, fontsize=10];
+
+  Master [label="Modbus Master\n(PLC/SCADA/PC)", fillcolor="#f2f2f2", style="rounded,filled"];
+  RS485 [label="RS485 Transceiver\n(MAX485/MAX3485)", fillcolor="#e6f2ff", style="rounded,filled"];
+  Slave [label="Arduino\n(modbusSlave)", fillcolor="#e6ffe6", style="rounded,filled"];
+  Regs [label="Register Bank\n(modbusRegBank)", fillcolor="#fff5e6", style="rounded,filled"];
+
+  Master -> RS485 [label="RTU/ASCII Frames"];
+  RS485 -> Slave [label="UART bytes"];
+  Slave -> Regs [label="Read/Write + callbacks"];
+  Regs -> Slave [label="Response data"];
+  Slave -> RS485 [label="Response frame"];
+  RS485 -> Master [label="Bus reply"];
+}
+@enddot
+
+## 5-Line Quick Start
+
+```cpp
+modbusDevice regBank; modbusSlave slave;
+regBank.setId(1); regBank.add(40001); regBank.set(40001, 1234);
+slave.setDevice(&regBank); slave.setPort(Serial);
+slave.setProtocol(RTU); slave.setBaud(9600);
+void loop() { slave.run(); }
+```
+
+## Version 1.0.0
 
 **Recent Improvements:**
 
 - ✅ Fixed CRC table linker errors (moved from .h to .cpp)
 - ✅ Fixed broken example code to use correct API
 - ✅ Added comprehensive inline documentation
-- ✅ Created KNOWN_ISSUES.md with limitations and best practices
+- ✅ Published STATUS.md with validation scope and production readiness notes
 - ✅ Added FC15/FC16 multi-write support
 - ✅ Added `Stream` transport support
 - ✅ Added microsecond-based RTU frame timing (3.5 char silence)
@@ -29,7 +70,14 @@ Standard Modbus RTU slave library for Arduino with support for core Modbus funct
 4. **Configure:** Set slave ID and baud rate (defaults: ID=1, baud=9600)
 5. **Upload and test** with a Modbus master tool (Modbus Poll, QModMaster, pymodbus, etc.)
 
-See [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for limitations and best practices.
+See [STATUS.md](STATUS.md) for tested-vs-untested validation scope, [ROADMAP.md](ROADMAP.md) for next-version goals, and [CHANGELOG.md](CHANGELOG.md) for release notes.
+
+## Integration Guides
+
+- @subpage register_addressing_guide
+- @subpage validation
+- @subpage modbus_poll_example03
+- @subpage modbus_poll_example04
 
 ## Doxygen Documentation
 
@@ -63,10 +111,12 @@ docs/html/index.html
 - **Graphviz (`dot`) is now enabled** for automatic call graphs and system architecture diagrams. Install Graphviz to see function call relationships and data flow visualizations.
 - `README.md` is used as the Doxygen main page.
 - Doxygen module groups are now defined to organize API pages:
+  - `Core Runtime`
   - `Protocol Engine`
   - `Data Access Helpers`
   - `Device Model`
   - `RS485 Control`
+  - `Callback Hooks`
 - Generated `docs/html` is committed in this repository for direct browsing and release packaging.
 - GitHub Pages deployment is automated via `.github/workflows/deploy-docs-pages.yml`.
 
@@ -274,15 +324,150 @@ These diagrams are interactive: click any box to jump to that function's documen
 ## Project State
 
 - Library code: clean and ready for production use
-- Examples: 5 progressive examples (Basic → Expert)
+- Examples: progressive industrial set for deployment workflows
   - `examples/01_Basic_MinimalSlave/01_Basic_MinimalSlave.ino` ← **Start here!**
   - `examples/02_Intermediate_MultiRegister/02_Intermediate_MultiRegister.ino`
   - `examples/03_Advanced_TypedData/03_Advanced_TypedData.ino`
   - `examples/04_Expert_Callbacks/04_Expert_Callbacks.ino`
   - `examples/05_RS485_Hardware/05_RS485_Hardware.ino`
-- Documentation: README.md, KNOWN_ISSUES.md
+  - `examples/06_Validation_Tests/06_Validation_Tests.ino`
+  - `examples/07_ASCII_Protocol_Mode/07_ASCII_Protocol_Mode.ino`
+  - `examples/08_Atomic_Integrity/08_Atomic_Integrity.ino`
+- Documentation: README.md, STATUS.md, ROADMAP.md, ARCHITECTURE.md
 - IDE integration: keywords.txt included
-- Examples follow progressive learning path from basic to industrial-grade
+- Examples follow a progressive learning path from basic to industrial-grade, and their comments are aligned with the verified USB Serial0 validation workflow.
+
+## Validation Coverage Status
+
+The current validation set is integration-heavy and focused on USB Serial0 workflows.
+
+The user-facing source of truth is now the combination of:
+
+- this README,
+- the example headers in `examples/`, and
+- `STATUS.md` for explicit gaps and validation coverage.
+
+### Verified by automated Python + Modbus Poll workflows
+
+- Example 01: Basic RTU read/write flow
+- Example 02: Multi-register read/write flow
+- Example 03: Typed data map behavior (float/long/string register regions)
+- Example 04: Callback behavior and diagnostics mirror register checks
+- Example 05: RS485 profile sketch tested in Serial0 USB mode
+- Example 06: Validation result-map checks
+- Example 07: ASCII mode read/write flow
+
+Important distinction:
+
+- The library implements more features than the current development test suite validates.
+- “Supported” in source code is not the same as “fully verified” on hardware.
+- The table below reflects the validated scope from automated/manual workflows plus the current example set.
+
+### Validated example results summary
+
+| Example | Primary features exercised | Validation result |
+| :-- | :-- | :-- |
+| 01 | FC01/02/03/04 basic reads, FC05/06 writes, minimal slave lifecycle | PASS |
+| 02 | Multi-register process map, dynamic values, control/status regions | PASS |
+| 03 | `setFloat`, `setLong`, `setString`, changing typed values | PASS |
+| 04 | `onRead`, `onWrite`, `onUnknownFunction`, diagnostics mirror registers | PASS |
+| 05 | RS485-oriented register map, serial transport profile, read/write behavior | PASS in Serial0 USB profile; real DE/RE runtime remains deployment-specific |
+| 06 | Address validation, duplicate safety, string helpers, `tryGet`, protocol selection | PASS |
+| 07 | ASCII framing, `tryGet`, stream baud handler integration, read/write mirror logic | PASS |
+
+### Recently Updated Example Status (Current Cycle)
+
+The following examples were recently updated and compile-verified on Mega2560, but are still pending a fresh end-to-end runtime retest after the latest edits:
+
+- `03_Advanced_TypedData.ino` (updated, compile verified, runtime retest pending)
+- `05_RS485_Hardware.ino` (updated, compile verified, runtime retest pending)
+- `06_Validation_Tests.ino` (updated, compile verified, runtime retest pending)
+- `08_Atomic_Integrity.ino` (new, compile verified, runtime retest pending)
+
+### Feature coverage assessment
+
+| Feature area | Coverage status | Notes |
+| :-- | :-- | :-- |
+| Basic Modbus RTU communication | High | RTU reads/writes are well covered across Examples 01-07. Current automated evidence is strongest for FC01/02/03/04/05/06. |
+| Modbus ASCII mode | Partial | ASCII mode is validated through Example 07 read/write flow, but not across the full RTU function-code matrix. |
+| Register management (`add`, `has`, `get`, `set`) | High | Extensively exercised by the example-driven integration tests. |
+| Typed data (`setFloat`, `setLong`, `setString`, `tryGet`) | High | Strong integration coverage exists, but explicit `getFloat` / `getLong` assertions are still missing. |
+| Endianness switching | Partial | Default behavior is exercised through typed-data workflows, but programmatic switching to Little Endian and Big Endian Swapped is not asserted in automated tests. |
+| Dynamic memory model | Partial | The default dynamic allocation path is exercised in normal examples. Stress or failure-path coverage is limited. |
+| Static register pool memory model | Missing | `MODBUS_USE_STATIC_REG_POOL` exists in source, but current tests do not build or run a static-pool configuration. |
+| Atomic transaction APIs | Missing | `atomicBegin`, `atomicEnd`, `atomicGet`, `atomicSet`, and `isAtomicLocked` are not covered by current practical tests. |
+| RS485 DE/RE hardware control | Missing | The API is implemented and documented, but real pin toggling and timing behavior are not yet validated by the automated workflow. |
+| Callback system (`onRead`, `onWrite`) | High | Example 04 verifies practical callback behavior and dynamic value updates. |
+| Unknown/custom function handling | Partial | Registration is exercised and documented; direct unsupported-function response-path automation is still missing. |
+| Stream transport helpers | Partial | `setStreamBaudHandler(...)` appears in Example 07, but current tests still use HardwareSerial rather than a true alternative `Stream` implementation. |
+| Diagnostics (FC08) | Partial | Counters are verified indirectly via mirror registers; direct FC08 requests and `clearDiagnosticsCounters()` are not automated. |
+| Non-blocking `slave.run()` engine | Partial | Normal integration tests depend on the state machine working, but no stress, throughput, or worst-case latency benchmarks exist yet. |
+
+### Serial routing and debug rules used by the validated workflow
+
+- Default validated profile: `slave.setPort(Serial)` and use the board USB COM port for Modbus.
+- When Modbus uses `Serial`, keep Serial Monitor closed and do not use `Serial.print()` for debug output.
+- On boards with only one hardware UART, you must choose between USB Modbus traffic and live Serial debug output.
+- On boards with extra UARTs (for example MEGA), you can move Modbus to `Serial1`/`Serial2`/`Serial3` and keep `Serial` for debug prints.
+- Opening a USB COM port usually resets the Arduino, so masters should wait about 2 to 3 seconds before the first request.
+- The example headers now describe both the validated Serial0 path and the alternate multi-UART debug path.
+
+### Important untested or partially tested areas
+
+- Board matrix not fully covered:
+  - Multi-UART routing on MEGA (`Serial1/Serial2/Serial3`) in practical bus tests
+  - ESP32 hardware UART variants and board-specific serial behavior
+  - Other MCU families beyond current USB Serial0 validation path
+
+- Transport and RS485 control paths not fully covered in runtime tests:
+  - `setTxEnablePin(...)`
+  - `setTxEnableDelays(...)`
+  - `setTxEnableDelaysUs(...)`
+  - Real DE/RE timing behavior across baud rates and bus lengths
+
+- SoftwareSerial/custom stream paths not fully covered:
+  - `setPort(Stream&)` with non-HardwareSerial transports
+  - SoftwareSerial timing/performance under load
+  - `setStreamBaudHandler(...)` behavior with custom transports
+
+- Memory model coverage is incomplete:
+  - Default dynamic register allocation is exercised in normal use
+  - Static register pool mode (`MODBUS_USE_STATIC_REG_POOL`) is not validated by the current workflow
+
+- API coverage gaps:
+  - Direct unsupported-function injection test for `onUnknownFunction(...)`
+  - Direct FC08 request automation (beyond mirror register checks)
+  - Atomic APIs in practical scenarios:
+    - `atomicBegin()`, `atomicEnd()`, `atomicGet()`, `atomicSet()`, `isAtomicLocked()`
+  - Endianness mode switching automation for:
+    - `MODBUS_LITTLE_ENDIAN`
+    - `MODBUS_BIG_ENDIAN_SWAPPED`
+  - Explicit firmware-side assertions for `getFloat(...)` / `getLong(...)`
+  - Compile/run coverage for static pool configuration macros:
+    - `MODBUS_USE_STATIC_REG_POOL`
+    - `MODBUS_MAX_DIG_REGS`
+    - `MODBUS_MAX_ANA_REGS`
+
+### Board Matrix Test Plan
+
+Use this checklist to track board/transport coverage systematically.
+
+| Board/Transport | Current Status | Serial Routing Target | Required Checks | Owner | Status |
+| :-- | :-- | :-- | :-- | :-- | :-- |
+| UNO (HardwareSerial) | Mostly covered | `Serial` | RTU FC01-06/15/16, FC08 mirror, stability | TBD | [ ] |
+| MEGA Serial0 profile | Covered in current workflow | `Serial` | RTU + ASCII examples, callback behavior, validation map | Team | [x] |
+| MEGA multi-UART profile | Not covered | `Serial1/Serial2/Serial3` for Modbus + `Serial0` for debug/programming | Port routing, throughput, no crosstalk, regression parity with Serial0 profile | TBD | [ ] |
+| ESP32 UARTx profile | Not covered | `Serial1/Serial2` (board-specific mapping) | UART pin mapping, timing, FC01-06/15/16, callback/ASCII paths | TBD | [ ] |
+| SoftwareSerial/custom Stream | Not covered | `setPort(Stream&)` | `setStreamBaudHandler`, frame reliability, throughput limits, error behavior | TBD | [ ] |
+
+Suggested acceptance gate per row:
+
+- Python automated test: PASS
+- Modbus Poll manual test: PASS
+- 15-30 minute stability poll: PASS
+- Any new issue documented with root cause + fix
+
+If your deployment depends on these areas, add dedicated board/hardware tests before production release.
 
 ## Supported Modbus Function Codes
 
@@ -414,7 +599,7 @@ Example `"HELLO"`:
 
 ## Examples Overview
 
-The library includes 5 examples in a progressive learning path from basic to expert:
+The library includes 9 primary examples in a progressive learning path from basic to expert, plus one development-only single-file debug sketch:
 
 ### Level 1: Basic - Minimal Slave ⭐ START HERE
 
@@ -427,6 +612,9 @@ The library includes 5 examples in a progressive learning path from basic to exp
   - One register of each type (coil, discrete input, input register, holding register)
   - Clear 5-step setup process
   - Comprehensive quick reference guide
+- **Serial notes:**
+  - Validated on USB `Serial` with Serial Monitor closed
+  - Move Modbus to `Serial1`/`Serial2`/`Serial3` on multi-UART boards if you need live debug output on `Serial`
 - **Best for:** First-time users learning Modbus basics
 
 ### Level 2: Intermediate - Multi-Register Process
@@ -441,6 +629,9 @@ The library includes 5 examples in a progressive learning path from basic to exp
   - Coil-to-discrete-input mirroring pattern
   - Dynamic value updates and PLC-like command handling
   - Safe register access patterns
+- **Serial notes:**
+  - Validated on USB `Serial` without debug prints
+  - RS485 and alternate UART routing are supported, but should be retested on target hardware
 - **Best for:** Building real automation systems
 
 ### Level 3: Advanced - Typed Data (Float/Long/String)
@@ -455,6 +646,9 @@ The library includes 5 examples in a progressive learning path from basic to exp
   - ASCII string storage (2 chars per register)
   - Endianness configuration for multi-vendor compatibility
   - Real-world decimal precision handling
+- **Serial notes:**
+  - Validated on USB `Serial`
+  - If you need Serial Monitor diagnostics, move Modbus to another hardware UART first
 - **Best for:** SCADA integration with mixed data types
 
 ### Level 4: Expert - Callbacks, Diagnostics, Custom Functions
@@ -470,6 +664,9 @@ The library includes 5 examples in a progressive learning path from basic to exp
   - FC08 Diagnostics with counter APIs
   - Event logging system
   - Dynamic RAM monitoring
+- **Serial notes:**
+  - Validated on USB `Serial` with startup delay after COM open
+  - On MEGA-class boards you can route Modbus to `Serial1` and keep `Serial` for debug logging
 - **Best for:** Mission-critical systems requiring event hooks and diagnostics
 
 ### Level 5: RS485 Hardware - Industrial Deployment
@@ -485,7 +682,59 @@ The library includes 5 examples in a progressive learning path from basic to exp
   - Multi-drop bus topology guidelines
   - Comprehensive troubleshooting guide
   - Hardware comparison (MAX485, MAX3485, SN75176, isolated modules)
+- **Serial notes:**
+  - Development workflow validated the sketch in USB `Serial` profile
+  - Real RS485 deployments should switch to the intended UART and enable `setTxEnablePin(...)` plus timing delays on hardware
 - **Best for:** Production RS485 installations and multi-slave networks
+
+### Level 6: Validation Tests - Library Safety and API Checks
+
+- **File:** `examples/06_Validation_Tests/06_Validation_Tests.ino`
+- **Hardware:** Arduino UNO, MEGA, or compatible
+- **Connection:** USB or alternate UART
+- **Slave ID:** 1 | **Baud:** 9600
+- **Features:**
+  - Address-range validation
+  - Duplicate register safety checks
+  - String helper coverage
+  - `tryGet()` sentinel-safe access validation
+  - `setProtocol()` / `getProtocol()` result reporting
+  - Result-map export over Modbus instead of relying on Serial Monitor
+- **Serial notes:**
+  - Validated on USB `Serial` as a Modbus-readable status sketch
+  - If you move Modbus off `Serial`, you may enable `Serial` debug output for local trace prints
+- **Best for:** Regression checking library safety behavior from a Modbus master
+
+### Level 7: Protocol Mode - ASCII + Stream-Oriented Setup
+
+- **File:** `examples/07_ASCII_Protocol_Mode/07_ASCII_Protocol_Mode.ino`
+- **Hardware:** Arduino UNO, MEGA, or compatible
+- **Connection:** USB or alternate UART
+- **Slave ID:** 1 | **Baud:** 9600
+- **Features:**
+  - ASCII framing via `setProtocol(ASCII)`
+  - `tryGet()` usage in active loop logic
+  - Optional `setStreamBaudHandler(...)` for generic `Stream` transports
+  - Coil mirror behavior from holding-register content
+- **Serial notes:**
+  - Validated on USB `Serial` using a Modbus ASCII master
+  - If you need debug prints, move Modbus to a different hardware UART first
+- **Best for:** Legacy gateways, text-framed links, and verifying ASCII mode behavior
+
+### Level 8: Atomic Integrity - Multi-Register Safety
+
+- **File:** `examples/08_Atomic_Integrity/08_Atomic_Integrity.ino`
+- **Hardware:** Arduino UNO, MEGA, or compatible
+- **Connection:** USB or alternate UART
+- **Slave ID:** 1 | **Baud:** 19200
+- **Features:**
+  - Practical `atomicBegin()` / `atomicEnd()` usage around float/long updates
+  - Multi-register consistency under polling load
+  - Sequence and cycle-time counters for integrity monitoring
+- **Serial notes:**
+  - Uses the same Serial0 test profile rules as other validated examples
+  - Move Modbus off `Serial` before adding live Serial debug output
+- **Best for:** Industrial projects that require race-condition-resistant data exposure
 
 ---
 
@@ -495,7 +744,10 @@ The library includes 5 examples in a progressive learning path from basic to exp
 2. Move to **02_Intermediate_MultiRegister** for real process simulation
 3. Add **03_Advanced_TypedData** when you need floats/longs/strings
 4. Use **04_Expert_Callbacks** for event-driven and diagnostic features
-5. Deploy with **05_RS485_Hardware** for industrial installations
+5. Use **05_RS485_Hardware** to prepare for real RS485 deployment
+6. Run **06_Validation_Tests** when you want a compact regression/status sketch
+7. Use **07_ASCII_Protocol_Mode** when your master requires Modbus ASCII framing
+8. Use **08_Atomic_Integrity** when multi-register consistency matters under heavy polling
 
 All examples include:
 
@@ -504,6 +756,13 @@ All examples include:
 - Testing procedures
 - Troubleshooting guides
 - Best practices and common pitfalls
+- Serial routing notes for `Serial` vs `Serial1`/`Serial2`/`Serial3`
+- Guidance on when debug output is safe and when it will break Modbus traffic
+
+Manual Modbus Poll guides are available in:
+
+- `extras/tools/MODBUS_POLL_GUIDE_EXAMPLE03.md`
+- `extras/tools/MODBUS_POLL_GUIDE_EXAMPLE04.md`
 
 ## Safe Register Access
 
@@ -566,7 +825,7 @@ This library is production-ready for most applications, but has some known limit
 - **Serial port:** `Stream` is supported. Use `setPort(Stream&)` for SoftwareSerial/bridges; use `setPort(HardwareSerial&)` when baud reconfiguration is needed
 - **Timing:** RTU frame detection uses microsecond timing for 3.5-char silence windows
 
-See [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for complete details and workarounds.
+See [STATUS.md](STATUS.md) for complete validation scope and deployment guidance.
 
 ## Wiring
 
@@ -643,8 +902,11 @@ Use this checklist before deploying to field hardware:
 2. Verify FC01/FC02/FC03/FC04 reads return valid data.
 3. Verify FC05/FC06 writes and readback behavior.
 4. Verify FC15/FC16 multi-write behavior.
-5. If using RS485, validate DE/RE timing and bus stability with `examples/05_RS485_Hardware/05_RS485_Hardware.ino`.
-6. Confirm slave address, baud, and wiring in your final hardware setup.
+5. If using USB `Serial` for Modbus, keep Serial Monitor closed and allow 2 to 3 seconds after COM open before the first request.
+6. If you need live debug logging, move Modbus to a different hardware UART before adding `Serial.print()` calls.
+7. If using RS485, validate DE/RE timing and bus stability with `examples/05_RS485_Hardware/05_RS485_Hardware.ino`.
+8. Run `examples/06_Validation_Tests/06_Validation_Tests.ino` as a regression gate after transport changes.
+9. Confirm slave address, baud, protocol mode, and wiring in your final hardware setup.
 
 ## Clean Project Structure
 
@@ -661,10 +923,12 @@ library.properties
 keywords.txt
 LICENSE
 README.md
-KNOWN_ISSUES.md
+STATUS.md
+ROADMAP.md
 ARCHITECTURE.md
 Doxyfile
 docs/
+extras/
 examples/
   01_Basic_MinimalSlave/
     01_Basic_MinimalSlave.ino
@@ -676,6 +940,12 @@ examples/
     04_Expert_Callbacks.ino
   05_RS485_Hardware/
     05_RS485_Hardware.ino
+  06_Validation_Tests/
+    06_Validation_Tests.ino
+  07_ASCII_Protocol_Mode/
+    07_ASCII_Protocol_Mode.ino
+  08_Atomic_Integrity/
+    08_Atomic_Integrity.ino
 ```
 
 ## Next Steps
@@ -684,7 +954,10 @@ examples/
 - **Process control:** Use `02_Intermediate_MultiRegister` for multi-register systems
 - **Data types:** Add `03_Advanced_TypedData` for float/long/string support
 - **Advanced features:** Implement `04_Expert_Callbacks` for event hooks and diagnostics
-- **Production deployment:** Deploy with `05_RS485_Hardware` for industrial RS485 networks
+- **Hardware deployment:** Move to `05_RS485_Hardware` for industrial RS485 networks
+- **Regression checking:** Use `06_Validation_Tests` after transport or API changes
+- **ASCII links:** Use `07_ASCII_Protocol_Mode` for text-framed masters and gateways
+- **Data integrity:** Use `08_Atomic_Integrity` for multi-register atomic update patterns
 
 ## Elite Level Features
 
@@ -705,7 +978,7 @@ Protects against data races during read-modify-write operations:
 Complete HTML API reference generated from code:
 
 - Automatic API reference with searchable function documentation
-- Organized module groups (Protocol Engine, Data Access, Device Model, RS485 Control)
+- Organized module groups (Core Runtime, Protocol Engine, Data Access, Device Model, RS485 Control, Callback Hooks)
 - Class relationship diagrams
 - Professional presentation for open-source portfolio
 - Generate locally with `doxygen Doxyfile` → `docs/html/index.html`
@@ -723,7 +996,7 @@ Create a companion library for master/client functionality:
 - Bidirectional communication and data aggregation
 - Perfect for multi-board distributed systems
 
-See [KNOWN_ISSUES.md](KNOWN_ISSUES.md#future-enhancements-suggestions) for complete roadmap.
+See [ROADMAP.md](ROADMAP.md) for complete roadmap.
 
 ---
 

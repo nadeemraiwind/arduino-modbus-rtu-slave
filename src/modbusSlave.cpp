@@ -989,11 +989,12 @@ void modbusSlave::processFrame(void)
         if(customLen <= MODBUS_MAX_FRAME)
           _len = customLen;
         else
-          _len = 0;
+          sendException(funcType, EX_ILLEGAL_FUNCTION);
       }
       else
       {
-        _len = 0;
+        // Callback declined handling, so return standard Modbus exception.
+        sendException(funcType, EX_ILLEGAL_FUNCTION);
       }
 
       if(_len)

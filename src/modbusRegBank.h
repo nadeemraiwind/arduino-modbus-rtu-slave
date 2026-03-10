@@ -75,9 +75,14 @@ class modbusRegBank
 		 *
 		 * While active, @ref modbusSlave::run can defer frame processing when
 		 * using this register bank through modbusDevice.
+		 * @warning Use atomic transactions when writing multi-register values
+		 * (for example setFloat/setLong/string blocks) inside loop().
+		 * Without this, masters can read half-updated pairs and decode corrupt data.
 		 */
 		void atomicBegin(void);
-		/** @brief End an application-level atomic transaction. */
+		/** @brief End an application-level atomic transaction.
+		 * @note Always pair with atomicBegin() in the same control path.
+		 */
 		void atomicEnd(void);
 		/** @brief Returns true when an atomic transaction is active. */
 		bool isAtomicLocked(void) const;
@@ -87,11 +92,15 @@ class modbusRegBank
 		void atomicSet(word address, word value);
 		/** @brief Read 32-bit float from two adjacent registers. */
 		float getFloat(word address);
-		/** @brief Write 32-bit float to two adjacent registers. */
+		/** @brief Write 32-bit float to two adjacent registers.
+		 * @note Wrap periodic updates in atomicBegin()/atomicEnd() when data is polled live.
+		 */
 		void setFloat(word address, float value);
 		/** @brief Read 32-bit integer from two adjacent registers. */
 		uint32_t getLong(word address);
-		/** @brief Write 32-bit integer to two adjacent registers. */
+		/** @brief Write 32-bit integer to two adjacent registers.
+		 * @note Wrap periodic updates in atomicBegin()/atomicEnd() when data is polled live.
+		 */
 		void setLong(word address, uint32_t value);
 		/**
 		 * @brief Write ASCII string (2 chars/register) starting at @p address.

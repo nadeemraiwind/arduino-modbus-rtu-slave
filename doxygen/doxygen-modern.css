@@ -1,0 +1,42 @@
+/* Lightweight modern polish for Doxygen output without external dependencies. */
+:root {
+  --brand: #0d6e6e;
+  --brand-soft: #e8f6f6;
+}
+
+#projectname {
+  letter-spacing: 0.3px;
+}
+
+#titlearea {
+  border-bottom: 1px solid #d8e3e3;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbfb 100%);
+}
+
+a {
+  color: var(--brand);
+}
+
+a:hover {
+  color: #0a5656;
+}
+
+.memtitle, .groupheader {
+  border-radius: 6px;
+}
+
+table.markdownTable {
+  border-collapse: collapse;
+}
+
+table.markdownTable th {
+  background: var(--brand-soft);
+}
+
+#MSearchBox {
+  border-radius: 8px;
+}
+
+.fragment {
+  border-radius: 8px;
+}

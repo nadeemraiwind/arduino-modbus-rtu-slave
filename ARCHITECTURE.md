@@ -2,6 +2,56 @@
 
 This document provides detailed sequence diagrams and flowcharts showing the internal logic of the Modbus RTU Slave library. Understanding these flows is essential for industrial deployment and debugging.
 
+## Industrial Link Topology {#industrial_topology}
+
+@dot
+digraph IndustrialTopology {
+  rankdir=LR;
+  node [shape=box, style=rounded, fontname=Helvetica, fontsize=10];
+
+  Master [label="Master\n(PLC/SCADA/HMI)", fillcolor="#f2f2f2", style="rounded,filled"];
+  Line [label="RS485 Bus / UART Link", fillcolor="#e6f2ff", style="rounded,filled"];
+  Slave [label="Arduino Device\nmodbusSlave", fillcolor="#e6ffe6", style="rounded,filled"];
+  Model [label="Register Model\nmodbusDevice + modbusRegBank", fillcolor="#fff5e6", style="rounded,filled"];
+
+  Master -> Line [label="Request frame"];
+  Line -> Slave [label="byte stream"];
+  Slave -> Model [label="parse + access"];
+  Model -> Slave [label="data/flags"];
+  Slave -> Line [label="response frame"];
+  Line -> Master [label="reply"];
+}
+@enddot
+
+## Layered Architecture Overview {#layered_architecture}
+
+@dot
+digraph LayeredArchitecture {
+  rankdir=TB;
+  node [shape=box, style=rounded, fontname=Helvetica, fontsize=10];
+
+  HW [label="Hardware Layer\nSerial/RS485 Stream", fillcolor="#f2f2f2", style="rounded,filled"];
+  PROTO [label="Protocol Layer\nmodbusSlave", fillcolor="#e6f2ff", style="rounded,filled"];
+  DEVICE [label="Identity Layer\nmodbusDevice", fillcolor="#e6ffe6", style="rounded,filled"];
+  DATA [label="Data Layer\nmodbusRegBank", fillcolor="#fff5e6", style="rounded,filled"];
+
+  HW -> PROTO [label="raw UART bytes"];
+  PROTO -> DEVICE [label="slave id + routing"];
+  DEVICE -> DATA [label="addressed read/write"];
+  DATA -> PROTO [label="response payload"];
+}
+@enddot
+
+## Hardware Control Timing Reference {#hardware_timing_reference}
+
+The protocol engine computes frame boundaries from character timing in @ref modbusSlave::setBaud.
+
+|Baud|Character Time (10 bits)|T1.5|T3.5|
+|----|------------------------|----|----|
+|9600|1041.7 us|1562.5 us|3645.8 us|
+|19200|520.8 us|781.3 us|1822.9 us|
+|115200|86.8 us|130.2 us|303.8 us|
+
 ---
 
 ## Request-Response Sequence Diagram {#sequence_diagram}
@@ -418,4 +468,4 @@ This library is inspired by and builds upon Jason's original Beta work. The foun
 **Report Issues:** [GitHub Issues](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/issues)  
 **Discuss Features:** [GitHub Discussions](https://github.com/nadeemraiwind/arduino-modbus-rtu-slave/discussions)
 
-Contributions are welcome! See [README.md](README.md) for contribution guidelines.
+Contributions are welcome! See @ref index "README" for contribution guidelines.

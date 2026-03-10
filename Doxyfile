@@ -2,7 +2,7 @@
 
 PROJECT_NAME           = "Arduino Modbus RTU Slave"
 PROJECT_BRIEF          = "Industrial-grade Modbus RTU slave library for Arduino by Nadeem Abbas"
-PROJECT_NUMBER         = "1.1.0"
+PROJECT_NUMBER         = "1.0.0"
 PROJECT_LOGO           =
 
 OUTPUT_DIRECTORY       = docs
@@ -34,12 +34,13 @@ SHOW_NAMESPACES        = NO
 SHOW_USED_FILES        = YES
 VERBATIM_HEADERS       = YES
 
-INPUT                  = src README.md KNOWN_ISSUES.md ARCHITECTURE.md
+INPUT                  = src README.md CHANGELOG.md ARCHITECTURE.md STATUS.md ROADMAP.md REGISTER_ADDRESSING_GUIDE.md docs/VALIDATION.md extras/tools
 RECURSIVE              = YES
 EXCLUDE                =
 EXCLUDE_PATTERNS       =
 EXAMPLE_PATH           = examples
 EXAMPLE_PATTERNS       = *.ino
+IMAGE_PATH             = docs/images
 
 USE_MDFILE_AS_MAINPAGE = README.md
 MARKDOWN_SUPPORT       = YES
@@ -52,7 +53,12 @@ HTML_COLORSTYLE        = LIGHT
 HTML_DYNAMIC_MENUS     = YES
 GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
+FULL_PATH_NAMES        = NO
 FULL_SIDEBAR           = NO
+SEARCHENGINE           = YES
+SERVER_BASED_SEARCH    = NO
+EXTERNAL_SEARCH        = NO
+HTML_EXTRA_STYLESHEET  = doxygen/doxygen-modern.css
 
 GENERATE_LATEX         = NO
 GENERATE_RTF           = NO
@@ -81,6 +87,7 @@ REFERENCES_RELATION    = YES
 REFERENCES_LINK_SOURCE = YES
 
 HAVE_DOT               = YES
+DOT_PATH               = C:/Program Files/Graphviz/bin
 DOT_IMAGE_FORMAT       = svg
 CALL_GRAPH             = YES
 CALLER_GRAPH           = YES

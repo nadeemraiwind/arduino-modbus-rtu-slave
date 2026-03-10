@@ -19,6 +19,19 @@
  * - Arduino UNO, MEGA, or compatible
  * - USB connection for testing
  * 
+ * VALIDATED WORKFLOW:
+ * - Development validation used USB Serial0 with `slave.setPort(Serial)`.
+ * - Do not open Serial Monitor or print debug text while Modbus is using `Serial`.
+ * - If the master opens the COM port, allow about 2 to 3 seconds for Arduino reset
+ *   before the first poll.
+ * 
+ * HOW TO CHANGE SERIAL PORTS:
+ * - Default: keep Modbus on `Serial` for direct USB testing.
+ * - MEGA / multi-UART boards: move Modbus to `Serial1`, `Serial2`, or `Serial3`
+ *   when you want debug output on USB `Serial`.
+ * - When Modbus is moved off `Serial`, you may enable `Serial.begin(...)` and
+ *   `Serial.print(...)` for local process tracing.
+ * 
  * MODBUS SLAVE ADDRESS: 1
  * BAUD RATE: 19200 (faster than basic example)
  * 
@@ -53,6 +66,11 @@
  *    40005: PID Gain (× 100)
  * 
  ******************************************************************************/
+
+/**
+ * @example 02_Intermediate_MultiRegister.ino
+ * Multi-register process simulation with scaled engineering values.
+ */
 
 #include <modbus.h>
 #include <modbusDevice.h>
@@ -116,7 +134,7 @@ void setup() {
   
   // ===== MODBUS CONFIGURATION =====
   slave.setDevice(&regBank);
-  slave.setPort(Serial);       // Use Serial (or Serial1 for MEGA)
+  slave.setPort(Serial);       // Validated USB profile. Move Modbus to another UART to enable Serial debug.
   slave.setProtocol(RTU);      // Default framing mode
   slave.setBaud(19200);        // Higher baud rate for faster communication
   

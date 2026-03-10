@@ -16,6 +16,19 @@
  * - Use a Modbus master tool (Modbus Poll, QModMaster, pymodbus, etc.)
  * - Serial settings: 9600 baud, 8 data bits, 1 stop bit, no parity (8N1)
  * 
+ * VALIDATED WORKFLOW:
+ * - This example was validated with Modbus on USB Serial0 using `slave.setPort(Serial)`.
+ * - In that profile, keep Serial Monitor closed and do not use Serial.print() for debug.
+ * - Opening the COM port usually resets the board, so wait about 2 to 3 seconds
+ *   before the first Modbus request.
+ * 
+ * HOW TO CHANGE SERIAL PORTS:
+ * - Default: keep Modbus on `Serial` for the simplest USB test path.
+ * - MEGA / multi-UART boards: move Modbus to `Serial1`, `Serial2`, or `Serial3`
+ *   if you want USB `Serial` available for debug logs.
+ * - Single-UART boards: use register values, LEDs, or temporary test logic for debug
+ *   instead of Serial Monitor when Modbus is using `Serial`.
+ * 
  * MODBUS SLAVE ADDRESS: 1
  * 
  * TEST WITH MODBUS MASTER:
@@ -62,7 +75,7 @@ void setup() {
   
   // STEP 4: Configure Modbus slave
   slave.setDevice(&regBank);  // Link register bank to slave
-  slave.setPort(Serial);      // Use Serial port (change to Serial1/2/3 for MEGA)
+  slave.setPort(Serial);      // Validated USB profile. Move to Serial1/2/3 to free Serial for debug.
   slave.setProtocol(RTU);     // Default framing mode
   // slave.setProtocol(ASCII); // Optional: use Modbus ASCII framing (:...CRLF)
   slave.setBaud(9600);        // Set baud rate
@@ -106,3 +119,8 @@ void loop() {
  * FC08 (0x08) - Diagnostics (subset)
  * 
  ******************************************************************************/
+
+/**
+ * @example 01_Basic_MinimalSlave.ino
+ * Minimal Modbus RTU slave with one register per standard address domain.
+ */

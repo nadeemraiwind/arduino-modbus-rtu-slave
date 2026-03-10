@@ -40,6 +40,22 @@
  * - Arduino MEGA recommended (more memory for logging)
  * - USB or RS485 connection
  * 
+ * VALIDATED WORKFLOW:
+ * - This example was validated with Modbus on USB Serial0 using `slave.setPort(Serial)`.
+ * - Keep Serial Monitor closed while the Modbus master is connected.
+ * - Opening the COM port resets the board on many Arduino targets, so wait about
+ *   2 to 3 seconds before the first request.
+ * 
+ * HOW TO CHANGE SERIAL PORTS AND ENABLE DEBUG:
+ * - Default: leave Modbus on `Serial` to match the validated USB workflow.
+ * - MEGA / multi-UART boards: move Modbus to `Serial1`, `Serial2`, or `Serial3`
+ *   if you want to keep USB `Serial` available for debug messages.
+ * - Example multi-UART debug setup:
+ *     slave.setPort(Serial1);
+ *     Serial.begin(115200);
+ *     Serial.println(F("Debug output on USB Serial, Modbus on Serial1"));
+ * - Single-UART boards should avoid Serial debug while Modbus is active.
+ * 
  * MODBUS SLAVE ADDRESS: 1
  * BAUD RATE: 19200
  * 
@@ -64,6 +80,11 @@
  *    00001: Command Coil (callback receives 0x00FF ON / 0x0000 OFF)
  * 
  ******************************************************************************/
+
+/**
+ * @example 04_Expert_Callbacks.ino
+ * Callback-driven read/write behavior with FC08 diagnostics mirrors.
+ */
 
 #include <modbus.h>
 #include <modbusDevice.h>
@@ -132,13 +153,17 @@ word onReadUptime(word address, modbusDevice *dev) {
 word onReadFreeRAM(word address, modbusDevice *dev) {
   (void)address;
   (void)dev;
-  
-  // Calculate available RAM
+
+#if defined(__AVR__)
+  // AVR boards expose heap internals needed for a simple free-RAM estimate.
   extern int __heap_start, *__brkval;
-  int v;
-  int freeRam = (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
-  
+  int stackTop;
+  int freeRam = (int)&stackTop - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
+
   return (word)freeRam;
+#else
+  return 0;
+#endif
 }
 
 // Called AFTER master writes holding register 40001 (Motor Speed)
@@ -197,23 +222,18 @@ void onWriteCommandCoil(word address, word value, modbusDevice *dev) {
   logEvent(1, value, 'W');
 }
 
-// Called when master sends unsupported function code
-void onUnknownFunctionReceived(byte functionCode, modbusDevice *dev, modbusSlave *slv) {
+// Called when master sends unsupported function code.
+bool onUnknownFunctionReceived(byte functionCode, const byte *request, byte requestLen,
+                               byte *response, byte *responseLen, modbusDevice *dev) {
+  (void)request;
+  (void)requestLen;
+  (void)response;
+  (void)responseLen;
   (void)dev;
-  (void)slv;
-  
-  // Log unknown function attempt
+
+  // Log unknown function attempt and let library fallback send Illegal Function.
   logEvent(0xFFFF, functionCode, 'U');
-  
-  // You could implement custom functions here
-  // Example: FC65 could trigger a calibration routine
-  
-  // if (functionCode == 0x41) {  // Custom FC65
-  //   performCustomAction();
-  //   slv->sendResponse(...);  // Send custom response
-  // }
-  
-  // Default behavior: library will send exception 0x01 (Illegal Function)
+  return false;
 }
 
 /*******************************************************************************
@@ -291,6 +311,8 @@ void setup() {
   
   // ===== MODBUS CONFIGURATION =====
   slave.setDevice(&regBank);
+  // Validated USB Serial0 profile. If you move Modbus to Serial1/2/3,
+  // you can safely use Serial.begin()/Serial.print() for debug logging.
   slave.setPort(Serial);
   slave.setProtocol(RTU);  // Default framing mode
   slave.setBaud(19200);
@@ -357,13 +379,17 @@ void loop() {
  * 
  * 3. TEST ALARM RESET:
  *    - Write holding register 40002 (FC06) with value 1
+ * 
+ * STARTUP NOTE:
+ * - If the first request times out right after COM open, wait 2 to 3 seconds and retry.
+ *   That behavior is typically caused by Arduino auto-reset, not by callback failure.
  *    - Alarm should clear
  *    - Read register back - should be 0 (auto-reset)
  * 
  * 4. TEST DATA LOGGER:
  *    - Write holding register 40003 with value 1 (enable logging)
  *    - Perform reads/writes
- *    - Event log will capture activity (view in debugger or add Serial output)
+ *    - Event log will capture activity
  * 
  * 5. TEST DIAGNOSTICS (FC08):
  *    Your master tool may support FC08 diagnostics:
@@ -385,6 +411,12 @@ void loop() {
  *    - Monitor communication error count (40011)
  *    - Should remain 0 for healthy link
  *    - If incrementing: check baud rate, wiring, noise
+ *
+ * SERIAL PORT NOTES:
+ * - This example uses Serial (USB UART0) for Modbus on all boards.
+ * - Close Serial Monitor while testing with an external Modbus master.
+ * - After opening COM port from a PC master, wait ~2-3s before first request
+ *   because Arduino USB serial open typically triggers a board reset.
  * 
  ******************************************************************************/
 
